@@ -49,13 +49,6 @@ public class WebSecurityConfig {
         return new CorsFilter(source);
     }
 
-    /*
-     * filterChain 메서드
-     *
-     * @param: http HttpSecurity - 객체를 통해 보안 설정을 관리
-     * @return: SecurityFilterChain - 보안 필터 체인을 구성한 결과를 반환
-     * @throws: Exception - 설정 중 예외 발생 가능
-     * */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
