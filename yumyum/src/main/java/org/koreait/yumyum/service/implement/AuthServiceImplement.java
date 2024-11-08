@@ -106,7 +106,7 @@ public class AuthServiceImplement implements AuthService {
     }
 
     @Override
-    public ResponseDto<LoginResponseDto> login(LoginRequestDto dto) {
+    public ResponseDto<LoginResponseDto> login(@Valid LoginRequestDto dto) {
         String userId = dto.getUserId();
         String userPw = dto.getUserPw();
 
