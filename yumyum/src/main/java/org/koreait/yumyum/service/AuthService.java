@@ -8,7 +8,7 @@ import org.koreait.yumyum.dto.auth.response.LoginResponseDto;
 import org.koreait.yumyum.dto.auth.response.SignUpResponseDto;
 
 public interface AuthService {
-    ResponseDto<SignUpResponseDto> signUp(SignUpRequestDto dto);
+    ResponseDto<SignUpResponseDto> signUp(@Valid SignUpRequestDto dto);
 
     ResponseDto<LoginResponseDto> login(@Valid LoginRequestDto dto);
 }
