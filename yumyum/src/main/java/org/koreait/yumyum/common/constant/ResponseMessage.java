@@ -4,6 +4,14 @@ public class ResponseMessage {
     // 성공 및 일반 메시지
     public static final String SUCCESS = "Success"; // 성공 시 반환 메시지
     public static final String VALIDATION_FAIL = "Validation failed."; // 유효성 검사 실패 시 반환 메시지
+
+    public static final String INVALID_USER_ID = "Invalid user id.";
+    public static final String INVALID_PASSWORD = "Invalid password.";
+    public static final String INVALID_NAME = "Invalid name.";
+    public static final String INVALID_EMAIL = "Invalid email.";
+    public static final String INVALID_PHONE = "Invalid phone.";
+    public static final String WEAK_PASSWORD = "Weak password.";
+
     public static final String DATABASE_ERROR = "Database error."; // 데이터베이스 에러 시 반환 메시지
 
     // 존재 여부 관련 메시지
