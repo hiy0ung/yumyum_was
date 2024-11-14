@@ -1,35 +1,40 @@
 package org.koreait.yumyum.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
-@Getter
-@Setter
+@Data
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "store_id", nullable = false)
-    private Long storeId;
+    @JoinColumn(name="store_id", nullable = false)
+    @ManyToOne
+    private Store store;
 
-    @Column(name = "delivery_address", nullable = false, length = 255)
+    @Column(nullable = false, length = 255)
     private String deliveryAddress;
 
-    @Column(name = "total_price", nullable = false)
+    @Column(nullable = false)
     private int totalPrice;
 
-    @Column(name = "order_date", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime orderDate;
 
-    @Column(name = "order_state", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private OrderState orderState;
+    @Column(nullable = false)
+    private String orderState;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderDetail> orderDetail;
 }
 

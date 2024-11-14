@@ -1,0 +1,53 @@
+package org.koreait.yumyum.entity;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalTime;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name = "stores")
+public class Store {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+//    @JoinColumn(name="user_id", nullable = false)
+//    @OneToOne
+//    private User user;
+
+    @Column(nullable = false)
+    private String storeName;
+
+    @Column(nullable = false)
+    private String logoUrl;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Category category;
+
+    @Column(nullable = false)
+    private LocalTime openingTime;
+
+    @Column(nullable = false)
+    private LocalTime closingTime;
+
+    @Column
+    private LocalTime breakStartTime;
+
+    @Column
+    private LocalTime breakEndTime;
+
+    @Column
+    private String address;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+}
+
