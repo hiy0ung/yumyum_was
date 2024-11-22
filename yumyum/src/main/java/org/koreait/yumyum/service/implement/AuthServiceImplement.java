@@ -7,8 +7,12 @@ import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
 import org.koreait.yumyum.dto.auth.request.LoginRequestDto;
 import org.koreait.yumyum.dto.auth.request.SignUpRequestDto;
+import org.koreait.yumyum.dto.auth.request.UserBusinessNumberDuplicationCheckRequestDto;
+import org.koreait.yumyum.dto.auth.request.UserIdDuplicationCheckRequestDto;
 import org.koreait.yumyum.dto.auth.response.LoginResponseDto;
 import org.koreait.yumyum.dto.auth.response.SignUpResponseDto;
+import org.koreait.yumyum.dto.auth.response.UserBusinessNumberDuplicationCheckResponseDto;
+import org.koreait.yumyum.dto.auth.response.UserIdDuplicationCheckResponseDto;
 import org.koreait.yumyum.entity.User;
 import org.koreait.yumyum.provider.JwtProvider;
 import org.koreait.yumyum.repository.UserRepository;
@@ -102,6 +106,47 @@ public class AuthServiceImplement implements AuthService {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+    public ResponseDto<UserIdDuplicationCheckResponseDto> userIdDuplicationCheck(@Valid UserIdDuplicationCheckRequestDto dto) {
+        String userId = dto.getUserId();
+        UserIdDuplicationCheckResponseDto data;
+
+        try {
+            if (userId == null || userId.isEmpty()) {
+                return ResponseDto.setFailed(ResponseMessage.INVALID_USER_ID);
+            }
+            if (userRepository.existsByUserId(userId)) {
+                data = new UserIdDuplicationCheckResponseDto(false);
+                return ResponseDto.setSuccess(ResponseMessage.DUPLICATED_USER_ID, data);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        data = new UserIdDuplicationCheckResponseDto(true);
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+
+    public ResponseDto<UserBusinessNumberDuplicationCheckResponseDto> userBusinessNumberDuplicationCheck(@Valid UserBusinessNumberDuplicationCheckRequestDto dto) {
+        String userBusinessNumber = dto.getUserBusinessNumber();
+        UserBusinessNumberDuplicationCheckResponseDto data;
+        try {
+            if (userBusinessNumber == null || userBusinessNumber.isEmpty() || !userBusinessNumber.matches("^\\d{10}$")) {
+                return ResponseDto.setFailed(ResponseMessage.INVALID_PHONE);
+            }
+            if (userRepository.existsByUserBusinessNumber(userBusinessNumber)) {
+                data = new UserBusinessNumberDuplicationCheckResponseDto(false);
+                return ResponseDto.setSuccess(ResponseMessage.DUPLICATED_USER_BUSINESS_NUMBER, data);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+        data = new UserBusinessNumberDuplicationCheckResponseDto(true);
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
