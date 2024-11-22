@@ -16,7 +16,7 @@ public class ResponseMessage {
 
     // 존재 여부 관련 메시지
     public static final String EXIST_DATA = "Data already exists."; // 데이터가 이미 존재할 때 반환 메시지
-
+    public static final String NOT_EXIST_STORE = "Store does not exist"; // 가게가 존재하지 않을 때 반환 메시지
     public static final String NOT_EXIST_DATA = "Data does not exist."; // 데이터가 존재하지 않을 때 반환 메시지
     public static final String NOT_EXIST_USER = "User does not exist."; // 사용자가 존재하지 않을 때 반환 메시지
     public static final String NOT_EXIST_MENU = "Menu does not exist."; // 메뉴가 존재하지 않을 때 반환 메시지
@@ -43,4 +43,5 @@ public class ResponseMessage {
     // 토큰 및 메시지 관련 에러
     public static final String TOKEN_CREATE_FAIL = "Token creation failed."; // 토큰 생성 실패 시 반환 메시지
     public static final String MESSAGE_SEND_FAIL = "Failed to send authentication number.";
+
 }
