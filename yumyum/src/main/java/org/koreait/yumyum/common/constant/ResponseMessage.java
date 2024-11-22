@@ -31,6 +31,7 @@ public class ResponseMessage {
     // 중복 관련 메시지
     // : 중복될 수 없는 값에 대한 응답 메시지
     public static final String DUPLICATED_USER_ID = "Duplicated user ID."; // 사용자 ID 중복 시 반환 메시지
+    public static final String DUPLICATED_USER_BUSINESS_NUMBER = "Duplicated user business number."; // 사용자 ID가 중복될 때 반환 메시지
     public static final String DUPLICATED_TEL_NUMBER = "Duplicated telephone number."; // 전화번호 중복 시 반환 메시지
 
     // 인증 및 권한 관련 메시지
