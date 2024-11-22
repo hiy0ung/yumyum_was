@@ -1,26 +1,25 @@
 package org.koreait.yumyum.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalTime;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
 @Table(name = "stores")
+@Data
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Store {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @JoinColumn(name="user_id", nullable = false)
-//    @OneToOne
-//    private User user;
+    @JoinColumn(name="owner_id", nullable = false)
+    @OneToOne
+    private User user;
 
     @Column(nullable = false)
     private String storeName;
