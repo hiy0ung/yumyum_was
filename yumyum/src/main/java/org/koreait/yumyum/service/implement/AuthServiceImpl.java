@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImplement implements AuthService {
+public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptpasswordEncoder;

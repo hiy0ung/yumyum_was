@@ -8,7 +8,7 @@ import org.koreait.yumyum.dto.ResponseDto;
 import org.koreait.yumyum.dto.menu.MenuAllResponseDto;
 import org.koreait.yumyum.dto.menu.request.MenuRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuResponseDto;
-import org.koreait.yumyum.service.implement.MenuServiceImpl;
+import org.koreait.yumyum.service.MenuService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +19,11 @@ import java.util.List;
 @RequestMapping(ApiMappingPattern.MENU)
 @RequiredArgsConstructor
 public class MenuController {
-    private final MenuServiceImpl menuService;
+    private final MenuService menuService;
 
     public static final String MENU_POST_ADD = "/add";
     public static final String MENU_GET_LIST = "/";
+    public static final String MENU_GET_ID = "/{id}";
     public static final String MENU_GET_NAME = "/{menuName}";
     public static final String MENU_GET_CATEGORY = "/{menuCategory}";
     public static final String MENU_PUT_UPDATE = "/update/{id}";
@@ -40,6 +41,13 @@ public class MenuController {
     @GetMapping(MENU_GET_LIST)
     public ResponseEntity<ResponseDto<List<MenuAllResponseDto>>> getAllMenus() {
         ResponseDto<List<MenuAllResponseDto>> result = menuService.getAllMenus();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    // 특정 ID 메뉴 조회
+    @GetMapping(MENU_GET_ID)
+    public ResponseEntity<ResponseDto<MenuResponseDto>> getMenusById(@PathVariable Long id) {
+        ResponseDto<MenuResponseDto> result = menuService.getMenusById(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

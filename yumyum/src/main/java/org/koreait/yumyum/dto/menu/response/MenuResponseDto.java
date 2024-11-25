@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.koreait.yumyum.entity.Menu;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,6 +22,7 @@ public class MenuResponseDto {
     private String menuCategory;
     private Long storeId;
     private Long categoryId;
+    private List<MenuOptionResponseDto> menuOptions;
 
     public MenuResponseDto(Menu menu) {
         this.menuName = menu.getMenuName();
@@ -29,6 +33,9 @@ public class MenuResponseDto {
         this.menuCategory = menu.getMenuCategory().getMenuCategory();
         this.storeId = menu.getStoreId();
         this.categoryId = menu.getMenuCategory().getId();
+        this.menuOptions = menu.getMenuOptions().stream()
+                .map(MenuOptionResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 }
