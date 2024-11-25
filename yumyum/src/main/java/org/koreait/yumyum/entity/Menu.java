@@ -3,6 +3,9 @@ package org.koreait.yumyum.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "menus")
 @Getter
@@ -28,6 +31,7 @@ public class Menu {
     @Column(nullable = false, columnDefinition = "VARCHAR(255) DEFAULT '/images/profile/default1.png'")
     private String imageUrl;
 
+    @Column
     private String menuDescription;
 
     @Column(nullable = false)
@@ -36,5 +40,7 @@ public class Menu {
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private Boolean isAvailable;
 
-
+    @Builder.Default
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MenuOption> menuOptions = new ArrayList<>();
 }

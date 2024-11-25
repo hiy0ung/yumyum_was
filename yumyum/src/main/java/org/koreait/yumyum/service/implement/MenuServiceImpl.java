@@ -11,6 +11,7 @@ import org.koreait.yumyum.entity.Menu;
 import org.koreait.yumyum.entity.MenuCategory;
 import org.koreait.yumyum.repository.MenuCategoryRepository;
 import org.koreait.yumyum.repository.MenuRepository;
+import org.koreait.yumyum.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +21,14 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class MenuServiceImpl {
+public class MenuServiceImpl implements MenuService {
 
     @Autowired
     private final MenuRepository menuRepository;
     @Autowired
     private final MenuCategoryRepository menuCategoryRepository;
 
+    @Override
     public ResponseDto<MenuResponseDto> addMenu(@Valid MenuRequestDto dto) {
         MenuResponseDto data = null;
 
@@ -57,6 +59,7 @@ public class MenuServiceImpl {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+    @Override
     public ResponseDto<List<MenuAllResponseDto>> getAllMenus() {
         List<MenuAllResponseDto> data = null;
 
@@ -76,6 +79,26 @@ public class MenuServiceImpl {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+    @Override
+    public ResponseDto<MenuResponseDto> getMenusById(Long id) {
+        MenuResponseDto data = null;
+
+        try {
+            Optional<Menu> menuOptional = menuRepository.findById(id);
+
+            if (menuOptional.isPresent()) {
+
+                data = new MenuResponseDto(menuOptional.get());
+            } else {
+                return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
+            }
+        } catch (Exception e) {
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+    @Override
     public ResponseDto<MenuResponseDto> updateMenu(@Valid Long id, MenuRequestDto dto) {
         MenuResponseDto data = null;
 
@@ -106,6 +129,7 @@ public class MenuServiceImpl {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+    @Override
     public ResponseDto<Void> deleteMenu(Long id) {
         try {
             Optional<Menu> optionalMenu = menuRepository.findById(id);
@@ -119,7 +143,5 @@ public class MenuServiceImpl {
         }
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, null);
     }
-
-
 }
 
