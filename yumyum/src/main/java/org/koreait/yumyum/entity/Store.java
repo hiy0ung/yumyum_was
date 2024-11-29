@@ -17,7 +17,7 @@ public class Store {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name="owner_id", nullable = false)
+    @JoinColumn(name = "owner_id", nullable = false)
     @OneToOne
     private User user;
 
@@ -37,16 +37,15 @@ public class Store {
     @Column(nullable = false)
     private LocalTime closingTime;
 
-    @Column
+    @Column(length = 200)
     private LocalTime breakStartTime;
 
-    @Column
+    @Column(length = 200)
     private LocalTime breakEndTime;
 
-    @Column
+    @Column(length = 500)
     private String address;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 }
-
