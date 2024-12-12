@@ -15,4 +15,5 @@ public class ApiMappingPattern {
     public static final String STATS = "/api/v1/stats";
 
     public static final String ORDER = "/api/v1/orders";
+    public static final String MYPAGE = "/api/v1/mypage";
 }
