@@ -9,6 +9,7 @@ import org.koreait.yumyum.entity.Store;
 import org.koreait.yumyum.entity.User;
 import org.koreait.yumyum.repository.StoreRepository;
 import org.koreait.yumyum.repository.UserRepository;
+import org.koreait.yumyum.service.FileUploadService;
 import org.koreait.yumyum.service.StoreService;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,23 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class StoreServiceImpl implements StoreService {
 
-
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
+
+
+    @Override
+    public boolean findByStore(String userId) {
+        try {
+            Optional<Store> optionalStore = storeRepository.getStoreByUserId(userId);
+            if(optionalStore.isEmpty()) {
+                ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
     @Override
     public ResponseDto<StoreResponseDto> getStore(String userId) {
