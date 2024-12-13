@@ -6,6 +6,9 @@ import org.koreait.yumyum.dto.store.request.StoreRequestDto;
 import org.koreait.yumyum.dto.store.response.StoreResponseDto;
 
 public interface StoreService {
+
+    boolean findByStore(String userId);
+
     ResponseDto<StoreResponseDto> getStore(String userId);
 
     ResponseDto<StoreResponseDto> createStore(String userId, @Valid StoreRequestDto dto);
