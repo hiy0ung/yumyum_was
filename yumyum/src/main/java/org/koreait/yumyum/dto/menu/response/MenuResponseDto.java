@@ -20,7 +20,6 @@ public class MenuResponseDto {
     private int menuPrice;
     private Boolean isAvailable;
     private String menuCategory;
-    private Long storeId;
     private Long categoryId;
     private List<MenuOptionResponseDto> menuOptions;
 
@@ -31,7 +30,6 @@ public class MenuResponseDto {
         this.menuPrice = menu.getMenuPrice();
         this.isAvailable = menu.getIsAvailable();
         this.menuCategory = menu.getMenuCategory().getMenuCategory();
-        this.storeId = menu.getStoreId();
         this.categoryId = menu.getMenuCategory().getId();
         this.menuOptions = menu.getMenuOptions().stream()
                 .map(MenuOptionResponseDto::new)

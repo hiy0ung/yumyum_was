@@ -10,7 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MenuRequestDto {
-    private Long storeId;
     private Long categoryId;
     private String menuName;
     private String imageUrl;

@@ -25,4 +25,5 @@ public class MenuOptionResponseDto {
                 .map(MenuOptionDetailResponseDto::new)
                 .collect(Collectors.toList());
     }
+
 }
