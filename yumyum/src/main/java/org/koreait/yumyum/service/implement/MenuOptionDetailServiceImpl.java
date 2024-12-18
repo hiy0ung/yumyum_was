@@ -12,9 +12,7 @@ import org.koreait.yumyum.repository.MenuOptionRepository;
 import org.koreait.yumyum.service.MenuOptionDetailService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,44 +39,6 @@ public class MenuOptionDetailServiceImpl implements MenuOptionDetailService {
             MenuOptionDetail saveOptionDetail = menuOptionDetailRepository.save(menuOptionDetail);
             data = new MenuOptionDetailResponseDto(saveOptionDetail);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
-        }
-        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
-    }
-
-    @Override
-    public ResponseDto<List<MenuOptionDetailResponseDto>> getAllOptionDetails() {
-        List<MenuOptionDetailResponseDto> data = null;
-
-        try {
-            List<MenuOptionDetail> optionDetails = menuOptionDetailRepository.findAll();
-
-            data = optionDetails.stream()
-                    .map(MenuOptionDetailResponseDto::new)
-                    .collect(Collectors.toList());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
-        }
-        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
-    }
-
-    @Override
-    public ResponseDto<MenuOptionDetailResponseDto> getOptionDetailById(Long id) {
-        MenuOptionDetailResponseDto data = null;
-        Long optionDetailId = id;
-
-        try {
-            Optional<MenuOptionDetail> menuOptionDetailOptional = menuOptionDetailRepository.findById(optionDetailId);
-
-            if (menuOptionDetailOptional.isPresent()) {
-                data = new MenuOptionDetailResponseDto(menuOptionDetailOptional.get());
-            } else {
-                return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
-            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);

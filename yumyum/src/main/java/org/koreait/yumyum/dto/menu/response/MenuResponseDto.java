@@ -14,26 +14,22 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MenuResponseDto {
+    private Long menuId;
     private String menuName;
+    private int menuPrice;
     private String imageUrl;
     private String menuDescription;
-    private int menuPrice;
     private Boolean isAvailable;
     private String menuCategory;
-    private Long categoryId;
-    private List<MenuOptionResponseDto> menuOptions;
 
     public MenuResponseDto(Menu menu) {
+        this.menuId = menu.getId();
         this.menuName = menu.getMenuName();
+        this.menuPrice = menu.getMenuPrice();
         this.imageUrl = menu.getImageUrl();
         this.menuDescription = menu.getMenuDescription();
-        this.menuPrice = menu.getMenuPrice();
         this.isAvailable = menu.getIsAvailable();
         this.menuCategory = menu.getMenuCategory().getMenuCategory();
-        this.categoryId = menu.getMenuCategory().getId();
-        this.menuOptions = menu.getMenuOptions().stream()
-                .map(MenuOptionResponseDto::new)
-                .collect(Collectors.toList());
     }
 
 }
