@@ -40,7 +40,6 @@ public class MenuServiceImpl implements MenuService {
 
             MenuCategory category = OptionalCategory.get();
             Menu menu = Menu.builder()
-                    .storeId(dto.getStoreId())
                     .menuName(dto.getMenuName())
                     .imageUrl(dto.getImageUrl())
                     .menuDescription(dto.getMenuDescription())
