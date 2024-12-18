@@ -15,9 +15,6 @@ public class MenuCategory {
     private Long id;
 
     @Column(nullable = false)
-    private Long storeId;
-
-    @Column(nullable = false)
     private String menuCategory;
 
 
