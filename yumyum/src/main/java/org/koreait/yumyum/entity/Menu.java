@@ -22,6 +22,10 @@ public class Menu {
     @JoinColumn(name = "category_id")
     private MenuCategory menuCategory;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
+
     @Column(nullable = false)
     private String menuName;
 

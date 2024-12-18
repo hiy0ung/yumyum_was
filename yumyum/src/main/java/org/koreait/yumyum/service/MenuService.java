@@ -13,8 +13,7 @@ import java.util.List;
 public interface MenuService {
     ResponseDto<MenuResponseDto> addMenu(@Valid MenuRequestDto dto);
     ResponseDto<List<MenuGetResponseDto>> getAllMenus();
+    ResponseDto<MenuGetResponseDto> getMenusById(Long id);
     ResponseDto<MenuResponseDto> updateMenu(@Valid Long id, MenuRequestDto dto);
     ResponseDto<Void> deleteMenu(Long id);
-
-    ResponseDto<MenuResponseDto> getMenusById(Long id);
 }

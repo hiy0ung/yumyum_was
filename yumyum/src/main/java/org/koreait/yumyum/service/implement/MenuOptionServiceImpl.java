@@ -7,14 +7,14 @@ import org.koreait.yumyum.dto.menu.request.MenuOptionRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionResponseDto;
 import org.koreait.yumyum.entity.Menu;
 import org.koreait.yumyum.entity.MenuOption;
+import org.koreait.yumyum.entity.MenuOptionGroup;
+import org.koreait.yumyum.repository.MenuOptionGroupRepository;
 import org.koreait.yumyum.repository.MenuOptionRepository;
 import org.koreait.yumyum.repository.MenuRepository;
 import org.koreait.yumyum.service.MenuOptionService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,59 +24,30 @@ public class MenuOptionServiceImpl implements MenuOptionService {
 
     private final MenuRepository menuRepository;
 
+    private final MenuOptionGroupRepository menuOptionGroupRepository;
+
     @Override
     public ResponseDto<MenuOptionResponseDto> addMenuOption(MenuOptionRequestDto dto) {
         MenuOptionResponseDto data = null;
 
         try {
-            Menu menuId = menuRepository.findById(dto.getMenuId())
+            Menu menu = menuRepository.findById(dto.getMenuId())
                     .orElseThrow(() -> new Error(ResponseMessage.NOT_EXIST_DATA));
 
             MenuOption menuOption = MenuOption.builder()
-                    .menu(menuId)
                     .optionName(dto.getOptionName())
                     .build();
 
-            MenuOption saveOption = menuOptionRepository.save(menuOption);
-            data = new MenuOptionResponseDto(saveOption);
+            menuOptionRepository.save(menuOption);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
-        }
-        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
-    }
+            MenuOptionGroup menuOptionGroup = MenuOptionGroup.builder()
+                    .menu(menu)
+                    .menuOption(menuOption)
+                    .build();
 
-    @Override
-    public ResponseDto<List<MenuOptionResponseDto>> getAllMenuOptions() {
-        List<MenuOptionResponseDto> data = null;
+            menuOptionGroupRepository.save(menuOptionGroup);
 
-        try {
-            List<MenuOption> options = menuOptionRepository.findAll();
-
-            data = options.stream()
-                    .map(MenuOptionResponseDto::new)
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
-        }
-        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
-    }
-
-    @Override
-    public ResponseDto<MenuOptionResponseDto> getMenuOptionById(Long id) {
-        MenuOptionResponseDto data = null;
-        Long menuOptionId = id;
-
-        try {
-            Optional<MenuOption> menuOptionOptional = menuOptionRepository.findById(menuOptionId);
-
-            if (menuOptionOptional.isPresent()) {
-                data = new MenuOptionResponseDto(menuOptionOptional.get());
-            } else {
-                return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
-            }
+            data = new MenuOptionResponseDto(menuOption);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -128,3 +99,4 @@ public class MenuOptionServiceImpl implements MenuOptionService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, null);
     }
 }
+

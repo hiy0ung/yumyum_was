@@ -11,10 +11,6 @@ import java.util.List;
 public interface MenuOptionDetailService {
     ResponseDto<MenuOptionDetailResponseDto> addOptionDetail(MenuOptionDetailRequestDto dto);
 
-    ResponseDto<List<MenuOptionDetailResponseDto>> getAllOptionDetails();
-
-    ResponseDto<MenuOptionDetailResponseDto> getOptionDetailById(Long id);
-
     ResponseDto<MenuOptionDetailResponseDto> updateOptionDetail(MenuOptionDetailRequestDto dto, Long id);
 
     ResponseDto<Void> deleteOptionDetail(Long id);
