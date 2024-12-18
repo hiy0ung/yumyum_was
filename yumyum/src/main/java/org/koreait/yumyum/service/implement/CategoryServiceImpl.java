@@ -12,6 +12,7 @@ import org.koreait.yumyum.repository.CategoryRepository;
 import org.koreait.yumyum.repository.StoreRepository;
 import org.koreait.yumyum.service.CategoryService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final StoreRepository storeRepository;
 
     @Override
-    public ResponseDto<List<CategoryResponseDto>> getCategories(String userId) {
+    public ResponseDto<List<CategoryResponseDto>> getCategories(String userId, @PathVariable Long id) {
         List<CategoryResponseDto> data = null;
 
         try {
@@ -37,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
 
             Store store = optionalStore.get();
 
-            List<MenuCategory> menuCategoryList = categoryRepository.getMenuCategoryByStoreId(store.getId());
+            List<MenuCategory> menuCategoryList = categoryRepository.getMenuCategoryById(id);
 
             data = menuCategoryList.stream()
                     .map(CategoryResponseDto::new)
@@ -64,7 +65,6 @@ public class CategoryServiceImpl implements CategoryService {
             Store store = optionalStore.get();
 
             MenuCategory menuCategory = MenuCategory.builder()
-                    .storeId(store.getId())
                     .menuCategory(dto.getCategoryName())
                     .build();
 

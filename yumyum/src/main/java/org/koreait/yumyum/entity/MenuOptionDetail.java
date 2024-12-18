@@ -25,10 +25,6 @@ public class MenuOptionDetail {
     @ManyToOne(fetch = FetchType.LAZY)
     private MenuOption menuOption;
 
-//    @JoinColumn(name = "order_detail_id", nullable = false)
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private OrderDetail orderDetail;
-
     @Column
     private String additionalFee;
 }

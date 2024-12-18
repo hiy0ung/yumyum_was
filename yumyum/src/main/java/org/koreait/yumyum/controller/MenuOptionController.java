@@ -36,22 +36,6 @@ public class MenuOptionController {
         return ResponseEntity.status(status).body(response);
     }
 
-    // 전체 조희
-    @GetMapping(OPTION_GET_LIST)
-    public ResponseEntity<ResponseDto<List<MenuOptionResponseDto>>> getAllMenuOptions() {
-        ResponseDto<List<MenuOptionResponseDto>> response = menuOptionService.getAllMenuOptions();
-        HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-        return ResponseEntity.status(status).body(response);
-    }
-
-    // 단건 조회
-    @GetMapping(OPTION_GET_ID)
-    public ResponseEntity<ResponseDto<MenuOptionResponseDto>> getMenuOptionById(@PathVariable Long id) {
-        ResponseDto<MenuOptionResponseDto> response = menuOptionService.getMenuOptionById(id);
-        HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-        return ResponseEntity.status(status).body(response);
-    }
-
     // 수정
     @PutMapping(OPTION_PUT_ID)
     public ResponseEntity<ResponseDto<MenuOptionResponseDto>> updateMenuOption(@RequestBody MenuOptionRequestDto dto, @PathVariable Long id) {

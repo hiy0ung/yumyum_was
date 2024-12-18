@@ -12,17 +12,12 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MenuOptionResponseDto {
-    private Long id;
+    private Long menuOptionId;
     private String optionName;
-    private Long menuId;
-    private List<MenuOptionDetailResponseDto> menuOptionDetails;
 
     public MenuOptionResponseDto(MenuOption menuOption) {
-        this.id = menuOption.getId();
+        this.menuOptionId = menuOption.getId();
         this.optionName = menuOption.getOptionName();
-        this.menuId = menuOption.getMenu().getId();
-        this.menuOptionDetails = menuOption.getMenuOptionDetails().stream()
-                .map(MenuOptionDetailResponseDto::new)
-                .collect(Collectors.toList());
     }
+
 }
