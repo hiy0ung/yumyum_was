@@ -179,7 +179,7 @@ public class AuthServiceImpl implements AuthService {
 
             String token = jwtProvider.generateJwtToken(userId);
             int exprTime = jwtProvider.getExpiration();
-            data = new LoginResponseDto(token, exprTime);
+            data = new LoginResponseDto(token, exprTime, user);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);

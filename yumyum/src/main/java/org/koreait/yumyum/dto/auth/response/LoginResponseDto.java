@@ -9,4 +9,5 @@ import org.koreait.yumyum.entity.User;
 public class LoginResponseDto {
     private String token;
     private int exprTime;
+    private User user;
 }
