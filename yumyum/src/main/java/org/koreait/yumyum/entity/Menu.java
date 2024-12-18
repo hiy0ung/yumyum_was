@@ -40,7 +40,6 @@ public class Menu {
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private Boolean isAvailable;
 
-    @Builder.Default
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MenuOption> menuOptions = new ArrayList<>();
+    private List<MenuOptionGroup> menuOptionGroups = new ArrayList<>();
 }

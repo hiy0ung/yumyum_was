@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
-import org.koreait.yumyum.dto.menu.MenuAllResponseDto;
+import org.koreait.yumyum.dto.menu.response.MenuGetResponseDto;
 import org.koreait.yumyum.dto.menu.request.MenuRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuResponseDto;
 import org.koreait.yumyum.entity.Menu;
@@ -60,15 +60,15 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public ResponseDto<List<MenuAllResponseDto>> getAllMenus() {
-        List<MenuAllResponseDto> data = null;
+    public ResponseDto<List<MenuGetResponseDto>> getAllMenus() {
+        List<MenuGetResponseDto> data = null;
 
         try {
             List<Object[]> results = menuRepository.findAllMenu();
 
 
             data = results.stream()
-                    .map(result -> new MenuAllResponseDto((String) result[0], (String) result[1], (String) result[2], (Integer) result[3], (boolean) result[4], (String) result[5]))
+                    .map(result -> new MenuGetResponseDto((String) result[0], (String) result[1], (String) result[2], (Integer) result[3], (boolean) result[4], (String) result[5]))
                     .collect(Collectors.toList());
 
         } catch (Exception e) {
