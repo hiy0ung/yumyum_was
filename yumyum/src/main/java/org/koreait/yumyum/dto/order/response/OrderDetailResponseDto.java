@@ -1,19 +1,22 @@
 package org.koreait.yumyum.dto.order.response;
 
-import lombok.Getter;
-import org.koreait.yumyum.entity.OrderDetail;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderDetailResponseDto {
-    private String orderProductName;
-    private int quantity;
-//    private List<MenuOptionDetailResponseDto> menuOptionDetails;
-
-    public  OrderDetailResponseDto(OrderDetail orderDetail) {
-        this.orderProductName = orderDetail.getOrderProductName();
-        this.quantity = orderDetail.getQuantity();
-//        this.menuOptionDetails = orderDetail.getMenuOptionDetails().stream()
-//                .map(MenuOptionDetailResponseDto::new)
-//                .collect(Collectors.toList());
-    }
+    private Long orderId;
+    private Long orderDetailId;
+    private String deliveryAddress;
+    private LocalDateTime orderDate;
+    private String menuName;
+    private Integer menuPrice;
+    private Integer quantity;
+    private String menuOptionName;
+    private String menuOptionDetailName;
+    private Integer additionalFee;
 }

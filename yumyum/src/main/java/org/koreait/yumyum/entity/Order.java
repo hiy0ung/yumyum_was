@@ -9,7 +9,6 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Data
-@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
@@ -18,15 +17,12 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="store_id", nullable = false)
-    @ManyToOne
     private Store store;
 
     @Column(nullable = false, length = 255)
     private String deliveryAddress;
-
-    @Column(nullable = false)
-    private int totalPrice;
 
     @Column(nullable = false)
     private LocalDateTime orderDate;

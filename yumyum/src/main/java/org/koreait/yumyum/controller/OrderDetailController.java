@@ -3,8 +3,8 @@ package org.koreait.yumyum.controller;
 import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ApiMappingPattern;
 import org.koreait.yumyum.dto.ResponseDto;
-import org.koreait.yumyum.dto.stat.response.StatsTimeResponseDto;
-import org.koreait.yumyum.service.implement.StatsTimeServiceImpl;
+import org.koreait.yumyum.dto.order.response.OrderDetailResponseDto;
+import org.koreait.yumyum.service.OrderDetailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(ApiMappingPattern.STATS)
+@RequestMapping(ApiMappingPattern.ORDER)
 @RequiredArgsConstructor
-public class StatsTimeController {
-    private final StatsTimeServiceImpl statsTimeService;
+public class OrderDetailController {
 
-    public static final String GET_STATS_TIME = "/time/{orderDate}";
+    private final OrderDetailService orderDetailService;
 
-    @GetMapping(GET_STATS_TIME) // 2007-12-03T10:15:30
-    public ResponseEntity<ResponseDto<List<StatsTimeResponseDto>>> getRevenueByOrderDate(
-            @PathVariable String orderDate
-            // @AuthenticationPrincipal String userId
-    ) {
-        ResponseDto<List<StatsTimeResponseDto>> response = statsTimeService.getRevenueByOrderDate(orderDate);
+    private static final String GET_ORDER_DETAIL_BY_ID = "/detail/{id}";
+
+    @GetMapping(GET_ORDER_DETAIL_BY_ID)
+    public ResponseEntity<ResponseDto<List<OrderDetailResponseDto>>> getOrderDetail(@PathVariable Long id) {
+        ResponseDto<List<OrderDetailResponseDto>> response = orderDetailService.getOrderDetail(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }

@@ -1,25 +1,21 @@
 package org.koreait.yumyum.dto.order.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.koreait.yumyum.entity.Order;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class OrderResponseDto {
-    private List<OrderDetailResponseDto> orderDetailResponseDtos;
-    private int orderTotalPrice;
+    private Long orderId; // 주문 번호로 사용
+    private Long storeId;
     private String deliveryAddress;
-
-    public OrderResponseDto(Order order) {
-        this.orderDetailResponseDtos = order.getOrderDetail().stream()
-                .map(OrderDetailResponseDto::new)
-                .collect(Collectors.toList());
-        this.orderTotalPrice = order.getTotalPrice();
-        this.deliveryAddress = order.getDeliveryAddress();
-    }
+    private LocalDateTime orderDate;
+    private String guestNickname;
+    private String orderState;
+    private int sumTotalPrice;
 }
 
