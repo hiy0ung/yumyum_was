@@ -5,7 +5,6 @@ import org.koreait.yumyum.dto.stat.response.DailySalesResponseDto;
 import org.koreait.yumyum.dto.stat.response.MonthSalesResponseDto;
 import org.koreait.yumyum.dto.stat.response.YearSalesResponseDto;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface StatsPeriodService {

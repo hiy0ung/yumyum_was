@@ -1,13 +1,18 @@
 package org.koreait.yumyum.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "order_details")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderDetail {
 
     @Id
@@ -18,12 +23,10 @@ public class OrderDetail {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @Column(name = "menu_id", nullable = false)
-    private Long menuId;
+    @ManyToOne
+    @JoinColumn(name = "menu_id", nullable = false)
+    private Menu menu;
 
-    @Column(name = "order_product_name", nullable = false, length = 255)
-    private String orderProductName;
-
-    @Column(name = "quantity", nullable = false)
-    private int quantity;
+    @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderMenuOption> orderMenuOptions = new ArrayList<>();
 }
