@@ -9,6 +9,7 @@ import org.koreait.yumyum.entity.User;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponseDto {
+    private Long id;
     private String userId;
     private String userPw;
     private String userName;
@@ -18,6 +19,7 @@ public class UserResponseDto {
     private Boolean marketingAgreed;
 
     public UserResponseDto(User user) {
+        this.id = user.getId();
         this.userId = user.getUserId();
         this.userPw = user.getUserPw();
         this.userName = user.getUserName();
