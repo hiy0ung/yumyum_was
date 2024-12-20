@@ -6,4 +6,5 @@ import lombok.Data;
 public class MenuCategoryRequestDto {
     private Long id;
     private String menuCategory;
+    private int MenuCategorySequence;
 }

@@ -17,5 +17,7 @@ public class MenuCategory {
     @Column(nullable = false)
     private String menuCategory;
 
+    @Column(nullable = false)
+    private int menuCategorySequence;
 
 }

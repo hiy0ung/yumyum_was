@@ -12,33 +12,42 @@ import java.util.List;
 @Repository
 public interface StatsPeriodRepository extends JpaRepository<OrderDetail, Long> {
 
-    @Query("SELECT DATE(orderDate) AS orderDay, " +
-            "SUM(totalPrice) AS dailyPrice " +
-            "FROM Order " +
-            "WHERE YEAR(orderDate) = :orderDateYear AND MONTH(orderDate) = :orderDateMonth " +
-            "GROUP BY DATE(orderDate), orderDate " +
-            "ORDER BY orderDate ")
+    @Query(value = """
+SELECT 
+    DATE(orderDate) AS orderDay, 
+    SUM(totalPrice) AS dailyPrice 
+FROM Order 
+WHERE YEAR(orderDate) = :orderDateYear AND MONTH(orderDate) = :orderDateMonth 
+GROUP BY DATE(orderDate), orderDate 
+ORDER BY orderDate;
+""" , nativeQuery = true)
     List<Object[]> findDailySales(@Param("orderDateYear") int year,
                                   @Param("orderDateMonth") int month
     );
 
-    @Query("SELECT YEAR (orderDate) AS orderYear, " +
-            "MONTH (orderDate) AS orderMonth, " +
-            "SUM(totalPrice) AS monthPrice " +
-            "FROM Order " +
-            "WHERE YEAR (orderDate) = :orderDateYear AND MONTH (orderDate) = :orderDateMonth " +
-            "GROUP BY YEAR (orderDate), MONTH (orderDate)"
-    )
+    @Query(value = """
+SELECT 
+    YEAR (orderDate) AS orderYear, 
+    MONTH (orderDate) AS orderMonth, 
+    SUM(totalPrice) AS monthPrice 
+FROM Order 
+WHERE YEAR (orderDate) = :orderDateYear AND MONTH (orderDate) = :orderDateMonth 
+GROUP BY YEAR (orderDate), MONTH (orderDate);
+"""
+    , nativeQuery = true)
     List<Object[]> findMonthSales(@Param("orderDateYear") int year,
                                   @Param("orderDateMonth") int month
     );
 
-    @Query("SELECT YEAR (orderDate) AS orderYear, " +
-            "SUM (totalPrice) AS yearPrice " +
-            "FROM Order " +
-            "WHERE YEAR (orderDate) = :orderDateYear " +
-            "GROUP BY YEAR (orderDate) " +
-            "ORDER BY YEAR (orderDate) "
-    )
+    @Query(value = """
+SELECT 
+    YEAR (orderDate) AS orderYear, 
+    SUM (totalPrice) AS yearPrice 
+FROM Order 
+WHERE YEAR (orderDate) = :orderDateYear 
+GROUP BY YEAR (orderDate) 
+ORDER BY YEAR (orderDate);
+"""
+    , nativeQuery = true)
     List<Object[]> findYearSales(@Param("orderDateYear") int year);
 }
