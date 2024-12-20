@@ -24,6 +24,7 @@ public class StatsMenuController {
 
     @GetMapping("/menus/day/{date}")
     public ResponseEntity<ResponseDto<List<StatsMenuResponseDto>>> getDailySales(@PathVariable String date) {
+
         ResponseDto<List<StatsMenuResponseDto>> result = statsMenuService.getDailySales(date);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

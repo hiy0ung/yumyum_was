@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -22,4 +23,6 @@ public interface StatsMenuRepository extends JpaRepository<OrderDetail, Long> {
     List<Object[]> findDailySales(@Param("year") int year,
                                   @Param("month") int month,
                                   @Param("day") int day);
+
+    List<Object[]> findDailySalesByDateAndStore(LocalDate localDate, Long storeId);
 }
