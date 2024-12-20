@@ -8,3 +8,4 @@ public class MenuCategoryRequestDto {
     private String menuCategory;
     private int MenuCategorySequence;
 }
+
