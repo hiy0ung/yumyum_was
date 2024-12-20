@@ -21,7 +21,7 @@ public class MenuOptionDetail {
     @Column(nullable = false)
     private String optionDetailName;
 
-    @JoinColumn(name = "option_id", nullable = false)
+    @JoinColumn(name = "menu_option_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private MenuOption menuOption;
 
