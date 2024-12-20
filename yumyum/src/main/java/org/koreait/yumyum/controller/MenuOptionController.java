@@ -1,6 +1,5 @@
 package org.koreait.yumyum.controller;
 
-
 import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ApiMappingPattern;
 import org.koreait.yumyum.dto.ResponseDto;
@@ -11,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(ApiMappingPattern.MENU_OPTION)
 @RequiredArgsConstructor
@@ -21,12 +18,8 @@ public class MenuOptionController {
     private final MenuOptionService menuOptionService;
 
     public static final String OPTION_POST_ADD = "/add";
-    public static final String OPTION_GET_LIST = "/";
-    public static final String OPTION_GET_ID = "/{id}";
     public static final String OPTION_PUT_ID = "/{id}";
     public static final String OPTION_DELETE_ID = "/{id}";
-
-
 
     // 추가
     @PostMapping(OPTION_POST_ADD)
