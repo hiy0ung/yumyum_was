@@ -46,7 +46,7 @@ public class StoreController {
     }
 
     @PutMapping(UPDATE_STORE)
-    public ResponseEntity<ResponseDto<StoreResponseDto>> updateStore(@AuthenticationPrincipal String userId, @Valid @RequestBody StoreRequestDto dto) {
+    public ResponseEntity<ResponseDto<StoreResponseDto>> updateStore(@AuthenticationPrincipal String userId, @Valid @ModelAttribute StoreRequestDto dto) {
         ResponseDto<StoreResponseDto> response = storeService.updateStore(userId, dto);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
