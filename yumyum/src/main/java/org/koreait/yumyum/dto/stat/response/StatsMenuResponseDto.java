@@ -1,23 +1,15 @@
 package org.koreait.yumyum.dto.stat.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class StatsMenuResponseDto {
-    private String orderProductName;
-    private Long totalQuantitySold;
-
-    public StatsMenuResponseDto(StatsMenuResponseDto value) {
-        this.orderProductName = value.getOrderProductName();
-        this.totalQuantitySold = value.getTotalQuantitySold();
-    }
-
-    public StatsMenuResponseDto(LocalDate localDate, String s, long l, long l1) {
-    }
+    private LocalDate orderDate;
+    private String menuName;
+    private Integer quantity;
+    private Long sumTotalPrice;
 }
