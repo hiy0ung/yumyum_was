@@ -2,17 +2,20 @@ package org.koreait.yumyum.service.implement;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
-import org.koreait.yumyum.dto.menu.response.MenuGetResponseDto;
 import org.koreait.yumyum.dto.menu.request.MenuRequestDto;
+import org.koreait.yumyum.dto.menu.response.MenuGetResponseDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionDetailGetResponseDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionGetResponseDto;
 import org.koreait.yumyum.dto.menu.response.MenuResponseDto;
 import org.koreait.yumyum.entity.Menu;
 import org.koreait.yumyum.entity.MenuCategory;
+import org.koreait.yumyum.entity.Store;
 import org.koreait.yumyum.repository.MenuCategoryRepository;
 import org.koreait.yumyum.repository.MenuRepository;
+import org.koreait.yumyum.repository.StoreRepository;
 import org.koreait.yumyum.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,9 @@ public class MenuServiceImpl implements MenuService {
     @Autowired
     private final MenuCategoryRepository menuCategoryRepository;
 
+    @Autowired
+    private final StoreRepository storeRepository;
+
     public ResponseDto<MenuResponseDto> addMenu(@Valid MenuRequestDto dto) {
         MenuResponseDto data = null;
 
@@ -38,6 +44,7 @@ public class MenuServiceImpl implements MenuService {
             if (OptionalCategory.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
             }
+            Store store = storeRepository.findById(dto.getStoreId()).orElseThrow(() -> new RuntimeException("오류"));
 
             MenuCategory category = OptionalCategory.get();
             Menu menu = Menu.builder()
@@ -49,6 +56,7 @@ public class MenuServiceImpl implements MenuService {
                     .menuCategory(category)
                     .build();
 
+            menu.setStore(store);
             Menu savedMenu = menuRepository.save(menu);
             MenuResponseDto responseDto = new MenuResponseDto(savedMenu);
             data = responseDto;
@@ -59,7 +67,6 @@ public class MenuServiceImpl implements MenuService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    @Override
     public ResponseDto<List<MenuGetResponseDto>> getAllMenus() {
         List<MenuGetResponseDto> data = null;
 
@@ -152,19 +159,18 @@ public class MenuServiceImpl implements MenuService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    @Override
-    public ResponseDto<MenuResponseDto> updateMenu(@Valid Long id, MenuRequestDto dto) {
+    public ResponseDto<MenuResponseDto> updateMenu(@Valid Long menuId, MenuRequestDto dto) {
         MenuResponseDto data = null;
 
         try {
             Optional<MenuCategory> OptionalCategory = menuCategoryRepository.findById(dto.getCategoryId());
-            if(OptionalCategory.isEmpty()) {
+            if (OptionalCategory.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
             }
             MenuCategory category = OptionalCategory.get();
 
-            Optional<Menu> OptionalMenu = menuRepository.findById(id);
-            if(OptionalMenu.isEmpty()) {
+            Optional<Menu> OptionalMenu = menuRepository.findById(menuId);
+            if (OptionalMenu.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
             }
             Menu menu = OptionalMenu.get();
@@ -183,14 +189,13 @@ public class MenuServiceImpl implements MenuService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    @Override
-    public ResponseDto<Void> deleteMenu(Long id) {
+    public ResponseDto<Void> deleteMenu(Long menuId) {
         try {
-            Optional<Menu> optionalMenu = menuRepository.findById(id);
-            if(optionalMenu.isEmpty()) {
+            Optional<Menu> optionalMenu = menuRepository.findById(menuId);
+            if (optionalMenu.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
             }
-            menuRepository.deleteById(id);
+            menuRepository.deleteById(menuId);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
@@ -198,4 +203,3 @@ public class MenuServiceImpl implements MenuService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, null);
     }
 }
-

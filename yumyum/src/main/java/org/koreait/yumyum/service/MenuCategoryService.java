@@ -9,4 +9,6 @@ import java.util.List;
 public interface MenuCategoryService {
     ResponseDto<List<MenuCategoryResponseDto>> getAllMenuCategory();
     ResponseDto<List<MenuCategoryResponseDto>> updateSequenceCategory(MenuCategoryRequestDto dto);
+
+    ResponseDto<MenuCategoryResponseDto> createCategory(MenuCategoryRequestDto dto);
 }

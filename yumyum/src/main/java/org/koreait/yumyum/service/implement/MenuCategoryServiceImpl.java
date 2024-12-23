@@ -1,6 +1,7 @@
 package org.koreait.yumyum.service.implement;
 
 
+import lombok.Data;
 import org.koreait.yumyum.service.MenuCategoryService;
 
 import lombok.RequiredArgsConstructor;
@@ -95,5 +96,25 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
+    }
+
+    @Override
+    public ResponseDto<MenuCategoryResponseDto> createCategory(MenuCategoryRequestDto dto) {
+        MenuCategoryResponseDto data = null;
+        try {
+            MenuCategory menuCategory = MenuCategory.builder()
+                    .menuCategory(dto.getMenuCategory())
+                    .menuCategorySequence(dto.getMenuCategorySequence())
+                    .build();
+            MenuCategory savedCategory = menuCategoryRepository.save(menuCategory);
+
+            MenuCategoryResponseDto responseDto = new MenuCategoryResponseDto(savedCategory);
+            data = responseDto;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 }
