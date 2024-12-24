@@ -11,6 +11,8 @@ import org.koreait.yumyum.dto.menu.response.MenuResponseDto;
 import org.koreait.yumyum.service.MenuService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +32,8 @@ public class MenuController {
 
     // 메뉴 추가
     @PostMapping(MENU_POST_ADD)
-    public ResponseEntity<ResponseDto<MenuResponseDto>> addMenu(@Valid @RequestBody MenuRequestDto dto) {
-        ResponseDto<MenuResponseDto> result = menuService.addMenu(dto);
+    public ResponseEntity<ResponseDto<MenuResponseDto>> addMenu(@Valid @RequestBody MenuRequestDto dto, @AuthenticationPrincipal Long id) {
+        ResponseDto<MenuResponseDto> result = menuService.addMenu(dto, id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

@@ -18,6 +18,7 @@ import org.koreait.yumyum.repository.MenuRepository;
 import org.koreait.yumyum.repository.StoreRepository;
 import org.koreait.yumyum.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class MenuServiceImpl implements MenuService {
     @Autowired
     private final StoreRepository storeRepository;
 
-    public ResponseDto<MenuResponseDto> addMenu(@Valid MenuRequestDto dto) {
+    public ResponseDto<MenuResponseDto> addMenu(@Valid MenuRequestDto dto, @AuthenticationPrincipal Long id) {
         MenuResponseDto data = null;
 
         try {
@@ -44,7 +45,7 @@ public class MenuServiceImpl implements MenuService {
             if (OptionalCategory.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
             }
-            Store store = storeRepository.findById(dto.getStoreId()).orElseThrow(() -> new RuntimeException("오류"));
+            Store store = storeRepository.findById(id).orElseThrow(() -> new RuntimeException("오류"));
 
             MenuCategory category = OptionalCategory.get();
             Menu menu = Menu.builder()

@@ -20,6 +20,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     private final JwtProvider jwtProvider;
 
     @Override
@@ -40,9 +41,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-            String userId = jwtProvider.getUserIdFromJwt(token);
-
-            setAuthenticationContext(request, userId);
+            Long id = jwtProvider.getIdFromJwt(token);
+            setAuthenticationContext(request, id);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,9 +51,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private void setAuthenticationContext(HttpServletRequest request, String userId) {
+
+    private void setAuthenticationContext(HttpServletRequest request, Long id) {
+
         AbstractAuthenticationToken authenticationToken
-                = new UsernamePasswordAuthenticationToken(userId, null, AuthorityUtils.NO_AUTHORITIES);
+                = new UsernamePasswordAuthenticationToken(id, null, AuthorityUtils.NO_AUTHORITIES);
+
 
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
