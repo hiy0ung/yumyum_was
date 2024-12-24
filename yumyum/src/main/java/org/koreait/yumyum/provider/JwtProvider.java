@@ -14,6 +14,7 @@ import java.util.Date;
 
 @Component
 public class JwtProvider {
+
     private final Key key;
 
     @Value("${jwt.expiration}")
@@ -24,15 +25,13 @@ public class JwtProvider {
     }
 
     public JwtProvider(@Value("${jwt.secret}") String secret, @Value("${jwt.expiration}") int jwtExpirationMs) {
-
         this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
-
         this.jwtExpirationMs = jwtExpirationMs;
     }
 
-    public String generateJwtToken(String userId) {
+    public String generateJwtToken(Long id) {
         return Jwts.builder()
-                .claim("userId", userId)
+                .claim("id", id)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -43,7 +42,7 @@ public class JwtProvider {
         return Jwts.builder()
                 .claim("username", username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + (1000L * 6 * 5)))
+                .setExpiration(new Date(System.currentTimeMillis() + (1000L * 60 * 5)))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -55,10 +54,9 @@ public class JwtProvider {
         return bearerToken.substring("Bearer ".length());
     }
 
-    public String getUserIdFromJwt(String token) {
+    public Long getIdFromJwt(String token) {
         Claims claims = getClaims(token);
-
-        return claims.get("userId", String.class);
+        return claims.get("id", Long.class);
     }
 
     public boolean isValidToken(String token) {
@@ -74,7 +72,6 @@ public class JwtProvider {
         JwtParser jwtParser = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build();
-
         return jwtParser.parseClaimsJws(token).getBody();
     }
 }
