@@ -177,7 +177,8 @@ public class AuthServiceImpl implements AuthService {
                 return ResponseDto.setFailed(ResponseMessage.NOT_MATCH_PASSWORD);
             }
 
-            String token = jwtProvider.generateJwtToken(userId);
+            Long id = user.getId();
+            String token = jwtProvider.generateJwtToken(id);
             int exprTime = jwtProvider.getExpiration();
             data = new LoginResponseDto(token, exprTime, user);
         } catch (Exception e) {
