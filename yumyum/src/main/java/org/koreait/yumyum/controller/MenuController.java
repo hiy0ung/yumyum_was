@@ -33,8 +33,9 @@ public class MenuController {
     // 메뉴 추가
     @PostMapping(MENU_POST_ADD)
     public ResponseEntity<ResponseDto<MenuResponseDto>> addMenu(@Valid @RequestBody MenuRequestDto dto, @AuthenticationPrincipal Long id) {
-        ResponseDto<MenuResponseDto> result = menuService.addMenu(dto, id);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        ResponseDto<MenuResponseDto> response = menuService.addMenu(dto, id);
+        HttpStatus status = response.isResult() ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status).body(response);
     }
 
     // 메뉴 조회
@@ -42,8 +43,9 @@ public class MenuController {
     public ResponseEntity<ResponseDto<List<MenuGetResponseDto>>> getAllMenus(
 //            @AuthenticationPrincipal String userId
     ) {
-        ResponseDto<List<MenuGetResponseDto>> result = menuService.getAllMenus();
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        ResponseDto<List<MenuGetResponseDto>> response = menuService.getAllMenus();
+        HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status).body(response);
     }
 
     // 특정 ID 메뉴 조회
@@ -52,8 +54,9 @@ public class MenuController {
             @PathVariable Long id
 //            @AuthenticationPrincipal String userId
     ) {
-        ResponseDto<MenuGetResponseDto> result = menuService.getMenusById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        ResponseDto<MenuGetResponseDto> response = menuService.getMenusById(id);
+        HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status).body(response);
     }
 
     // 메뉴 수정
@@ -62,14 +65,16 @@ public class MenuController {
             @Valid @PathVariable Long id,
             @RequestBody MenuRequestDto dto
     ) {
-        ResponseDto<MenuResponseDto> result = menuService.updateMenu(id, dto);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        ResponseDto<MenuResponseDto> response = menuService.updateMenu(id, dto);
+        HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status).body(response);
     }
 
     // 메뉴 삭제
     @DeleteMapping(MENU_DELETE)
     public ResponseEntity<ResponseDto<Void>> deleteMenu(@PathVariable Long id) {
-        ResponseDto<Void> result = menuService.deleteMenu(id);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        ResponseDto<Void> response = menuService.deleteMenu(id);
+        HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status).body(response);
     }
 }
