@@ -7,6 +7,7 @@ import org.koreait.yumyum.dto.stat.response.StatsTimeResponseDto;
 import org.koreait.yumyum.service.implement.StatsTimeServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +26,10 @@ public class StatsTimeController {
 
     @GetMapping(GET_STATS_TIME) // 2007-12-03T10:15:30
     public ResponseEntity<ResponseDto<List<StatsTimeResponseDto>>> getRevenueByOrderDate(
-            @PathVariable String orderDate
-//             @AuthenticationPrincipal String userId
+            @PathVariable String orderDate,
+            @AuthenticationPrincipal Long id
     ) {
-        ResponseDto<List<StatsTimeResponseDto>> response = statsTimeService.getRevenueByOrderDate(orderDate);
+        ResponseDto<List<StatsTimeResponseDto>> response = statsTimeService.getRevenueByOrderDate(orderDate, id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
