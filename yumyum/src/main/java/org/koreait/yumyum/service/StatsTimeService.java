@@ -6,5 +6,5 @@ import org.koreait.yumyum.dto.stat.response.StatsTimeResponseDto;
 import java.util.List;
 
 public interface StatsTimeService {
-    ResponseDto<List<StatsTimeResponseDto>> getRevenueByOrderDate(String orderDate);
+    ResponseDto<List<StatsTimeResponseDto>> getRevenueByOrderDate(String orderDate, Long id);
 }

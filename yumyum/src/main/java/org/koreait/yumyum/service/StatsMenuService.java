@@ -8,9 +8,9 @@ import java.util.List;
 
 
 public interface StatsMenuService {
-    ResponseDto<List<StatsMenuResponseDto>> getTodaySalesByOrderDate();
+    ResponseDto<List<StatsMenuResponseDto>> getTodaySalesByOrderDate(Long id);
 
-    ResponseDto<List<StatsMenuResponseDto>> getDaySalesByOrderDate(String orderDate);
+    ResponseDto<List<StatsMenuResponseDto>> getDaySalesByOrderDate(String orderDate, Long id);
 
-    ResponseDto<List<StatsMenuResponseDto>> getMonthSalesByOrderDate(String orderDate);
+    ResponseDto<List<StatsMenuResponseDto>> getMonthSalesByOrderDate(String orderDate, Long id);
 }

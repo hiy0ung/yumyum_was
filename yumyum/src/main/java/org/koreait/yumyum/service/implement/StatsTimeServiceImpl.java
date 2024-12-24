@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
 import org.koreait.yumyum.dto.stat.response.StatsTimeResponseDto;
-import org.koreait.yumyum.repository.OrderRepository;
+import org.koreait.yumyum.repository.StatsTimeRepository;
 import org.koreait.yumyum.service.StatsTimeService;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +17,12 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class StatsTimeServiceImpl implements StatsTimeService {
-
-    private final OrderRepository orderRepository;
+    private final StatsTimeRepository statsTimeRepository;
 
     @Override
-    public ResponseDto<List<StatsTimeResponseDto>> getRevenueByOrderDate(String orderDate) {
+    public ResponseDto<List<StatsTimeResponseDto>> getRevenueByOrderDate(String orderDate, Long id) {
         List<StatsTimeResponseDto> data = null;
         try {
-
             DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
             LocalDateTime localDateTime = LocalDateTime.parse(orderDate, formatter);
 
@@ -32,7 +30,7 @@ public class StatsTimeServiceImpl implements StatsTimeService {
             int month = localDateTime.getMonthValue();
             int day = localDateTime.getDayOfMonth();
 
-            List<Object[]> convertDto = orderRepository.findRevenueByOrderDate(year, month, day);
+            List<Object[]> convertDto = statsTimeRepository.findRevenueByOrderDate(year, month, day, id);
 
             data = convertDto.stream()
                     .map(dto -> new StatsTimeResponseDto(

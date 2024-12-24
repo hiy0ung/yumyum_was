@@ -8,6 +8,7 @@ import org.koreait.yumyum.repository.StatsMenuRepository;
 import org.koreait.yumyum.service.StatsMenuService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -20,18 +21,18 @@ public class StatsMenuServiceImpl implements StatsMenuService {
     private final StatsMenuRepository statsMenuRepository;
 
     @Override
-    public ResponseDto<List<StatsMenuResponseDto>> getTodaySalesByOrderDate() {
+    public ResponseDto<List<StatsMenuResponseDto>> getTodaySalesByOrderDate(Long id) {
         List<StatsMenuResponseDto> data = null;
 
         List<Object[]> convertDto;
         try {
-            convertDto = statsMenuRepository.findTodayTotalPriceAndQuantityByOrderDate();
+            convertDto = statsMenuRepository.findTodayTotalPriceAndQuantityByOrderDate(id);
             data = convertDto.stream()
                     .map(dto -> new StatsMenuResponseDto(
                             ((java.sql.Date) dto[0]).toLocalDate(),
                             (String) dto[1],
                             ((Long) dto[2]).intValue(),
-                            ((Double) dto[3]).longValue()
+                            ((BigDecimal) dto[3]).longValue()
                     )).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,7 +42,7 @@ public class StatsMenuServiceImpl implements StatsMenuService {
     }
 
     @Override
-    public ResponseDto<List<StatsMenuResponseDto>> getDaySalesByOrderDate(String orderDate) {
+    public ResponseDto<List<StatsMenuResponseDto>> getDaySalesByOrderDate(String orderDate, Long id) {
         List<StatsMenuResponseDto> data = null;
 
         try {
@@ -52,14 +53,16 @@ public class StatsMenuServiceImpl implements StatsMenuService {
             int month = localDate.getMonthValue();
             int day = localDate.getDayOfMonth();
 
-            List<Object[]> convertDto = statsMenuRepository.findDayTotalPriceAndQuantityByOrderDate(year, month, day);
+            List<Object[]> convertDto = statsMenuRepository.findDayTotalPriceAndQuantityByOrderDate(year, month, day, id);
             data = convertDto.stream()
                     .map(dto -> new StatsMenuResponseDto(
                             ((java.sql.Date) dto[0]).toLocalDate(),
                             (String) dto[1],
                             ((Long) dto[2]).intValue(),
-                            ((Double) dto[3]).longValue()
+                            ((BigDecimal) dto[3]).longValue()
                     )).collect(Collectors.toList());
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,7 +72,7 @@ public class StatsMenuServiceImpl implements StatsMenuService {
     }
 
     @Override
-    public ResponseDto<List<StatsMenuResponseDto>> getMonthSalesByOrderDate(String orderDate) {
+    public ResponseDto<List<StatsMenuResponseDto>> getMonthSalesByOrderDate(String orderDate, Long id) {
         List<StatsMenuResponseDto> data = null;
 
         try {
@@ -79,13 +82,13 @@ public class StatsMenuServiceImpl implements StatsMenuService {
             int year = localDate.getYear();
             int month = localDate.getMonthValue();
 
-            List<Object[]> convertDto = statsMenuRepository.findMonthTotalPriceAndQuantityByOrderDate(year, month);
+            List<Object[]> convertDto = statsMenuRepository.findMonthTotalPriceAndQuantityByOrderDate(year, month, id);
             data = convertDto.stream()
                     .map(dto -> new StatsMenuResponseDto(
                             ((java.sql.Date) dto[0]).toLocalDate(),
                             (String) dto[1],
                             ((Long) dto[2]).intValue(),
-                            ((Double) dto[3]).longValue()
+                            ((BigDecimal) dto[3]).longValue()
                     )).collect(Collectors.toList());
 
         } catch (Exception e) {
@@ -95,3 +98,4 @@ public class StatsMenuServiceImpl implements StatsMenuService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 }
+
