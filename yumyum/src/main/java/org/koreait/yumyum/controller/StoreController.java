@@ -25,36 +25,36 @@ public class StoreController {
     private static final String DELETE_STORE = "/delete";
 
     @GetMapping()
-    public Boolean findByStore(@AuthenticationPrincipal String userId) {
-        boolean response = storeService.findByStore(userId);
+    public Boolean findByStore(@AuthenticationPrincipal Long id) {
+        boolean response = storeService.findByStore(id);
         return response;
     }
 
     @GetMapping(GET_STORE)
-    public ResponseEntity<ResponseDto<StoreResponseDto>> getStore(@AuthenticationPrincipal String userId) {
-        ResponseDto<StoreResponseDto> response = storeService.getStore(userId);
+    public ResponseEntity<ResponseDto<StoreResponseDto>> getStore(@AuthenticationPrincipal Long id) {
+        ResponseDto<StoreResponseDto> response = storeService.getStore(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
 
     @PostMapping(CREATE_STORE)
-    public ResponseEntity<ResponseDto<StoreResponseDto>> createStore(@AuthenticationPrincipal String userId, @Valid @RequestBody StoreRequestDto dto) {
-        System.out.println(userId);
-        ResponseDto<StoreResponseDto> response = storeService.createStore(userId, dto);
+    public ResponseEntity<ResponseDto<StoreResponseDto>> createStore(@AuthenticationPrincipal Long id, @Valid @ModelAttribute StoreRequestDto dto) {
+        System.out.println(id);
+        ResponseDto<StoreResponseDto> response = storeService.createStore(id, dto);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
 
     @PutMapping(UPDATE_STORE)
-    public ResponseEntity<ResponseDto<StoreResponseDto>> updateStore(@AuthenticationPrincipal String userId, @Valid @RequestBody StoreRequestDto dto) {
-        ResponseDto<StoreResponseDto> response = storeService.updateStore(userId, dto);
+    public ResponseEntity<ResponseDto<StoreResponseDto>> updateStore(@AuthenticationPrincipal Long id, @Valid @ModelAttribute StoreRequestDto dto) {
+        ResponseDto<StoreResponseDto> response = storeService.updateStore(id, dto);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
 
     @DeleteMapping(DELETE_STORE)
-    public ResponseEntity<ResponseDto<Void>> deleteStore(@AuthenticationPrincipal String userId) {
-        ResponseDto<Void> response = storeService.deleteStore(userId);
+    public ResponseEntity<ResponseDto<Void>> deleteStore(@AuthenticationPrincipal Long id) {
+        ResponseDto<Void> response = storeService.deleteStore(id);
         HttpStatus status = response.isResult() ? HttpStatus.NO_CONTENT : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(null);
     }
