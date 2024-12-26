@@ -13,6 +13,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query(value = "select s " +
             "from Store s " +
             "join s.user u " +
-            "where u.userId = :id")
-    Optional<Store> getStoreByUserId(Long id);
+            "where u.userId = :userId")
+    Optional<Store> getStoreByUserId(String userId);
 }
