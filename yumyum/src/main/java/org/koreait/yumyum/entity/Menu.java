@@ -43,4 +43,9 @@ public class Menu {
 
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MenuOptionGroup> menuOptionGroups = new ArrayList<>();
+
+    public void addMenuOptionGroup(MenuOptionGroup optionGroup) {
+        this.menuOptionGroups.add(optionGroup);
+        optionGroup.setMenu(this);
+    }
 }

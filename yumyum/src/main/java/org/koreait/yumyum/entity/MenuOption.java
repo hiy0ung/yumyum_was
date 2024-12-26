@@ -30,5 +30,10 @@ public class MenuOption {
     @Builder.Default
     @OneToMany(mappedBy = "menuOption", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MenuOptionGroup> menuOptionGroups = new ArrayList<>();
+
+    public void addMenuOptionGroup(MenuOptionGroup optionGroup) {
+        this.menuOptionGroups.add(optionGroup);
+        optionGroup.setMenuOption(this);
+    }
 }
 

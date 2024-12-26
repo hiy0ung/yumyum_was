@@ -5,22 +5,20 @@ import lombok.RequiredArgsConstructor;
 
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
+import org.koreait.yumyum.dto.menu.request.MenuOptionRequestDto;
 import org.koreait.yumyum.dto.menu.request.MenuRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuGetResponseDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionDetailGetResponseDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionGetResponseDto;
 import org.koreait.yumyum.dto.menu.response.MenuResponseDto;
-import org.koreait.yumyum.entity.Menu;
-import org.koreait.yumyum.entity.MenuCategory;
-import org.koreait.yumyum.entity.Store;
-import org.koreait.yumyum.repository.MenuCategoryRepository;
-import org.koreait.yumyum.repository.MenuRepository;
-import org.koreait.yumyum.repository.StoreRepository;
+import org.koreait.yumyum.entity.*;
+import org.koreait.yumyum.repository.*;
 import org.koreait.yumyum.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
+import java.io.Console;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +31,9 @@ public class MenuServiceImpl implements MenuService {
     private final MenuRepository menuRepository;
     @Autowired
     private final MenuCategoryRepository menuCategoryRepository;
+
+    @Autowired
+    MenuOptionServiceImpl menuOptionService;
 
     @Autowired
     private final StoreRepository storeRepository;
@@ -55,10 +56,19 @@ public class MenuServiceImpl implements MenuService {
                     .menuPrice(dto.getMenuPrice())
                     .isAvailable(dto.getIsAvailable())
                     .menuCategory(category)
+                    .store(store)
                     .build();
-
-            menu.setStore(store);
             Menu savedMenu = menuRepository.save(menu);
+
+            List<MenuOptionRequestDto> options = dto.getMenuOption();
+            if (options != null) {
+                for(MenuOptionRequestDto optionDto : options) {
+                    optionDto.setMenuId(savedMenu.getId());
+                    menuOptionService.addMenuOption(optionDto);
+                }
+
+            }
+
             MenuResponseDto responseDto = new MenuResponseDto(savedMenu);
             data = responseDto;
         } catch (Exception e) {
