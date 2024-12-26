@@ -26,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final StoreRepository storeRepository;
 
     @Override
-    public ResponseDto<List<CategoryResponseDto>> getCategories(String userId, @PathVariable Long id) {
+    public ResponseDto<List<CategoryResponseDto>> getCategories(Long userId, @PathVariable Long id) {
         List<CategoryResponseDto> data = null;
 
         try {
@@ -52,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ResponseDto<CategoryResponseDto> createCategory(String userId, CreateCategoryRequestDto dto) {
+    public ResponseDto<CategoryResponseDto> createCategory(Long userId, CreateCategoryRequestDto dto) {
         CategoryResponseDto data = null;
 
         try {
