@@ -23,4 +23,5 @@ public class MenuOptionGroup {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_option_id", nullable = false)
     private MenuOption menuOption;
+
 }
