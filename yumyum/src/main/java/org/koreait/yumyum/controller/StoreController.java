@@ -53,9 +53,9 @@ public class StoreController {
     }
 
     @DeleteMapping(DELETE_STORE)
-    public ResponseEntity<ResponseDto<Void>> deleteStore(@AuthenticationPrincipal Long id) {
-        ResponseDto<Void> response = storeService.deleteStore(id);
-        HttpStatus status = response.isResult() ? HttpStatus.NO_CONTENT : HttpStatus.BAD_REQUEST;
-        return ResponseEntity.status(status).body(null);
+    public ResponseEntity<ResponseDto<String>> deleteStore(@AuthenticationPrincipal Long id) {
+        ResponseDto<String> response = storeService.deleteStore(id);
+        HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status).body(response);
     }
 }
