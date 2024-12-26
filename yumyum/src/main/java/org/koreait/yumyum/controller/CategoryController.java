@@ -27,14 +27,14 @@ public class CategoryController {
     private static final String DELETE_CATEGORY = "/delete";
 
     @GetMapping()
-    public ResponseEntity<ResponseDto<List<CategoryResponseDto>>> getCategories(@AuthenticationPrincipal String userId, @PathVariable Long id) {
+    public ResponseEntity<ResponseDto<List<CategoryResponseDto>>> getCategories(@AuthenticationPrincipal Long userId, @PathVariable Long id) {
         ResponseDto<List<CategoryResponseDto>> response = categoryService.getCategories(userId, id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return ResponseEntity.status(status).body(response);
     }
 
     @PostMapping(CREATE_CATEGORY)
-    public ResponseEntity<ResponseDto<CategoryResponseDto>> createCategory(@AuthenticationPrincipal String userId, @Valid @RequestBody CreateCategoryRequestDto dto) {
+    public ResponseEntity<ResponseDto<CategoryResponseDto>> createCategory(@AuthenticationPrincipal Long userId, @Valid @RequestBody CreateCategoryRequestDto dto) {
         ResponseDto<CategoryResponseDto> response = categoryService.createCategory(userId, dto);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
