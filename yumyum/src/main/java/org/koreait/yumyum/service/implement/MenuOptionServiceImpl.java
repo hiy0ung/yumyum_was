@@ -3,6 +3,7 @@ package org.koreait.yumyum.service.implement;
 import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
+import org.koreait.yumyum.dto.menu.request.MenuOptionDetailRequestDto;
 import org.koreait.yumyum.dto.menu.request.MenuOptionRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionResponseDto;
 import org.koreait.yumyum.entity.Menu;
@@ -11,9 +12,13 @@ import org.koreait.yumyum.entity.MenuOptionGroup;
 import org.koreait.yumyum.repository.MenuOptionGroupRepository;
 import org.koreait.yumyum.repository.MenuOptionRepository;
 import org.koreait.yumyum.repository.MenuRepository;
+import org.koreait.yumyum.service.MenuOptionDetailService;
 import org.koreait.yumyum.service.MenuOptionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.stylesheets.LinkStyle;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,6 +30,9 @@ public class MenuOptionServiceImpl implements MenuOptionService {
     private final MenuRepository menuRepository;
 
     private final MenuOptionGroupRepository menuOptionGroupRepository;
+
+    @Autowired
+    private final MenuOptionDetailService menuOptionDetailService;
 
     @Override
     public ResponseDto<MenuOptionResponseDto> addMenuOption(MenuOptionRequestDto dto) {
@@ -38,8 +46,15 @@ public class MenuOptionServiceImpl implements MenuOptionService {
                     .optionName(dto.getOptionName())
                     .build();
 
-            menuOptionRepository.save(menuOption);
+            MenuOption savedMenuOption = menuOptionRepository.save(menuOption);
+            List<MenuOptionDetailRequestDto> details = dto.getOptionDetail();
+            if(details != null) {
+                for (MenuOptionDetailRequestDto detailDto : details) {
+                    detailDto.setMenuOptionId(savedMenuOption.getId());
+                    menuOptionDetailService.addOptionDetail(detailDto);
+                }
 
+            }
             MenuOptionGroup menuOptionGroup = MenuOptionGroup.builder()
                     .menu(menu)
                     .menuOption(menuOption)
@@ -47,7 +62,7 @@ public class MenuOptionServiceImpl implements MenuOptionService {
 
             menuOptionGroupRepository.save(menuOptionGroup);
 
-            data = new MenuOptionResponseDto(menuOption);
+            data = new MenuOptionResponseDto(savedMenuOption);
 
         } catch (Exception e) {
             e.printStackTrace();
