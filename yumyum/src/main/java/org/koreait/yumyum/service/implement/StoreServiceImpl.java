@@ -9,7 +9,6 @@ import org.koreait.yumyum.entity.Store;
 import org.koreait.yumyum.entity.User;
 import org.koreait.yumyum.repository.StoreRepository;
 import org.koreait.yumyum.repository.UserRepository;
-import org.koreait.yumyum.service.FileUploadService;
 import org.koreait.yumyum.service.StoreService;
 import org.springframework.stereotype.Service;
 
@@ -131,7 +130,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public ResponseDto<Void> deleteStore(Long id) {
+    public ResponseDto<String> deleteStore(Long id) {
         try {
             Optional<Store> optionalStore = storeRepository.getStoreByUserId(id);
 
@@ -146,7 +145,7 @@ public class StoreServiceImpl implements StoreService {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
-        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, null);
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, "가게 삭제에 성공하였습니다.");
     }
 }
 
