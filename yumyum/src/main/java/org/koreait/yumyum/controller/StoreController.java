@@ -38,7 +38,7 @@ public class StoreController {
     }
 
     @PostMapping(CREATE_STORE)
-    public ResponseEntity<ResponseDto<StoreResponseDto>> createStore(@AuthenticationPrincipal String userId, @Valid @ModelAttribute StoreRequestDto dto) {
+    public ResponseEntity<ResponseDto<StoreResponseDto>> createStore(@AuthenticationPrincipal String userId, @Valid @RequestBody StoreRequestDto dto) {
         System.out.println(userId);
         ResponseDto<StoreResponseDto> response = storeService.createStore(userId, dto);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
@@ -46,7 +46,7 @@ public class StoreController {
     }
 
     @PutMapping(UPDATE_STORE)
-    public ResponseEntity<ResponseDto<StoreResponseDto>> updateStore(@AuthenticationPrincipal String userId, @Valid @ModelAttribute StoreRequestDto dto) {
+    public ResponseEntity<ResponseDto<StoreResponseDto>> updateStore(@AuthenticationPrincipal String userId, @Valid @RequestBody StoreRequestDto dto) {
         ResponseDto<StoreResponseDto> response = storeService.updateStore(userId, dto);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
