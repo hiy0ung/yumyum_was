@@ -25,6 +25,6 @@ public class MenuOptionDetail {
     @ManyToOne(fetch = FetchType.LAZY)
     private MenuOption menuOption;
 
-    @Column
-    private String additionalFee;
+    @Column(nullable = false)
+    private int additionalFee;
 }

@@ -6,5 +6,5 @@ import lombok.Data;
 public class MenuOptionDetailRequestDto {
     private Long menuOptionId;
     private String optionDetailName;
-    private String additionalFee;
+    private Integer additionalFee;
 }

@@ -7,7 +7,7 @@ import org.koreait.yumyum.entity.MenuOptionDetail;
 public class MenuOptionDetailResponseDto {
     private Long menuOptionDetailId;
     private String optionDetailName;
-    private String additionalFee;
+    private int additionalFee;
 
     public MenuOptionDetailResponseDto(MenuOptionDetail menuOptionDetail) {
         this.menuOptionDetailId = menuOptionDetail.getId();
