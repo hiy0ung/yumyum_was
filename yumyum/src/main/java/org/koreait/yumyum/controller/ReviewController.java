@@ -26,9 +26,8 @@ public class ReviewController {
 
     @GetMapping(GET_REVIEWS)
     public ResponseEntity<ResponseDto<List<ReviewResponseDto>>> getAllOrders(
-//            @AuthenticationPrincipal Long id
+            @AuthenticationPrincipal Long id
     ) {
-        Long id = 1L;
         ResponseDto<List<ReviewResponseDto>> response = reviewService.getAllReviews(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
