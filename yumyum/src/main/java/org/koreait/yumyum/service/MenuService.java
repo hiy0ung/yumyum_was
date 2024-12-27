@@ -12,8 +12,8 @@ import java.util.List;
 
 public interface MenuService {
     ResponseDto<MenuResponseDto> addMenu(@Valid MenuRequestDto dto, @AuthenticationPrincipal Long id);
-    ResponseDto<List<MenuGetResponseDto>> getAllMenus();
-    ResponseDto<MenuGetResponseDto> getMenusById(Long id);
+    ResponseDto<List<MenuGetResponseDto>> getAllMenus(Long id);
+    ResponseDto<MenuGetResponseDto> getMenusById(Long menuId, Long id);
     ResponseDto<MenuResponseDto> updateMenu(@Valid Long id, MenuRequestDto dto);
     ResponseDto<Void> deleteMenu(Long id);
 }

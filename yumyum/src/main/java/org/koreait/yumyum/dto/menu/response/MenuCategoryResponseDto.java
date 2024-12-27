@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.koreait.yumyum.entity.MenuCategory;
+import org.koreait.yumyum.entity.Store;
 
 @Data
 @NoArgsConstructor
@@ -14,6 +15,7 @@ public class MenuCategoryResponseDto {
     private int menuCategorySequence;
 
     public MenuCategoryResponseDto(MenuCategory category) {
+        this.id = category.getId();
         this.menuCategory = category.getMenuCategory();
         this.menuCategorySequence = category.getMenuCategorySequence();
     }

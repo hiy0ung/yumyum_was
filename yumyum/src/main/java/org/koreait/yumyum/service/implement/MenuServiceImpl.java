@@ -78,11 +78,10 @@ public class MenuServiceImpl implements MenuService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    public ResponseDto<List<MenuGetResponseDto>> getAllMenus() {
+    public ResponseDto<List<MenuGetResponseDto>> getAllMenus(Long id) {
         List<MenuGetResponseDto> data = null;
-
         try {
-            data = menuRepository.findAllMenuWithCategoryAndOption().stream().collect(Collectors.groupingBy(
+            data = menuRepository.findAllMenuWithCategoryAndOption(id).stream().collect(Collectors.groupingBy(
                     a -> (Long) a[0],
                     Collectors.collectingAndThen(
                             Collectors.toList(),
@@ -125,9 +124,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public ResponseDto<MenuGetResponseDto> getMenusById(Long id) {
+    public ResponseDto<MenuGetResponseDto> getMenusById(Long menuId, Long id) {
         MenuGetResponseDto data = null;
-        Long menuId = id;
 
         try {
             List<Object[]> result = menuRepository.findMenuWithCategoryAndOptionByMenuId(menuId);

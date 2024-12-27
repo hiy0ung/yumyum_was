@@ -7,8 +7,8 @@ import org.koreait.yumyum.dto.menu.response.MenuCategoryResponseDto;
 import java.util.List;
 
 public interface MenuCategoryService {
-    ResponseDto<List<MenuCategoryResponseDto>> getAllMenuCategory();
+    ResponseDto<List<MenuCategoryResponseDto>> getAllMenuCategory(Long id);
     ResponseDto<List<MenuCategoryResponseDto>> updateSequenceCategory(MenuCategoryRequestDto dto);
 
-    ResponseDto<MenuCategoryResponseDto> createCategory(MenuCategoryRequestDto dto);
+    ResponseDto<MenuCategoryResponseDto> createCategory(Long id, MenuCategoryRequestDto dto);
 }

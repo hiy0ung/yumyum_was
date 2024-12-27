@@ -2,6 +2,8 @@ package org.koreait.yumyum.service.implement;
 
 
 import lombok.Data;
+import org.koreait.yumyum.entity.Store;
+import org.koreait.yumyum.repository.StoreRepository;
 import org.koreait.yumyum.service.MenuCategoryService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,14 +25,19 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
 
     @Autowired
     private final MenuCategoryRepository menuCategoryRepository;
+    @Autowired
+    private StoreRepository storeRepository;
 
 
     @Override
-    public ResponseDto<List<MenuCategoryResponseDto>> getAllMenuCategory() {
+    public ResponseDto<List<MenuCategoryResponseDto>> getAllMenuCategory(Long id) {
         List<MenuCategoryResponseDto> data = null;
-
+        System.out.println(id);
         try {
-            List<MenuCategory> categories = menuCategoryRepository.findAll();
+            Store store = storeRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("가게 없음"));
+            System.out.println(store.getId());
+            List<MenuCategory> categories = menuCategoryRepository.findAllCategoryByStoreId(store.getId());
             data = new ArrayList<>();
 
             for(MenuCategory category : categories) {
@@ -99,12 +106,15 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
     }
 
     @Override
-    public ResponseDto<MenuCategoryResponseDto> createCategory(MenuCategoryRequestDto dto) {
+    public ResponseDto<MenuCategoryResponseDto> createCategory(Long id, MenuCategoryRequestDto dto) {
         MenuCategoryResponseDto data = null;
         try {
+            Store store = storeRepository.findById(id)
+                    .orElseThrow(() -> new Exception(ResponseMessage.DATABASE_ERROR));
             MenuCategory menuCategory = MenuCategory.builder()
                     .menuCategory(dto.getMenuCategory())
                     .menuCategorySequence(dto.getMenuCategorySequence())
+                    .store(store)
                     .build();
             MenuCategory savedCategory = menuCategoryRepository.save(menuCategory);
 
