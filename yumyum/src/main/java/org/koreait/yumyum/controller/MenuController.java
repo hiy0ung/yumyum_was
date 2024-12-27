@@ -27,7 +27,7 @@ public class MenuController {
 
     public static final String MENU_POST_ADD = "/add";
     public static final String MENU_GET_LIST = "/";
-    public static final String MENU_GET_ID = "/{id}";
+    public static final String MENU_GET_ID = "/{menuId}";
     public static final String MENU_PUT_UPDATE = "/update/{id}";
     public static final String MENU_DELETE = "/delete/{id}";
 
@@ -42,23 +42,16 @@ public class MenuController {
 
     // 메뉴 조회
     @GetMapping(MENU_GET_LIST)
-    public ResponseEntity<ResponseDto<List<MenuGetResponseDto>>> getAllMenus(
-//            @AuthenticationPrincipal String userId
-    ) {
-        ResponseDto<List<MenuGetResponseDto>> response = menuService.getAllMenus();
-        HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-        return ResponseEntity.status(status).body(response);
+    public ResponseEntity<ResponseDto<List<MenuGetResponseDto>>> getAllMenus(@AuthenticationPrincipal Long id) {
+        ResponseDto<List<MenuGetResponseDto>> result = menuService.getAllMenus(id);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     // 특정 ID 메뉴 조회
     @GetMapping(MENU_GET_ID)
-    public ResponseEntity<ResponseDto<MenuGetResponseDto>> getMenusById(
-            @PathVariable Long id
-//            @AuthenticationPrincipal String userId
-    ) {
-        ResponseDto<MenuGetResponseDto> response = menuService.getMenusById(id);
-        HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-        return ResponseEntity.status(status).body(response);
+    public ResponseEntity<ResponseDto<MenuGetResponseDto>> getMenusById(@PathVariable Long menuId, @AuthenticationPrincipal Long id) {
+        ResponseDto<MenuGetResponseDto> result = menuService.getMenusById(menuId, id);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     // 메뉴 수정

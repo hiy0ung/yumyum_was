@@ -5,7 +5,9 @@ import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
 import org.koreait.yumyum.dto.order.response.OrderResponseDto;
 import org.koreait.yumyum.entity.Order;
+import org.koreait.yumyum.entity.Store;
 import org.koreait.yumyum.repository.OrderRepository;
+import org.koreait.yumyum.repository.StoreRepository;
 import org.koreait.yumyum.service.OrderService;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +22,21 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final StoreRepository storeRepository;
 
     @Override
-    public ResponseDto<List<OrderResponseDto>> getAllOrders() {
+    public ResponseDto<List<OrderResponseDto>> getAllOrders(Long id) {
+
+        Optional<Store> optionalStore = storeRepository.getStoreByUserId(id);
+        if(optionalStore.isEmpty()) {
+            ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
+        }
+
+        Long storeId = optionalStore.get().getId();
         List<OrderResponseDto> data = null;
 
         try {
-            data = orderRepository.findAllOrderWithTotalPrice().stream()
+            data = orderRepository.findAllOrderWithTotalPrice(storeId).stream()
                     .map(dto -> new OrderResponseDto(
                             (Long) dto[0],
                             (Long) dto[1],

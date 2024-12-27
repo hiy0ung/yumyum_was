@@ -47,7 +47,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             o.order_date,
             g.guest_nickname,
             o.order_state,
-            mtp.menu_total_price + otp.option_total_price as sum_total_price
+            CAST(mtp.menu_total_price + otp.option_total_price AS DECIMAL(10,2)) as sum_total_price
         from
             orders o
         left outer join
@@ -64,6 +64,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             order_menu_option omo on omo.order_detail_id = od.id
         left outer join
             menu_option_details md on md.id = omo.menu_option_detail_id
+        where
+            o.store_id = :storeId
         group by
             o.id,
             o.store_id,
@@ -73,7 +75,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         order by
             o.id;
 """, nativeQuery = true)
-    List<Object[]> findAllOrderWithTotalPrice();
+    List<Object[]> findAllOrderWithTotalPrice(@Param("storeId") Long id);
 
     @Query(value = """
         with menu_total_price as (
