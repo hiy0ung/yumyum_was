@@ -36,7 +36,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     JOIN guests g ON o.id = g.order_id                         -- 주문과 게스트 조인
     LEFT JOIN review_comments rc ON r.id = rc.review_id        -- 리뷰와 답글 조인 (LEFT JOIN: 답글 없을 수도 있음)
     LEFT JOIN MenuInfo mi ON o.id = mi.order_id                -- 주문과 메뉴 정보 조인
-    WHERE o.store_id = ?
+    WHERE o.store_id = storeId
     ORDER BY
         r.review_date DESC;
     """, nativeQuery = true)
