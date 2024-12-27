@@ -6,7 +6,7 @@ import org.koreait.yumyum.dto.order.response.OrderResponseDto;
 import java.util.List;
 
 public interface OrderService {
-    ResponseDto<List<OrderResponseDto>> getAllOrders();
+    ResponseDto<List<OrderResponseDto>> getAllOrders(Long id);
 
     ResponseDto<OrderResponseDto> updateOrderState(Long id, String updateOrderState);
 }
