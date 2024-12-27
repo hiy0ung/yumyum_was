@@ -7,13 +7,13 @@ import org.koreait.yumyum.dto.store.response.StoreResponseDto;
 
 public interface StoreService {
 
-    boolean findByStore(String userId);
+    boolean findByStore(Long id);
 
-    ResponseDto<StoreResponseDto> getStore(String userId);
+    ResponseDto<StoreResponseDto> getStore(Long id);
 
-    ResponseDto<StoreResponseDto> createStore(String userId, @Valid StoreRequestDto dto);
+    ResponseDto<StoreResponseDto> createStore(Long id, @Valid StoreRequestDto dto);
 
-    ResponseDto<StoreResponseDto> updateStore(String userId, @Valid StoreRequestDto dto);
+    ResponseDto<StoreResponseDto> updateStore(Long id, @Valid StoreRequestDto dto);
 
-    ResponseDto<Void> deleteStore(String userId);
+    ResponseDto<Void> deleteStore(Long id);
 }
