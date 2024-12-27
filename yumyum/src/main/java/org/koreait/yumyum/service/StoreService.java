@@ -15,5 +15,5 @@ public interface StoreService {
 
     ResponseDto<StoreResponseDto> updateStore(Long id, @Valid StoreRequestDto dto);
 
-    ResponseDto<Void> deleteStore(Long id);
+    ResponseDto<String> deleteStore(Long id);
 }
