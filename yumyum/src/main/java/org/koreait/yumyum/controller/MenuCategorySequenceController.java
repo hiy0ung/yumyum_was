@@ -9,6 +9,8 @@ import org.koreait.yumyum.dto.menu.response.MenuCategoryResponseDto;
 import org.koreait.yumyum.service.MenuCategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,15 +25,15 @@ public class MenuCategorySequenceController {
     private static final String MENU_CATEGORY_SEQUENCE = "/sequence";
 
     @PostMapping(MENU_CATEGORY_POST)
-    public ResponseEntity<ResponseDto> createMenuCategory(@RequestBody MenuCategoryRequestDto dto) {
-        ResponseDto<MenuCategoryResponseDto> response = menuCategoryService.createCategory(dto);
+    public ResponseEntity<ResponseDto> createMenuCategory(@AuthenticationPrincipal Long id, @RequestBody MenuCategoryRequestDto dto) {
+        ResponseDto<MenuCategoryResponseDto> response = menuCategoryService.createCategory(id, dto);
         HttpStatus status = response.isResult() ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
 
     @GetMapping(MENU_CATEGORY_GET)
-    public ResponseEntity<ResponseDto<List<MenuCategoryResponseDto>>> getMenuCategory() {
-        ResponseDto<List<MenuCategoryResponseDto>> response = menuCategoryService.getAllMenuCategory();
+    public ResponseEntity<ResponseDto<List<MenuCategoryResponseDto>>> getMenuCategory(@AuthenticationPrincipal Long id) {
+        ResponseDto<List<MenuCategoryResponseDto>> response = menuCategoryService.getAllMenuCategory(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }

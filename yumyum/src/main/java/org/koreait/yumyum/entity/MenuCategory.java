@@ -14,10 +14,15 @@ public class MenuCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
+
     @Column(nullable = false)
     private String menuCategory;
 
     @Column(nullable = false)
     private int menuCategorySequence;
+
 
 }
