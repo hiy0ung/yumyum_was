@@ -27,7 +27,7 @@ public class ReviewEventNotice {
     @Column(nullable = false)
     private LocalDateTime noticeDate;
 
-    private String noticePhoto;
+    private String noticePhotoUrl;
 
     private String noticeText;
 }
