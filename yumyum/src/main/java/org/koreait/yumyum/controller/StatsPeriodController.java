@@ -40,6 +40,7 @@ public class StatsPeriodController {
 
     @GetMapping(GET_STATS_PERIOD_MONTH)
     public ResponseEntity<ResponseDto<List<MonthSalesResponseDto>>> findMonthSales(
+
             @PathVariable String orderDate,
             @AuthenticationPrincipal Long id
     ) {
