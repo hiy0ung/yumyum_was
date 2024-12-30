@@ -29,7 +29,7 @@ public class MenuController {
     public static final String MENU_GET_LIST = "/";
     public static final String MENU_GET_ID = "/{menuId}";
     public static final String MENU_PUT_UPDATE = "/update/{menuId}";
-    public static final String MENU_DELETE = "/delete/{id}";
+    public static final String MENU_DELETE = "/delete/{menuId}";
 
 
     // 메뉴 추가
@@ -69,8 +69,11 @@ public class MenuController {
 
     // 메뉴 삭제
     @DeleteMapping(MENU_DELETE)
-    public ResponseEntity<ResponseDto<Void>> deleteMenu(@PathVariable Long menuId) {
-        ResponseDto<Void> response = menuService.deleteMenu(menuId);
+    public ResponseEntity<ResponseDto<Void>> deleteMenu(
+            @PathVariable Long menuId,
+            @AuthenticationPrincipal Long id
+    ) {
+        ResponseDto<Void> response = menuService.deleteMenu(menuId, id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
