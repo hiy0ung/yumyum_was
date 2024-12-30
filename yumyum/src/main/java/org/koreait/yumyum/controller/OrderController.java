@@ -21,7 +21,7 @@ public class OrderController {
     private final OrderService orderService;
 
     private static final String GET_ORDER_LIST = "/";
-    private static final String UPDATE_ORDER_STATE = "/update/state/{id}";
+    private static final String UPDATE_ORDER_STATE = "/update/state/{orderId}";
 
     @GetMapping(GET_ORDER_LIST)
     public ResponseEntity<ResponseDto<List<OrderResponseDto>>> getAllOrders(@AuthenticationPrincipal Long id) {
@@ -32,9 +32,10 @@ public class OrderController {
 
     @PutMapping(UPDATE_ORDER_STATE)
     public ResponseEntity<ResponseDto<OrderResponseDto>> updateOrderState(
-            @PathVariable Long id,
+            @AuthenticationPrincipal Long id,
+            @PathVariable Long orderId,
             @RequestParam String updateOrderState) {
-        ResponseDto<OrderResponseDto> response = orderService.updateOrderState(id, updateOrderState);
+        ResponseDto<OrderResponseDto> response = orderService.updateOrderState(id, orderId, updateOrderState);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }

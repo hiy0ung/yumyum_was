@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -19,11 +20,13 @@ public interface RatingRepository extends JpaRepository<Review, Long> {
     List<Object[]> findReviewCountByRating(@Param("storeId") Long storeId);
 
 
-    @Query("SELECT MONTH(r.reviewDate) as reviewMonth, CAST(ROUND(avg(r.rating)) AS INTEGER) avgRating " +
+    @Query("SELECT CONCAT(YEAR(r.reviewDate), '-', MONTH(r.reviewDate)) as reviewMonth, " +
+            "CAST(ROUND(AVG(r.rating)) AS INTEGER) avgRating, " +
+            "CAST(COUNT(r) AS INTEGER) as reviewCount " +
             "FROM Review r " +
             "JOIN Order o ON r.order.id = o.id " +
             "WHERE o.store.id = :storeId " +
-            "AND MONTH(r.reviewDate) between :startDate and :endDate " +
-            "GROUP BY reviewMonth")
-    List<Object[]> findRatingAvgByMonth(@Param("storeId") Long storeId, @Param("startDate") int startDate, @Param("endDate") int endDate);
+            "AND r.reviewDate between :startDate AND :endDate " +
+            "GROUP BY CONCAT(YEAR(r.reviewDate), '-', MONTH(r.reviewDate))")
+    List<Object[]> findRatingAvgByMonth(@Param("storeId") Long storeId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class RatingMonthResponseDto {
-    private int reviewMonth;
+    private String reviewMonth;
     private int avgRating;
+    private int reviewMonthCount;
 }

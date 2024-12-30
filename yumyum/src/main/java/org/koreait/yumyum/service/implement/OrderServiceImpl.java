@@ -56,9 +56,15 @@ public class OrderServiceImpl implements OrderService {
 
     // 주문 상태 수정
     @Override
-    public ResponseDto<OrderResponseDto> updateOrderState(Long id, String updateOrderState) {
+    public ResponseDto<OrderResponseDto> updateOrderState(Long id, Long orderId, String updateOrderState) {
         OrderResponseDto data = null;
-        Long orderId = id;
+
+        Optional<Store> optionalStore = storeRepository.getStoreByUserId(id);
+        if(optionalStore.isEmpty()) {
+            ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
+        }
+
+        Long storeId = optionalStore.get().getId();
 
         try {
             Order order = orderRepository.findById(orderId)
@@ -67,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
             order.setOrderState(updateOrderState);
             orderRepository.save(order);
 
-            List<Object[]> orderList = orderRepository.findOrderWithTotalPriceById(orderId);
+            List<Object[]> orderList = orderRepository.findOrderWithTotalPriceById(orderId, storeId);
 
             if (orderList.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
