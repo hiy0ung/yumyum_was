@@ -109,8 +109,9 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
     public ResponseDto<MenuCategoryResponseDto> createCategory(Long id, MenuCategoryRequestDto dto) {
         MenuCategoryResponseDto data = null;
         try {
+            System.out.println(id);
             Store store = storeRepository.findById(id)
-                    .orElseThrow(() -> new Exception(ResponseMessage.DATABASE_ERROR));
+                    .orElseThrow(() -> new Exception("에러"));
             MenuCategory menuCategory = MenuCategory.builder()
                     .menuCategory(dto.getMenuCategory())
                     .menuCategorySequence(dto.getMenuCategorySequence())
