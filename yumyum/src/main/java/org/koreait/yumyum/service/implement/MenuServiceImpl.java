@@ -195,7 +195,7 @@ public class MenuServiceImpl implements MenuService {
             if (options != null) {
                 for(MenuOptionRequestDto optionDto : options) {
                     optionDto.setMenuId(savedMenu.getId());
-                    menuOptionService.updateMenuOption(optionDto, savedMenu.getId());
+                    menuOptionService.updateMenuOption(optionDto, savedMenu.getId(), id);
                 }
 
             }
