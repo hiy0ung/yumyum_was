@@ -115,8 +115,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             left join menu_total_price mtp on mtp.order_id = o.id
             left join option_total_price otp on otp.order_id = o.id
         where o.id = :orderId
+        and o.store_id = :storeId
         group by
             o.id, o.store_id, o.delivery_address, g.guest_nickname, o.order_state
 """, nativeQuery = true)
-    List<Object[]> findOrderWithTotalPriceById(@Param("orderId") Long id);
+    List<Object[]> findOrderWithTotalPriceById(@Param("orderId") Long orderId, @Param("storeId") Long storeId);
 }

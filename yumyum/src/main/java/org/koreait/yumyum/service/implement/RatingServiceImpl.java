@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -65,12 +66,13 @@ public class RatingServiceImpl implements RatingService {
             DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
             LocalDateTime localDateTime = LocalDateTime.parse(date, formatter);
 
-            int startDate = localDateTime.getMonthValue() - 6;
-            int endDate = localDateTime.getMonthValue();
+            LocalDateTime endDate = localDateTime.with(TemporalAdjusters.lastDayOfMonth());
+            LocalDateTime startDate = endDate.minusMonths(5).with(TemporalAdjusters.firstDayOfMonth());
+
             List<Object[]> ratingMonths = ratingRepository.findRatingAvgByMonth(store.getId(), startDate, endDate);
 
             data = ratingMonths.stream()
-                    .map(dto -> new RatingMonthResponseDto((Integer) dto[0], (Integer) dto[1]))
+                    .map(dto -> new RatingMonthResponseDto((String) dto[0], (Integer) dto[1],(Integer) dto[2]))
                     .collect(Collectors.toList());
 
         }catch(Exception e) {
