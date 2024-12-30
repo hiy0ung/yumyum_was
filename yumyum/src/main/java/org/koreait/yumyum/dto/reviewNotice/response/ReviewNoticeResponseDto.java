@@ -12,13 +12,13 @@ public class ReviewNoticeResponseDto {
 
     private LocalDateTime noticeDate;
 
-    private String noticePhoto;
+    private String noticePhotoUrl;
 
     private String noticeText;
 
     public ReviewNoticeResponseDto(ReviewEventNotice reviewEventNotice) {
         this.noticeDate = reviewEventNotice.getNoticeDate();
-        this.noticePhoto = reviewEventNotice.getNoticePhoto();
+        this.noticePhotoUrl = reviewEventNotice.getNoticePhotoUrl();
         this.noticeText = reviewEventNotice.getNoticeText();
     }
 }

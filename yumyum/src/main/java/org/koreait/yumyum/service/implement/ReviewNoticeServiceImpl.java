@@ -64,7 +64,7 @@ public class ReviewNoticeServiceImpl implements ReviewNoticeService {
             ReviewEventNotice reviewEventNotice = ReviewEventNotice.builder()
                     .store(store)
                     .noticeDate(dto.getNoticeDate())
-                    .noticePhoto(dto.getNoticePhoto())
+                    .noticePhotoUrl(dto.getNoticePhotoUrl())
                     .noticeText(dto.getNoticeText())
                     .build();
             reviewNoticeRepository.save(reviewEventNotice);
@@ -79,11 +79,11 @@ public class ReviewNoticeServiceImpl implements ReviewNoticeService {
     }
 
     @Override
-    public ResponseDto<ReviewNoticeResponseDto> updateNotice(Long id, ReviewNoticeRequestDto dto) {
+    public ResponseDto<ReviewNoticeResponseDto> updateNotice(Long id,Long reviewEventNoticeId, ReviewNoticeRequestDto dto) {
         ReviewNoticeResponseDto data = null;
 
         try {
-            Optional<ReviewEventNotice> optionalReviewEventNotice = reviewNoticeRepository.findById(id);
+            Optional<ReviewEventNotice> optionalReviewEventNotice = reviewNoticeRepository.findById(reviewEventNoticeId);
 
             if(optionalReviewEventNotice.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_REVIEW_NOTICE);
@@ -92,7 +92,7 @@ public class ReviewNoticeServiceImpl implements ReviewNoticeService {
             ReviewEventNotice reviewEventNotice = optionalReviewEventNotice.get();
             ReviewEventNotice updateReviewEventNotice = reviewEventNotice.toBuilder()
                     .noticeDate(dto.getNoticeDate())
-                    .noticePhoto(dto.getNoticePhoto())
+                    .noticePhotoUrl(dto.getNoticePhotoUrl())
                     .noticeText(dto.getNoticeText())
                     .build();
             reviewNoticeRepository.save(updateReviewEventNotice);
