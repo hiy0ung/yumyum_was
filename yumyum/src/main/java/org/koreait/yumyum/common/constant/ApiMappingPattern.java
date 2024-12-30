@@ -11,6 +11,7 @@ public class ApiMappingPattern {
     public static final String MENU_OPTION_DETAILS = "/api/v1/optionDetails";
 
     public static final String REVIEW = "/api/v1/reviews";
+    public static final String REVIEW_NOTICE = "api/v1/reviews/notice";
 
     public static final String STATS = "/api/v1/stats";
 
