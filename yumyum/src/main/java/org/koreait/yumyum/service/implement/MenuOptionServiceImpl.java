@@ -35,7 +35,7 @@ public class MenuOptionServiceImpl implements MenuOptionService {
     private final MenuOptionDetailService menuOptionDetailService;
 
     @Override
-    public ResponseDto<MenuOptionResponseDto> addMenuOption(MenuOptionRequestDto dto) {
+    public ResponseDto<MenuOptionResponseDto> addMenuOption(MenuOptionRequestDto dto, Long id) {
         MenuOptionResponseDto data = null;
 
         try {
@@ -51,9 +51,8 @@ public class MenuOptionServiceImpl implements MenuOptionService {
             if(details != null) {
                 for (MenuOptionDetailRequestDto detailDto : details) {
                     detailDto.setMenuOptionId(savedMenuOption.getId());
-                    menuOptionDetailService.addOptionDetail(detailDto);
+                    menuOptionDetailService.addOptionDetail(detailDto, id);
                 }
-
             }
             MenuOptionGroup menuOptionGroup = MenuOptionGroup.builder()
                     .menu(menu)
@@ -72,12 +71,11 @@ public class MenuOptionServiceImpl implements MenuOptionService {
     }
 
     @Override
-    public ResponseDto<MenuOptionResponseDto> updateMenuOption(MenuOptionRequestDto dto, Long id) {
+    public ResponseDto<MenuOptionResponseDto> updateMenuOption(MenuOptionRequestDto dto, Long optionId, Long id) {
         MenuOptionResponseDto data = null;
-        Long menuOptionId = id;
 
         try {
-            Optional<MenuOption> menuOptionOptional = menuOptionRepository.findById(menuOptionId);
+            Optional<MenuOption> menuOptionOptional = menuOptionRepository.findById(optionId);
 
             if (menuOptionOptional.isPresent()) {
                 MenuOption menuOption = menuOptionOptional.get().toBuilder()
@@ -96,10 +94,9 @@ public class MenuOptionServiceImpl implements MenuOptionService {
     }
 
     @Override
-    public ResponseDto<Void> deleteMenuOption(Long id) {
-        Long menuOptionId = id;
+    public ResponseDto<Void> deleteMenuOption(Long optionId, Long id) {
         try {
-            Optional<MenuOption> menuOptionOptional = menuOptionRepository.findById(menuOptionId);
+            Optional<MenuOption> menuOptionOptional = menuOptionRepository.findById(optionId);
 
             if (menuOptionOptional.isPresent()) {
                 MenuOption menuOption = menuOptionOptional.get();

@@ -8,10 +8,10 @@ import org.koreait.yumyum.dto.stat.response.YearSalesResponseDto;
 import java.util.List;
 
 public interface StatsPeriodService {
-    ResponseDto<List<DailySalesResponseDto>> findDailySales(String orderDate);
+    ResponseDto<List<DailySalesResponseDto>> findDailySales(String orderDate, Long id);
 
-    ResponseDto<List<MonthSalesResponseDto>> findMonthSales(String orderDate);
+    ResponseDto<List<MonthSalesResponseDto>> findMonthSales(String orderDate, Long id);
 
-    ResponseDto<List<YearSalesResponseDto>> findYearSales(String orderDate);
+    ResponseDto<List<YearSalesResponseDto>> findYearSales(String orderDate, Long id);
 
 }
