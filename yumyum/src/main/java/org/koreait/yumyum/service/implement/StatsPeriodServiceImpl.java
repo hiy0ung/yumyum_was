@@ -10,6 +10,8 @@ import org.koreait.yumyum.repository.StatsPeriodRepository;
 import org.koreait.yumyum.service.StatsPeriodService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -21,21 +23,21 @@ public class StatsPeriodServiceImpl implements StatsPeriodService {
     private final StatsPeriodRepository periodRepository;
 
     @Override
-    public ResponseDto<List<DailySalesResponseDto>> findDailySales(String orderDate) {
+    public ResponseDto<List<DailySalesResponseDto>> findDailySales(String orderDate, Long id) {
         List<DailySalesResponseDto> data = null;
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-            LocalDateTime localDateTime = LocalDateTime.parse(orderDate, formatter);
+            LocalDate localDateTime = LocalDate.parse(orderDate, formatter);
 
             int year = localDateTime.getYear();
             int month = localDateTime.getMonthValue();
 
-            List<Object[]> convertDto = periodRepository.findDailySales(year, month);
+            List<Object[]> convertDto = periodRepository.findDailySales(year, month, id);
 
             data = convertDto.stream()
                     .map(dto -> new DailySalesResponseDto(
                                     ((java.sql.Date) dto[0]).toLocalDate(),
-                                    ((Long) dto[1]).intValue()
+                                    ((BigDecimal) dto[1]).intValue()
                             )
                     ).collect(Collectors.toList());
         } catch (Exception e) {
@@ -46,21 +48,21 @@ public class StatsPeriodServiceImpl implements StatsPeriodService {
     }
 
     @Override
-    public ResponseDto<List<MonthSalesResponseDto>> findMonthSales(String orderDate) {
+    public ResponseDto<List<MonthSalesResponseDto>> findMonthSales(String orderDate, Long id) {
         List<MonthSalesResponseDto> data = null;
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-            LocalDateTime localDateTime = LocalDateTime.parse(orderDate, formatter);
+            LocalDate localDateTime = LocalDate.parse(orderDate, formatter);
 
             int year = localDateTime.getYear();
             int month = localDateTime.getMonthValue();
-            List<Object[]> convertDto = periodRepository.findMonthSales(year, month);
+            List<Object[]> convertDto = periodRepository.findMonthSales(year, month, id);
 
             data = convertDto.stream()
                     .map(dto -> new MonthSalesResponseDto(
-                            ((Integer) dto[0]),
-                            ((Integer) dto[1]),
-                            ((Long) dto[2]).intValue()
+                            ((Long) dto[0]).intValue(),
+                            ((Long) dto[1]).intValue(),
+                            ((BigDecimal) dto[2]).intValue()
                     )).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,19 +72,19 @@ public class StatsPeriodServiceImpl implements StatsPeriodService {
     }
 
     @Override
-    public ResponseDto<List<YearSalesResponseDto>> findYearSales(String orderDate) {
+    public ResponseDto<List<YearSalesResponseDto>> findYearSales(String orderDate, Long id) {
         List<YearSalesResponseDto> data = null;
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-            LocalDateTime localDateTime = LocalDateTime.parse(orderDate, formatter);
+            LocalDate localDateTime = LocalDate.parse(orderDate, formatter);
 
             int year = localDateTime.getYear();
-            List<Object[]> convertDto = periodRepository.findYearSales(year);
+            List<Object[]> convertDto = periodRepository.findYearSales(year, id);
 
             data = convertDto.stream()
                     .map(dto -> new YearSalesResponseDto(
-                            ((Integer) dto[0]),
-                            ((Long) dto[1]).intValue()
+                            ((Long) dto[0]). intValue(),
+                            ((BigDecimal) dto[1]).intValue()
                     )).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();

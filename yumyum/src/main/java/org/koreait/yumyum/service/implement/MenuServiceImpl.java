@@ -168,10 +168,10 @@ public class MenuServiceImpl implements MenuService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    public ResponseDto<MenuResponseDto> updateMenu(@Valid Long menuId, MenuRequestDto dto) {
+    public ResponseDto<MenuResponseDto> updateMenu(@Valid Long menuId, MenuRequestDto dto, Long id) {
         MenuResponseDto data = null;
-
         try {
+            Store store = storeRepository.findById(id).orElseThrow(() -> new RuntimeException("가게 없음"));
             Optional<MenuCategory> OptionalCategory = menuCategoryRepository.findById(dto.getCategoryId());
             if (OptionalCategory.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
@@ -183,14 +183,27 @@ public class MenuServiceImpl implements MenuService {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
             }
             Menu menu = OptionalMenu.get();
-            menu.setImageUrl(dto.getImageUrl());
+            menu.setStore(store);
             menu.setMenuName(dto.getMenuName());
             menu.setMenuDescription(dto.getMenuDescription());
             menu.setMenuPrice(dto.getMenuPrice());
-            menu.setIsAvailable(dto.getIsAvailable());
             menu.setMenuCategory(category);
-            menuRepository.save(menu);
-            data = new MenuResponseDto(menu);
+            menu.setImageUrl(dto.getImageUrl());
+            menu.setIsAvailable(dto.getIsAvailable());
+
+            Menu savedMenu = menuRepository.save(menu);
+
+            List<MenuOptionRequestDto> options = dto.getMenuOption();
+            if (options != null) {
+                for(MenuOptionRequestDto optionDto : options) {
+                    optionDto.setMenuId(savedMenu.getId());
+                    menuOptionService.updateMenuOption(optionDto, savedMenu.getId());
+                }
+
+            }
+
+            MenuResponseDto responseDto = new MenuResponseDto(savedMenu);
+            data = responseDto;
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
