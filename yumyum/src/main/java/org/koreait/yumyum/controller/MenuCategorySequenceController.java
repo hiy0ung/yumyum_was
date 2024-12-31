@@ -23,6 +23,7 @@ public class MenuCategorySequenceController {
     private static final String MENU_CATEGORY_POST = "/post";
     private static final String MENU_CATEGORY_GET = "/get";
     private static final String MENU_CATEGORY_SEQUENCE = "/sequence";
+    private static final String MENU_CATEGORY_DELETE = "/delete/{categoryId}";
 
     @PostMapping(MENU_CATEGORY_POST)
     public ResponseEntity<ResponseDto> createMenuCategory(@AuthenticationPrincipal Long id, @RequestBody MenuCategoryRequestDto dto) {
@@ -43,6 +44,13 @@ public class MenuCategorySequenceController {
         ResponseDto<List<MenuCategoryResponseDto>> response = menuCategoryService.updateSequenceCategory(dto);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
+    }
+
+    @DeleteMapping(MENU_CATEGORY_DELETE)
+    public ResponseEntity<ResponseDto<Void>> deleteMenuCategory(@PathVariable Long categoryId) {
+        ResponseDto<Void> responseDto = menuCategoryService.deleteCategory(categoryId);
+        HttpStatus status = responseDto.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status).body(responseDto);
     }
 
 }
