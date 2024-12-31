@@ -47,7 +47,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             o.order_date,
             g.guest_nickname,
             o.order_state,
-            CAST(mtp.menu_total_price + otp.option_total_price AS DECIMAL(10,2)) as sum_total_price
+            CAST(COALESCE(mtp.menu_total_price, 0) + COALESCE(otp.option_total_price, 0) AS DECIMAL(10,2)) as sum_total_price
         from
             orders o
         left outer join

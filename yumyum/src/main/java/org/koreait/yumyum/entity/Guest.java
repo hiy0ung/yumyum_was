@@ -19,10 +19,10 @@ public class Guest {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @Column(name = "guest_nickname", nullable = false, unique = true)
+    @Column(name = "guest_nickname", nullable = false)
     private String guestNickname;
 
-    @Column(name = "profile_image")
+    @Column(name = "profile_image", nullable = false)
     private String profileImage;
 
 }

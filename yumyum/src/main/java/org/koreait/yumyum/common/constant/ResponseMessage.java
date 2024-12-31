@@ -22,6 +22,9 @@ public class ResponseMessage {
     public static final String NOT_EXIST_MENU = "Menu does not exist."; // 메뉴가 존재하지 않을 때 반환 메시지
     public static final String NOT_EXIST_CATEGORY = "Category does not exist."; // 메뉴가 존재하지 않을 때 반환 메시지
     public static final String NOT_EXIST_REVIEW_NOTICE = "ReviewNotice does not exist."; // 리뷰이벤트가 존재하지 않을 때 반환 메시지
+    public static final String NOT_EXIST_REVIEW = "Review does not exist."; // 리뷰이벤트가 존재하지 않을 때 반환 메시지
+    public static final String NOT_EXIST_REVIEW_COMMENT = "ReviewComment does not exist."; // 리뷰코멘트가 존재하지 않을 때 반환 메시지
+
 
 
 
