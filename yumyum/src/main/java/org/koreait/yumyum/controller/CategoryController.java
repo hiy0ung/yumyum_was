@@ -24,7 +24,7 @@ public class CategoryController {
 
     private static final String CREATE_CATEGORY = "/create";
     private static final String UPDATE_CATEGORY = "/update";
-    private static final String DELETE_CATEGORY = "/delete";
+    private static final String DELETE_CATEGORY = "/delete/false";
 
     @GetMapping()
     public ResponseEntity<ResponseDto<List<CategoryResponseDto>>> getCategories(@AuthenticationPrincipal Long userId, @PathVariable Long id) {

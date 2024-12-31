@@ -1,8 +1,8 @@
 package org.koreait.yumyum.service.implement;
 
 
-import lombok.Data;
 import org.koreait.yumyum.entity.Store;
+import org.koreait.yumyum.repository.CategoryRepository;
 import org.koreait.yumyum.repository.StoreRepository;
 import org.koreait.yumyum.service.MenuCategoryService;
 
@@ -109,7 +109,6 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
     public ResponseDto<MenuCategoryResponseDto> createCategory(Long id, MenuCategoryRequestDto dto) {
         MenuCategoryResponseDto data = null;
         try {
-            System.out.println(id);
             Store store = storeRepository.findById(id)
                     .orElseThrow(() -> new Exception("에러"));
             MenuCategory menuCategory = MenuCategory.builder()
@@ -127,5 +126,18 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+    @Override
+    public ResponseDto<Void> deleteCategory(Long categoryId) {
+        try {
+            MenuCategory category = menuCategoryRepository.findById(categoryId)
+                            .orElseThrow(() -> new Error(ResponseMessage.NOT_EXIST_CATEGORY));
+            menuCategoryRepository.deleteById(categoryId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, null);
     }
 }
