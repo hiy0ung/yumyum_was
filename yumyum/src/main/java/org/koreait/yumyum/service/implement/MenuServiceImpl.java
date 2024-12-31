@@ -209,7 +209,7 @@ public class MenuServiceImpl implements MenuService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    public ResponseDto<Void> deleteMenu(Long menuId) {
+    public ResponseDto<Void> deleteMenu(Long menuId, Long id) {
         try {
             Optional<Menu> optionalMenu = menuRepository.findById(menuId);
             if (optionalMenu.isEmpty()) {

@@ -38,8 +38,8 @@ public class ReviewNoticeController {
     }
 
     @PutMapping(UPDATE_NOTICE)
-    public ResponseEntity<ResponseDto<ReviewNoticeResponseDto>> updateNotice(@AuthenticationPrincipal Long id, @RequestBody ReviewNoticeRequestDto dto) {
-        ResponseDto<ReviewNoticeResponseDto> response = reviewNoticeService.updateNotice(id, dto);
+    public ResponseEntity<ResponseDto<ReviewNoticeResponseDto>> updateNotice(@AuthenticationPrincipal Long id,@RequestParam Long reviewEventNoticeId, @RequestBody ReviewNoticeRequestDto dto) {
+        ResponseDto<ReviewNoticeResponseDto> response = reviewNoticeService.updateNotice(id, reviewEventNoticeId, dto);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
