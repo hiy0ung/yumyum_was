@@ -21,8 +21,16 @@ public class Review {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "guest_id")
+    private Guest guest;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
+
     @Column(nullable = false)
-    private int rating;
+    private double rating;
 
     @Column(name = "review_date", nullable = false)
     private LocalDateTime reviewDate;
