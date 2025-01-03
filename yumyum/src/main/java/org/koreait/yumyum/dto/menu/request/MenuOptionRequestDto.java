@@ -8,5 +8,5 @@ import java.util.List;
 public class MenuOptionRequestDto {
     private Long menuId;
     private String optionName;
-    private List<MenuOptionDetailRequestDto> optionDetail;
+    private List<MenuOptionDetailRequestDto> optionDetails;
 }
