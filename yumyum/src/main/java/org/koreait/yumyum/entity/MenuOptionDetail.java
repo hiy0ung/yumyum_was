@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "menu_option_details")
 @Data
-@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder = true)
 public class MenuOptionDetail {
 
     @Id

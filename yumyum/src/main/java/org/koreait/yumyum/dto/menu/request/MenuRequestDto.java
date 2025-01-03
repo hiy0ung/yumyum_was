@@ -19,5 +19,5 @@ public class MenuRequestDto {
     private String menuDescription;
     private int menuPrice;
     private Boolean isAvailable;
-    private List<MenuOptionRequestDto> menuOption;
+    private List<MenuOptionRequestDto> menuOptions;
 }

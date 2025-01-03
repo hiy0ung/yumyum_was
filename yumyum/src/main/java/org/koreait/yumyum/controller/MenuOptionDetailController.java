@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(ApiMappingPattern.MENU_OPTION_DETAILS)
 @RequiredArgsConstructor
@@ -36,9 +38,11 @@ public class MenuOptionDetailController {
     public ResponseEntity<ResponseDto<MenuOptionDetailResponseDto>> updateOptionDetail(
             @RequestBody MenuOptionDetailRequestDto dto,
             @PathVariable Long optionDetailId,
-            @AuthenticationPrincipal Long id
-    ) {
-        ResponseDto<MenuOptionDetailResponseDto> response = menuOptionDetailService.updateOptionDetail(dto, optionDetailId, id);
+            @AuthenticationPrincipal Long id,
+            @RequestBody List<String> optionDetailNames,
+            @RequestBody List<Integer> additionalFees
+            ) {
+        ResponseDto<MenuOptionDetailResponseDto> response = menuOptionDetailService.updateOptionDetail(dto, optionDetailId, id, optionDetailNames, additionalFees);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }

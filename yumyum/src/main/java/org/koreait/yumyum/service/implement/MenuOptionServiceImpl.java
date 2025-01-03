@@ -1,6 +1,7 @@
 package org.koreait.yumyum.service.implement;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.bcel.Const;
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
 import org.koreait.yumyum.dto.menu.request.MenuOptionDetailRequestDto;
@@ -8,7 +9,9 @@ import org.koreait.yumyum.dto.menu.request.MenuOptionRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionResponseDto;
 import org.koreait.yumyum.entity.Menu;
 import org.koreait.yumyum.entity.MenuOption;
+import org.koreait.yumyum.entity.MenuOptionDetail;
 import org.koreait.yumyum.entity.MenuOptionGroup;
+import org.koreait.yumyum.repository.MenuOptionDetailRepository;
 import org.koreait.yumyum.repository.MenuOptionGroupRepository;
 import org.koreait.yumyum.repository.MenuOptionRepository;
 import org.koreait.yumyum.repository.MenuRepository;
@@ -17,6 +20,7 @@ import org.koreait.yumyum.service.MenuOptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +36,8 @@ public class MenuOptionServiceImpl implements MenuOptionService {
 
     @Autowired
     private final MenuOptionDetailService menuOptionDetailService;
+    @Autowired
+    private MenuOptionDetailRepository menuOptionDetailRepository;
 
     @Override
     public ResponseDto<MenuOptionResponseDto> addMenuOption(MenuOptionRequestDto dto, Long id) {
@@ -46,7 +52,7 @@ public class MenuOptionServiceImpl implements MenuOptionService {
                     .build();
 
             MenuOption savedMenuOption = menuOptionRepository.save(menuOption);
-            List<MenuOptionDetailRequestDto> details = dto.getOptionDetail();
+            List<MenuOptionDetailRequestDto> details = dto.getOptionDetails();
             if(details != null) {
                 for (MenuOptionDetailRequestDto detailDto : details) {
                     detailDto.setMenuOptionId(savedMenuOption.getId());
@@ -74,18 +80,45 @@ public class MenuOptionServiceImpl implements MenuOptionService {
         MenuOptionResponseDto data = null;
 
         try {
-            Optional<MenuOption> menuOptionOptional = menuOptionRepository.findById(optionId);
+            Optional<List<Long>> menuOptionId = menuOptionGroupRepository.findMenuOptionIdByMenuId(optionId);
+            List<Long> menuOptionIds = menuOptionId.get();
+            for(Long menioptionId : menuOptionIds) {
+                Optional<MenuOption> menuOptionOptional = menuOptionRepository.findById(menioptionId);
+                System.out.println(menuOptionOptional.get().getId());
+                if (menuOptionOptional.isPresent()) {
+                    MenuOption menuOption = menuOptionOptional.get().toBuilder()
+                            .optionName(dto.getOptionName())
+                            .build();
+                    MenuOption updateOption = menuOptionRepository.save(menuOption);
+                    List<MenuOptionDetailRequestDto> details = dto.getOptionDetails();
+                    System.out.println("이거 5");
+                    if(details != null) {
+                        List<Long> optiondetailId = menuOptionGroupRepository.findMenuOptionIdByMenuId(optionId)
+                                .orElseThrow(() -> new RuntimeException("오류"));
+                        List<String> optionDetailNames = new ArrayList<>();
+                        List<Integer> additionalFees = new ArrayList<>();
+                        int i = 0;
+                        for(MenuOptionDetailRequestDto detailsDto: details) {
+                            optionDetailNames.add(detailsDto.getOptionDetailName());
+                            additionalFees.add(detailsDto.getAdditionalFee());
+                        }
+                        for (MenuOptionDetailRequestDto detailDto : details) {
+                            System.out.println(updateOption.getId());
+                            detailDto.setMenuOptionId(updateOption.getId());
 
-            if (menuOptionOptional.isPresent()) {
-                MenuOption menuOption = menuOptionOptional.get().toBuilder()
-                        .optionName(dto.getOptionName())
-                        .build();
+                            menuOptionDetailService.updateOptionDetail(detailDto, optiondetailId.get(i), id, optionDetailNames, additionalFees);
+                            i++;
+                        }
 
-                MenuOption updateOption = menuOptionRepository.save(menuOption);
-                data = new MenuOptionResponseDto(updateOption);
-            } else {
-                return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
+                    }
+                    data = new MenuOptionResponseDto(updateOption);
+                } else {
+                    return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
+                }
             }
+
+
+
         } catch (Exception e) {
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
