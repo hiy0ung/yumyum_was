@@ -12,6 +12,7 @@ import org.koreait.yumyum.repository.MenuOptionRepository;
 import org.koreait.yumyum.service.MenuOptionDetailService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,24 +47,22 @@ public class MenuOptionDetailServiceImpl implements MenuOptionDetailService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+
     @Override
-    public ResponseDto<MenuOptionDetailResponseDto> updateOptionDetail(MenuOptionDetailRequestDto dto, Long optionDetailId, Long id) {
+    public ResponseDto<MenuOptionDetailResponseDto> updateOptionDetail(MenuOptionDetailRequestDto dto, Long optionDetailId, Long id, List<String> optionDetailNames, List<Integer> additionalFees) {
         MenuOptionDetailResponseDto data = null;
 
         try {
-            Optional<MenuOptionDetail> menuOptionDetailOptional = menuOptionDetailRepository.findById(optionDetailId);
+            List<MenuOptionDetail> menuOptionDetailOptional = menuOptionDetailRepository.findByMenuOptionId(optionDetailId);
 
-            if (menuOptionDetailOptional.isPresent()) {
-                MenuOptionDetail menuOptionDetail = menuOptionDetailOptional.get().toBuilder()
-                        .optionDetailName(dto.getOptionDetailName())
-                        .additionalFee(dto.getAdditionalFee())
-                        .build();
-
-                MenuOptionDetail updateOptionDetail = menuOptionDetailRepository.save(menuOptionDetail);
-                data = new MenuOptionDetailResponseDto(updateOptionDetail);
-            } else {
-                return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
+            for(int i=0; i < menuOptionDetailOptional.size(); i++) {
+                MenuOptionDetail menuOptionDetail = menuOptionDetailOptional.get(i);
+                menuOptionDetail.setOptionDetailName(optionDetailNames.get(i));
+                menuOptionDetail.setAdditionalFee(additionalFees.get(i));
+                MenuOptionDetail saveOptionDetail = menuOptionDetailRepository.save(menuOptionDetail);
+                data = new MenuOptionDetailResponseDto(saveOptionDetail);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);

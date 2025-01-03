@@ -40,7 +40,7 @@ public class RatingServiceImpl implements RatingService {
             List<Object[]> ratingStatistics = ratingRepository.findReviewCountByRating(store.getId());
 
             data = ratingStatistics.stream()
-                    .map(dto -> new RatingStatisticsResponseDto((int) dto[0], (Long) dto[1]))
+                    .map(dto -> new RatingStatisticsResponseDto((double) dto[0], (Long) dto[1]))
                     .collect(Collectors.toList());
 
         }catch(Exception e) {

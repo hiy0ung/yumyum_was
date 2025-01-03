@@ -30,11 +30,11 @@ public class OrderDetailServiceImpl implements OrderDetailService {
                             (String) dto[2],
                             ((Timestamp) dto[3]).toLocalDateTime(),
                             (String) dto[4],
-                            ((Number) dto[5]).intValue(),
+                            dto[5] != null ? ((Number) dto[5]).intValue() : 0,
                             ((Number) dto[6]).intValue(),
                             (String) dto[7],
                             (String) dto[8],
-                            ((Number) dto[9]).intValue()
+                            dto[9] != null ? ((Number) dto[9]).intValue() : 0
                     )).collect(Collectors.toList());
 
         } catch (Exception e) {

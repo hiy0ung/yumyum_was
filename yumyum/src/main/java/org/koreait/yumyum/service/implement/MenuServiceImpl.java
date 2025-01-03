@@ -59,7 +59,7 @@ public class MenuServiceImpl implements MenuService {
                     .build();
             Menu savedMenu = menuRepository.save(menu);
 
-            List<MenuOptionRequestDto> options = dto.getMenuOption();
+            List<MenuOptionRequestDto> options = dto.getMenuOptions();
             if (options != null) {
                 for(MenuOptionRequestDto optionDto : options) {
                     optionDto.setMenuId(savedMenu.getId());
@@ -175,7 +175,6 @@ public class MenuServiceImpl implements MenuService {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
             }
             MenuCategory category = OptionalCategory.get();
-
             Optional<Menu> OptionalMenu = menuRepository.findById(menuId);
             if (OptionalMenu.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
@@ -188,10 +187,9 @@ public class MenuServiceImpl implements MenuService {
             menu.setMenuCategory(category);
             menu.setImageUrl(dto.getImageUrl());
             menu.setIsAvailable(dto.getIsAvailable());
-
             Menu savedMenu = menuRepository.save(menu);
 
-            List<MenuOptionRequestDto> options = dto.getMenuOption();
+            List<MenuOptionRequestDto> options = dto.getMenuOptions();
             if (options != null) {
                 for(MenuOptionRequestDto optionDto : options) {
                     optionDto.setMenuId(savedMenu.getId());
