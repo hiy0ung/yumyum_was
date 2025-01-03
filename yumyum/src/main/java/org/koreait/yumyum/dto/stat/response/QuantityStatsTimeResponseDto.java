@@ -9,8 +9,8 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StatsTimeResponseDto {
+public class QuantityStatsTimeResponseDto {
     private LocalDate date;
     private Integer hour;
-    private Long revenue;
+    private Long quantity;
 }
