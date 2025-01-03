@@ -3,7 +3,8 @@ package org.koreait.yumyum.controller;
 import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ApiMappingPattern;
 import org.koreait.yumyum.dto.ResponseDto;
-import org.koreait.yumyum.dto.stat.response.StatsTimeResponseDto;
+import org.koreait.yumyum.dto.stat.response.QuantityStatsTimeResponseDto;
+import org.koreait.yumyum.dto.stat.response.RevenueStatsTimeResponseDto;
 import org.koreait.yumyum.service.implement.StatsTimeServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,15 +23,27 @@ public class StatsTimeController {
 
     private final StatsTimeServiceImpl statsTimeService;
 
-    public static final String GET_STATS_TIME = "/time/{orderDate}";
+    public static final String GET_REVENUE_STATS_TIME = "/time/revenue/{orderDate}";
+    public static final String GET_QUANTITY_STATS_TIME = "/time/quantity/{orderDate}";
 
-    @GetMapping(GET_STATS_TIME) // 2007-12-03T10:15:30
-    public ResponseEntity<ResponseDto<List<StatsTimeResponseDto>>> getRevenueByOrderDate(
+    @GetMapping(GET_REVENUE_STATS_TIME) // 2007-12-03T10:15:30
+    public ResponseEntity<ResponseDto<List<RevenueStatsTimeResponseDto>>> getRevenueByHour(
             @PathVariable String orderDate,
             @AuthenticationPrincipal Long id
     ) {
-        ResponseDto<List<StatsTimeResponseDto>> response = statsTimeService.getRevenueByOrderDate(orderDate, id);
+        ResponseDto<List<RevenueStatsTimeResponseDto>> response = statsTimeService.getRevenueByHour(orderDate, id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
+    }
+
+    @GetMapping(GET_QUANTITY_STATS_TIME)
+    public ResponseEntity<ResponseDto<List<QuantityStatsTimeResponseDto>>> getQuantityByHour(
+            @PathVariable String orderDate,
+            @AuthenticationPrincipal Long id
+    ) {
+            ResponseDto<List<QuantityStatsTimeResponseDto>> response = statsTimeService.getQuantityByHour(orderDate, id);
+            HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+            return ResponseEntity.status(status).body(response);
+
     }
 }

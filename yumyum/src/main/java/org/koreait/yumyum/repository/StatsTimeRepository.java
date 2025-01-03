@@ -65,8 +65,35 @@ public interface StatsTimeRepository extends JpaRepository<Order, Long> {
         order by
             date(o.order_date), hour(o.order_date)
 """, nativeQuery = true)
-    List<Object[]> findRevenueByOrderDate(@Param("year") int year,
-                                          @Param("month") int month,
-                                          @Param("day") int day,
-                                          @Param("userId") Long id);
+    List<Object[]> findRevenueByHour(@Param("year") int year,
+                                     @Param("month") int month,
+                                     @Param("day") int day,
+                                     @Param("userId") Long id);
+
+    // 시간대별 판매 개수
+    @Query(value = """
+        select
+            date(o.order_date) as order_date,
+            hour(o.order_date) as order_time,
+            count(*) as quantity
+        from
+            orders o
+        inner join stores s on s.id = o.store_id
+        where
+            year(o.order_date) = :year
+            and month(o.order_date) = :month
+            and day(o.order_date) = :day
+            and s.owner_id = :userId
+            and o.order_state = '2'
+        group by
+            date(o.order_date),
+            hour(o.order_date)
+        order by
+            date(o.order_date),
+            hour(o.order_date)
+""", nativeQuery = true)
+    List<Object[]> findOrderQuantityByHour(@Param("year") int year,
+                                           @Param("month") int month,
+                                           @Param("day") int day,
+                                           @Param("userId") Long id);
 }
