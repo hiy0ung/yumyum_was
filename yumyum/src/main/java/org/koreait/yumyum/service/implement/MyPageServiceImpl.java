@@ -9,6 +9,7 @@ import org.koreait.yumyum.dto.user.response.UserResponseDto;
 import org.koreait.yumyum.entity.User;
 import org.koreait.yumyum.repository.MypageRepository;
 import org.koreait.yumyum.service.MyPageService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 public class MyPageServiceImpl implements MyPageService {
 
     private final MypageRepository mypageRepository;
+    private final BCryptPasswordEncoder bCryptpasswordEncoder;
+
     @Override
     public ResponseDto<UserResponseDto> getAllInfo(Long id) {
         UserResponseDto data = null;
@@ -40,8 +43,9 @@ public class MyPageServiceImpl implements MyPageService {
             User user = mypageRepository.findById(id)
                     .orElseThrow(() -> new Error(ResponseMessage.NOT_EXIST_USER));
 
+            String encodePassword = bCryptpasswordEncoder.encode(dto.getUserPw());
             user = user.toBuilder()
-                    .userPw(dto.getUserPw())
+                    .userPw(encodePassword)
                     .userPhone(dto.getUserPhone())
                     .userEmail(dto.getUserEmail())
                     .marketingAgreed(dto.getMarketingAgreed())
