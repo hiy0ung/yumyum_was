@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class RatingStatisticsResponseDto {
-    private int rating;
+    private double rating;
     private Long reviewCount;
 }
