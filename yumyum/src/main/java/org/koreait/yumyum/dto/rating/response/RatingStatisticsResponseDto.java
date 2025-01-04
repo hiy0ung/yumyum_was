@@ -6,10 +6,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class RatingStatisticsResponseDto {
-    private double rating;
+    private int rating;
     private Long reviewCount;
 
-    public RatingStatisticsResponseDto(double rating, long reviewCount) {
+    public RatingStatisticsResponseDto(int rating, long reviewCount) {
         this.rating = rating;
         this.reviewCount = reviewCount;
     }
