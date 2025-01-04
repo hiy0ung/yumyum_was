@@ -12,11 +12,11 @@ import java.util.List;
 @Repository
 public interface RatingRepository extends JpaRepository<Review, Long> {
 
-    @Query("SELECT r.rating, COUNT(r.id) AS reviewCount " +
+    @Query("SELECT r.rating AS rating, COUNT(r.id) AS reviewCount " +
             "FROM Review r " +
-            "JOIN Order o ON r.order.id = o.id " +
+            "LEFT JOIN r.order o ON r.order.id = o.id " +
             "WHERE o.store.id = :storeId " +
-            "GROUP BY r.rating")
+            "GROUP BY r.rating ")
     List<Object[]> findReviewCountByRating(@Param("storeId") Long storeId);
 
 

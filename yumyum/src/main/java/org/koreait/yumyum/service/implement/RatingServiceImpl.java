@@ -39,8 +39,12 @@ public class RatingServiceImpl implements RatingService {
 
             List<Object[]> ratingStatistics = ratingRepository.findReviewCountByRating(store.getId());
 
+            ratingStatistics.forEach(dto -> System.out.println("Rating: " + dto[0] + ", Count: " + dto[1]));
+
             data = ratingStatistics.stream()
-                    .map(dto -> new RatingStatisticsResponseDto((double) dto[0], (Long) dto[1]))
+                    .map(dto -> new RatingStatisticsResponseDto(
+                            ((Number) dto[0]).doubleValue(),
+                            ((Number)dto[1]).longValue()))
                     .collect(Collectors.toList());
 
         }catch(Exception e) {

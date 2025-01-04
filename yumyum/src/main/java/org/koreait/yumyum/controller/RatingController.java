@@ -29,6 +29,7 @@ public class RatingController {
     public ResponseEntity<ResponseDto<List<RatingStatisticsResponseDto>>> getReviewCountByRating(@AuthenticationPrincipal Long id) {
         ResponseDto<List<RatingStatisticsResponseDto>> response = ratingService.getReviewCountByRating(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        System.out.println(response);
         return ResponseEntity.status(status).body(response);
     }
 
