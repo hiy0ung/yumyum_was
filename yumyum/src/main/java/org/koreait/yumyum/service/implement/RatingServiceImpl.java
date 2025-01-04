@@ -43,7 +43,7 @@ public class RatingServiceImpl implements RatingService {
 
             data = ratingStatistics.stream()
                     .map(dto -> new RatingStatisticsResponseDto(
-                            ((Number) dto[0]).doubleValue(),
+                            ((Number) dto[0]).intValue(),
                             ((Number)dto[1]).longValue()))
                     .collect(Collectors.toList());
 
