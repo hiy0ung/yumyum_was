@@ -21,7 +21,7 @@ public interface RatingRepository extends JpaRepository<Review, Long> {
 
 
     @Query("SELECT CONCAT(YEAR(r.reviewDate), '-', MONTH(r.reviewDate)) as reviewMonth, " +
-            "CAST(ROUND(AVG(r.rating)) AS INTEGER) avgRating, " +
+            "CAST(ROUND(AVG(r.rating), 1) AS DOUBLE) avgRating, " +
             "CAST(COUNT(r) AS INTEGER) as reviewCount " +
             "FROM Review r " +
             "JOIN Order o ON r.order.id = o.id " +
