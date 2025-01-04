@@ -76,7 +76,7 @@ public class RatingServiceImpl implements RatingService {
             List<Object[]> ratingMonths = ratingRepository.findRatingAvgByMonth(store.getId(), startDate, endDate);
 
             data = ratingMonths.stream()
-                    .map(dto -> new RatingMonthResponseDto((String) dto[0], (Integer) dto[1],(Integer) dto[2]))
+                    .map(dto -> new RatingMonthResponseDto((String) dto[0], (Double) dto[1],(Integer) dto[2]))
                     .collect(Collectors.toList());
 
         }catch(Exception e) {

@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class RatingMonthResponseDto {
     private String reviewMonth;
-    private int avgRating;
+    private Double avgRating;
     private int reviewMonthCount;
 }
