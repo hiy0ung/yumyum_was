@@ -31,7 +31,7 @@ public class ReviewNoticeController {
     }
 
     @PostMapping(CREATE_NOTICE)
-    public ResponseEntity<ResponseDto<ReviewNoticeResponseDto>> createNotice(@AuthenticationPrincipal Long id, @RequestBody ReviewNoticeRequestDto dto) {
+    public ResponseEntity<ResponseDto<ReviewNoticeResponseDto>> createNotice(@AuthenticationPrincipal Long id, @ModelAttribute ReviewNoticeRequestDto dto) {
         ResponseDto<ReviewNoticeResponseDto> response = reviewNoticeService.createNotice(id, dto);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
