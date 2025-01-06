@@ -32,6 +32,10 @@ public class StoreRequestDto {
 
     private String address;
 
+    private String detailAddress;
+
+    private String detail2Address;
+
     private String description;
 }
 

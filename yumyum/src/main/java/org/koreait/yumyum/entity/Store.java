@@ -33,22 +33,28 @@ public class Store {
     @Column(nullable = false)
     private Category category;
 
-    @Column(nullable = false)
+    @Column(name = "opening_time", nullable = false)
     private LocalTime openingTime;
 
-    @Column(nullable = false)
+    @Column(name = "closing_time", nullable = false)
     private LocalTime closingTime;
 
-    @Column(length = 200)
+    @Column(name = "break_start_time", length = 200)
     private LocalTime breakStartTime;
 
-    @Column(length = 200)
+    @Column(name = "break_end_time", length = 200)
     private LocalTime breakEndTime;
 
-    @Column(length = 500)
+    @Column(name = "address", length = 500)
     private String address;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "detail_address", length = 500)
+    private String detailAddress;
+
+    @Column(name = "detail2_address", length = 500)
+    private String detail2Address;
+
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)

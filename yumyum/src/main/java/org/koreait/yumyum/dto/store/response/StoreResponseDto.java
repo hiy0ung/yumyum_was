@@ -18,6 +18,8 @@ public class StoreResponseDto {
     private LocalTime breakStartTime;
     private LocalTime breakEndTime;
     private String address;
+    private String detailAddress;
+    private String detail2Address;
     private String description;
 
 
@@ -30,6 +32,8 @@ public class StoreResponseDto {
         this.breakStartTime = store.getBreakStartTime();
         this.breakEndTime = store.getBreakEndTime();
         this.address = store.getAddress();
+        this.detailAddress = store.getDetailAddress();
+        this.detail2Address = store.getDetail2Address();
         this.description = store.getDescription();
     }
 }
