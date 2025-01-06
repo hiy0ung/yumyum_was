@@ -64,7 +64,7 @@ public class ReviewNoticeServiceImpl implements ReviewNoticeService {
             ReviewEventNotice reviewEventNotice = ReviewEventNotice.builder()
                     .store(store)
                     .noticeDate(dto.getNoticeDate())
-                    .noticePhotoUrl(dto.getNoticePhotoUrl())
+                    .noticePhotoUrl(String.valueOf(dto.getNoticePhotoUrl()))
                     .noticeText(dto.getNoticeText())
                     .build();
             reviewNoticeRepository.save(reviewEventNotice);
@@ -92,7 +92,7 @@ public class ReviewNoticeServiceImpl implements ReviewNoticeService {
             ReviewEventNotice reviewEventNotice = optionalReviewEventNotice.get();
             ReviewEventNotice updateReviewEventNotice = reviewEventNotice.toBuilder()
                     .noticeDate(dto.getNoticeDate())
-                    .noticePhotoUrl(dto.getNoticePhotoUrl())
+                    .noticePhotoUrl(String.valueOf(dto.getNoticePhotoUrl()))
                     .noticeText(dto.getNoticeText())
                     .build();
             reviewNoticeRepository.save(updateReviewEventNotice);
