@@ -24,9 +24,7 @@ public class MailServiceImpl implements MailService {
 
     @Value("${spring.mail.username}")
     private static String senderEmail;
-
-
-    // 메일 내용을 생성
+    
     @Override
     public MimeMessage createMail(String mail, String token) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -48,23 +46,16 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public ResponseDto<String> sendMessage(SendMailRequestDto dto) throws MessagingException {
-
         try {
-            // 1. 유저 정보 확인
             boolean userExists = userRepository.existsByUserIdAndUserName(
                     dto.getUserId(),
                     dto.getUserName()
             );
-            // 유저가 없으면 데이터가 없음
             if (!userExists) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
             }
-            // 유저 아이디로 token값 생성
             String token = jwtProvider.generateEmailValidToken(dto.getUserId());
-
-            // 작성된 이메일값과 유저 아이디로 생성된 값을 통해 메일을 생성함
             MimeMessage message = createMail(dto.getUserEmail(), token);
-
             try {
                 javaMailSender.send(message);
                 return ResponseDto.setSuccess("성공", token);
@@ -72,14 +63,11 @@ public class MailServiceImpl implements MailService {
                 e.printStackTrace();
                 return ResponseDto.setFailed(ResponseMessage.MESSAGE_SEND_FAIL);
             }
-
         } catch (MailException e) {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
     }
-
-
     @Override
     public ResponseDto<String> verifyEmail(String token) {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, token);
