@@ -81,6 +81,8 @@ public class StoreServiceImpl implements StoreService {
                     .breakStartTime(dto.getBreakStartTime())
                     .breakEndTime(dto.getBreakEndTime())
                     .address(dto.getAddress())
+                    .detailAddress(dto.getDetailAddress())
+                    .detail2Address(dto.getDetail2Address())
                     .description(dto.getDescription())
                     .build();
             storeRepository.save(store);
@@ -116,6 +118,8 @@ public class StoreServiceImpl implements StoreService {
                     .breakStartTime(dto.getBreakStartTime())
                     .breakEndTime(dto.getBreakEndTime())
                     .address(dto.getAddress())
+                    .detailAddress(dto.getDetailAddress())
+                    .detail2Address(dto.getDetail2Address())
                     .description(dto.getDescription())
                     .build();
             storeRepository.save(updateStore);

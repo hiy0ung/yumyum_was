@@ -5,14 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
-import org.koreait.yumyum.dto.auth.request.LoginRequestDto;
-import org.koreait.yumyum.dto.auth.request.SignUpRequestDto;
-import org.koreait.yumyum.dto.auth.request.UserBusinessNumberDuplicationCheckRequestDto;
-import org.koreait.yumyum.dto.auth.request.UserIdDuplicationCheckRequestDto;
-import org.koreait.yumyum.dto.auth.response.LoginResponseDto;
-import org.koreait.yumyum.dto.auth.response.SignUpResponseDto;
-import org.koreait.yumyum.dto.auth.response.UserBusinessNumberDuplicationCheckResponseDto;
-import org.koreait.yumyum.dto.auth.response.UserIdDuplicationCheckResponseDto;
+import org.koreait.yumyum.dto.auth.request.*;
+import org.koreait.yumyum.dto.auth.response.*;
 import org.koreait.yumyum.entity.User;
 import org.koreait.yumyum.provider.JwtProvider;
 import org.koreait.yumyum.repository.UserRepository;
@@ -130,6 +124,26 @@ public class AuthServiceImpl implements AuthService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+    @Override
+    public ResponseDto<UserEmailDuplicationCheckResponseDto> userEmailDuplicationCheck(UserEmailDuplicationCheckRequestDto dto) {
+        String userEmail = dto.getUserEmail();
+        UserEmailDuplicationCheckResponseDto data;
+
+        try {
+            if (userEmail == null || userEmail.isEmpty()) {
+                return ResponseDto.setFailed(ResponseMessage.INVALID_EMAIL);
+            }
+            if(userRepository.existsByUserEmail(userEmail)) {
+                data = new UserEmailDuplicationCheckResponseDto(false);
+                return ResponseDto.setSuccess(ResponseMessage.DUPLICATED_USER_EMAIL, data);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+        data = new UserEmailDuplicationCheckResponseDto(true);
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
 
     public ResponseDto<UserBusinessNumberDuplicationCheckResponseDto> userBusinessNumberDuplicationCheck(@Valid UserBusinessNumberDuplicationCheckRequestDto dto) {
         String userBusinessNumber = dto.getUserBusinessNumber();
@@ -187,4 +201,5 @@ public class AuthServiceImpl implements AuthService {
         }
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
+
 }
