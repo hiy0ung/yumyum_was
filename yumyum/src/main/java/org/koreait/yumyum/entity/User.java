@@ -40,4 +40,9 @@ public class User {
 
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean marketingAgreed;
+
+    public void setEncodedPassword(String encodedPassword) {
+        this.userPw = encodedPassword; // 암호화된 비밀번호만 설정 가능
+    }
+
 }

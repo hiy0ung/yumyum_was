@@ -2,7 +2,7 @@ package org.koreait.yumyum.common.constant;
 
 public class ApiMappingPattern {
     public static final String AUTH = "/api/v1/auth";
-    public static final String USER = "/api/v1/users";
+    public static final String FIND = "/api/v1/find";
 
     public static final String STORE = "/api/v1/stores";
 
