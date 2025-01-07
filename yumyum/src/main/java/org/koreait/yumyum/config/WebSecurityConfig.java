@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -66,6 +67,8 @@ public class WebSecurityConfig {
                                 new AntPathRequestMatcher("/api/v1/optionDetails/**"),
                                 new AntPathRequestMatcher("/api/v1/mypage/**"),
                                 new AntPathRequestMatcher("/api/v1/mail/**"),
+                                new AntPathRequestMatcher("/api/v1/find/**"),
+                                new AntPathRequestMatcher("/api/v1/password/**"),
                                 new AntPathRequestMatcher("/image/**"),
                                 new AntPathRequestMatcher("/api/v1/**")
                         )
@@ -83,6 +86,10 @@ public class WebSecurityConfig {
         authProvider.setPasswordEncoder(bCryptpasswordEncoder);
 
         return new ProviderManager(List.of(authProvider));
+    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(); // 비밀번호 암호화 설정
     }
 
     @Bean
