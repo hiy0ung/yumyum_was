@@ -51,7 +51,7 @@ public class Store {
     @Column(name = "address", length = 500)
     private String address;
 
-    @Column(name = "detail_adderess", length = 500)
+    @Column(name = "detail_address", length = 500)
     private String detailAddress;
 
     @Column(name = "description", columnDefinition = "TEXT")
