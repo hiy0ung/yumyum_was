@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +36,6 @@ public class JwtProvider {
         this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
         this.jwtExpirationMs = jwtExpirationMs;
     }
-
     public String generateJwtToken(Long id) {
         return Jwts.builder()
                 .claim("id", id)
@@ -44,14 +44,37 @@ public class JwtProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
-
-    public String generateEmailValidToken(String username) {
+    public String generateEmailValidToken(String userId) {
         return Jwts.builder()
-                .claim("username", username)
+                .claim("userId", userId)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtEmailExpirationMs))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+    }
+    public String validateAndGetUserEmail(String token) {
+        if (token == null || token.isEmpty()) {
+            throw new IllegalArgumentException("토큰이 비어 있습니다.");
+        }
+
+        Claims claims;
+        try {
+            JwtParser jwtParser = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build();
+            claims = jwtParser.parseClaimsJws(token).getBody();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
+        }
+
+        // claim에서 이메일(userId) 추출
+        Object emailObj = claims.get("userId");
+        if (emailObj == null) {
+            throw new IllegalArgumentException("토큰에 userId가 없습니다.");
+        }
+
+        // 이메일(String) 반환
+        return emailObj.toString();
     }
 
     public String removeBearer(String bearerToken) {
@@ -66,15 +89,16 @@ public class JwtProvider {
         return claims.get("id", Long.class);
     }
 
-    public String getUsernameFromEmailJwt(String token) {
-        Claims claims = getClaims(token);
-        return claims.get("username", String.class);
-    }
-
     public boolean isValidToken(String token) {
         try {
-            getClaims(token);
-            return true;
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            // 만료 시간 체크
+            return !claims.getExpiration().before(new Date());
         } catch (Exception e) {
             return false;
         }
@@ -85,5 +109,10 @@ public class JwtProvider {
                 .setSigningKey(key)
                 .build();
         return jwtParser.parseClaimsJws(token).getBody();
+    }
+    // 초기화 로그
+    @PostConstruct
+    public void init() {
+        System.out.println("JWT Provider 초기화 완료");
     }
 }
