@@ -24,7 +24,7 @@ public class MailServiceImpl implements MailService {
 
     @Value("${spring.mail.username}")
     private static String senderEmail;
-    
+
     @Override
     public MimeMessage createMail(String mail, String token) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();

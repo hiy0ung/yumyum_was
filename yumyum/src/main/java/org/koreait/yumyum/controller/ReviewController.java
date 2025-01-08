@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(ApiMappingPattern.REVIEW)
+@RequestMapping(ApiMappingPattern.REVIEW) // "/api/v1/reviews"
 @RequiredArgsConstructor
 public class ReviewController {
 
