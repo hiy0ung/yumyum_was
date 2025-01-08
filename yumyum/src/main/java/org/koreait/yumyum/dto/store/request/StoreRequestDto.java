@@ -30,11 +30,11 @@ public class StoreRequestDto {
 
     private LocalTime breakEndTime;
 
+    private String zoneCode;
+
     private String address;
 
     private String detailAddress;
-
-    private String detail2Address;
 
     private String description;
 }

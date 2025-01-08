@@ -45,14 +45,14 @@ public class Store {
     @Column(name = "break_end_time", length = 200)
     private LocalTime breakEndTime;
 
+    @Column(name = "zone_code", length = 500)
+    private String zoneCode;
+
     @Column(name = "address", length = 500)
     private String address;
 
-    @Column(name = "detail_address", length = 500)
+    @Column(name = "detail_adderess", length = 500)
     private String detailAddress;
-
-    @Column(name = "detail2_address", length = 500)
-    private String detail2Address;
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;

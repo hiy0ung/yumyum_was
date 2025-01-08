@@ -80,9 +80,9 @@ public class StoreServiceImpl implements StoreService {
                     .closingTime(dto.getClosingTime())
                     .breakStartTime(dto.getBreakStartTime())
                     .breakEndTime(dto.getBreakEndTime())
+                    .zoneCode(dto.getZoneCode())
                     .address(dto.getAddress())
                     .detailAddress(dto.getDetailAddress())
-                    .detail2Address(dto.getDetail2Address())
                     .description(dto.getDescription())
                     .build();
             storeRepository.save(store);
@@ -117,9 +117,9 @@ public class StoreServiceImpl implements StoreService {
                     .closingTime(dto.getClosingTime())
                     .breakStartTime(dto.getBreakStartTime())
                     .breakEndTime(dto.getBreakEndTime())
+                    .zoneCode(dto.getZoneCode())
                     .address(dto.getAddress())
                     .detailAddress(dto.getDetailAddress())
-                    .detail2Address(dto.getDetail2Address())
                     .description(dto.getDescription())
                     .build();
             storeRepository.save(updateStore);
