@@ -17,9 +17,9 @@ public class StoreResponseDto {
     private LocalTime closingTime;
     private LocalTime breakStartTime;
     private LocalTime breakEndTime;
+    private String zoneCode;
     private String address;
     private String detailAddress;
-    private String detail2Address;
     private String description;
 
 
@@ -31,9 +31,9 @@ public class StoreResponseDto {
         this.closingTime = store.getClosingTime();
         this.breakStartTime = store.getBreakStartTime();
         this.breakEndTime = store.getBreakEndTime();
+        this.zoneCode = store.getZoneCode();
         this.address = store.getAddress();
         this.detailAddress = store.getDetailAddress();
-        this.detail2Address = store.getDetail2Address();
         this.description = store.getDescription();
     }
 }
