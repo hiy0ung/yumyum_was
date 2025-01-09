@@ -14,17 +14,14 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Value("${file.user.dir}")
+    @Value("${user.dir}")
     private String projectPath;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        String rootPath = projectPath + ("/upload/");
-        String menuImagePath = projectPath + rootPath + ("menu/");
-
-        registry.addResourceHandler("/image/notice/**")
-                .addResourceLocations("file:///" + rootPath)
+        registry.addResourceHandler("/image/**")
+                .addResourceLocations("file:///" + projectPath + "/")
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver() {
                     @Override
@@ -34,15 +31,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
                     }
                 });
 
-        registry.addResourceHandler("/image/menu/**")
-                .addResourceLocations("file:///" + menuImagePath)
-                .resourceChain(true)
-                .addResolver(new PathResourceResolver() {
-                    @Override
-                    protected Resource getResource(String resourcePath, Resource location) throws IOException {
-                        resourcePath = URLDecoder.decode(resourcePath, StandardCharsets.UTF_8);
-                        return super.getResource(resourcePath, location);
-                    }
-                });
     }
 }
