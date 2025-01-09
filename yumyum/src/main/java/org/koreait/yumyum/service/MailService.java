@@ -10,9 +10,10 @@ public interface MailService {
     MimeMessage passwordCreateMail(String mail, String token) throws MessagingException;
     ResponseDto<String> passwordSendMessage(PasswordSendMailRequestDto dto) throws MessagingException;
 
-    MimeMessage idCreateMail(String mail, String token) throws MessagingException;
 
+    MimeMessage idCreateMail(String mail, String userName) throws MessagingException;
     ResponseDto<String> idSendMessage(IdSendMailRequestDto dto) throws MessagingException;
+
     ResponseDto<String> verifyEmail(String token);
 
 }

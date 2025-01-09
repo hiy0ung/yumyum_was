@@ -7,6 +7,7 @@ import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
 import org.koreait.yumyum.dto.mail.IdSendMailRequestDto;
 import org.koreait.yumyum.dto.mail.PasswordSendMailRequestDto;
+import org.koreait.yumyum.entity.User;
 import org.koreait.yumyum.provider.JwtProvider;
 import org.koreait.yumyum.repository.UserRepository;
 import org.koreait.yumyum.service.MailService;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -72,13 +75,13 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public MimeMessage idCreateMail(String mail, String userIdFind) throws MessagingException {
+    public MimeMessage idCreateMail(String mail, String userName) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         message.setFrom(senderEmail);
         message.setRecipients(MimeMessage.RecipientType.TO, mail);
         message.setSubject("아이디 찾기 : 이메일 인증");
 
-        String frontendUrl = "http://localhost:3000/findId?" + userIdFind;
+        String frontendUrl = "http://localhost:3000/findId?userId=" + userName;
 
         String body = "";
         body += "<h2> 이메일 인증 링크 입니다 </h2>";
@@ -100,15 +103,14 @@ public class MailServiceImpl implements MailService {
             if (!userExists) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
             };
-            String userIdFind = userRepository.findByUserNameAndUserEmail(
+            Optional<User> userIdFind = userRepository.findByUserNameAndUserEmail(
                     dto.getUserName(),
                     dto.getUserEmail()
             );
 
-
             String token = jwtProvider.generateEmailValidToken(dto.getUserEmail());
-            MimeMessage message = idCreateMail(dto.getUserEmail(),userIdFind);
-            
+            MimeMessage message = idCreateMail(dto.getUserEmail(), String.valueOf(userIdFind));
+
             try {
                 javaMailSender.send(message);
                 return ResponseDto.setSuccess("성공", token);
