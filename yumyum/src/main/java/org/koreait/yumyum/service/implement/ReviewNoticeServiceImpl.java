@@ -62,6 +62,14 @@ public class ReviewNoticeServiceImpl implements ReviewNoticeService {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
             }
 
+            Long storeId = optionalStore.get().getId();
+
+            Optional<ReviewEventNotice> optionalReviewEventNotice = reviewNoticeRepository.getReviewEventNoticeByStoreId(storeId);
+
+            if(optionalReviewEventNotice.isPresent()) {
+                return ResponseDto.setFailed(ResponseMessage.REVIEW_NOTICE_ALREADY_EXISTS);
+            }
+
             Store store = optionalStore.get();
             String file = fileUploadService.uploadFile(dto.getNoticePhotoUrl());
 
