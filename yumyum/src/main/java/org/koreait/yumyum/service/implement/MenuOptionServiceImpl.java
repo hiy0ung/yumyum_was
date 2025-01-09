@@ -52,7 +52,6 @@ public class MenuOptionServiceImpl implements MenuOptionService {
             MenuOption menuOption = MenuOption.builder()
                     .optionName(dto.getOptionName())
                     .build();
-
             MenuOption savedMenuOption = menuOptionRepository.save(menuOption);
             List<MenuOptionDetailRequestDto> details = dto.getOptionDetails();
             if(details != null) {
@@ -65,7 +64,6 @@ public class MenuOptionServiceImpl implements MenuOptionService {
                     .menu(menu)
                     .menuOption(menuOption)
                     .build();
-
             menuOptionGroupRepository.save(menuOptionGroup);
 
             data = new MenuOptionResponseDto(savedMenuOption);

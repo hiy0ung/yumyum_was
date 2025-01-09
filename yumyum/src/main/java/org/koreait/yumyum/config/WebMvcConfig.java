@@ -21,9 +21,21 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         String rootPath = projectPath + ("/upload/");
+        String menuImagePath = projectPath + rootPath + ("/menu/");
 
-        registry.addResourceHandler("/image/**")
+        registry.addResourceHandler("/image/notice/**")
                 .addResourceLocations("file:///" + rootPath)
+                .resourceChain(true)
+                .addResolver(new PathResourceResolver() {
+                    @Override
+                    protected Resource getResource(String resourcePath, Resource location) throws IOException {
+                        resourcePath = URLDecoder.decode(resourcePath, StandardCharsets.UTF_8);
+                        return super.getResource(resourcePath, location);
+                    }
+                });
+
+        registry.addResourceHandler("/image/menu/**")
+                .addResourceLocations("file:///" + menuImagePath)
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver() {
                     @Override
