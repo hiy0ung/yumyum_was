@@ -122,7 +122,7 @@ public class ReviewServiceImpl implements ReviewService {
 
             Optional<ReviewComment> optionalReviewComment = reviewCommentRepository.findReviewCommentByReviewId(reviewId);
             if(optionalReviewComment.isPresent()) {
-                return ResponseDto.setFailed(ResponseMessage.Review_Comment_Already_Exists);
+                return ResponseDto.setFailed(ResponseMessage.REVIEW_COMMENT_ALREADY_EXISTS);
             }
 
             Review review = optionalReview.get();
