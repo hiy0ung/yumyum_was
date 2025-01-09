@@ -17,7 +17,7 @@ public class FileUploadService {
     private String projectPath;
 
     public String uploadFile(MultipartFile file) {
-        if(file == null) { return null; }
+        if(file == null || file.isEmpty()) { return null; }
 
         String newFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
         String filePath = "profile/" + newFileName;
