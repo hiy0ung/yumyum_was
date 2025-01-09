@@ -38,11 +38,9 @@ public class MenuOptionDetailController {
     public ResponseEntity<ResponseDto<MenuOptionDetailResponseDto>> updateOptionDetail(
             @RequestBody MenuOptionDetailRequestDto dto,
             @PathVariable Long optionDetailId,
-            @AuthenticationPrincipal Long id,
-            @RequestBody List<String> optionDetailNames,
-            @RequestBody List<Integer> additionalFees
+            @AuthenticationPrincipal Long id
             ) {
-        ResponseDto<MenuOptionDetailResponseDto> response = menuOptionDetailService.updateOptionDetail(dto, optionDetailId, id, optionDetailNames, additionalFees);
+        ResponseDto<MenuOptionDetailResponseDto> response = menuOptionDetailService.updateOptionDetail(dto, optionDetailId, id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }

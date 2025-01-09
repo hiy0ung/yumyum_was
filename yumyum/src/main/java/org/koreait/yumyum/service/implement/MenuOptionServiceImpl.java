@@ -2,6 +2,7 @@ package org.koreait.yumyum.service.implement;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.bcel.Const;
+import org.aspectj.apache.bcel.generic.ClassGen;
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
 import org.koreait.yumyum.dto.menu.request.MenuOptionDetailRequestDto;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,50 +82,24 @@ public class MenuOptionServiceImpl implements MenuOptionService {
         MenuOptionResponseDto data = null;
 
         try {
-            Optional<List<Long>> menuOptionId = menuOptionGroupRepository.findMenuOptionIdByMenuId(optionId);
-            List<Long> menuOptionIds = menuOptionId.get();
-            for(Long menioptionId : menuOptionIds) {
-                Optional<MenuOption> menuOptionOptional = menuOptionRepository.findById(menioptionId);
-                System.out.println(menuOptionOptional.get().getId());
-                if (menuOptionOptional.isPresent()) {
-                    MenuOption menuOption = menuOptionOptional.get().toBuilder()
-                            .optionName(dto.getOptionName())
-                            .build();
-                    MenuOption updateOption = menuOptionRepository.save(menuOption);
-                    List<MenuOptionDetailRequestDto> details = dto.getOptionDetails();
-                    System.out.println("이거 5");
-                    if(details != null) {
-                        List<Long> optiondetailId = menuOptionGroupRepository.findMenuOptionIdByMenuId(optionId)
-                                .orElseThrow(() -> new RuntimeException("오류"));
-                        List<String> optionDetailNames = new ArrayList<>();
-                        List<Integer> additionalFees = new ArrayList<>();
-                        int i = 0;
-                        for(MenuOptionDetailRequestDto detailsDto: details) {
-                            optionDetailNames.add(detailsDto.getOptionDetailName());
-                            additionalFees.add(detailsDto.getAdditionalFee());
-                        }
-                        for (MenuOptionDetailRequestDto detailDto : details) {
-                            System.out.println(updateOption.getId());
-                            detailDto.setMenuOptionId(updateOption.getId());
+            List<MenuOptionDetailRequestDto> details = dto.getOptionDetails();
+//            System.out.println("여기가 옵션 Id" + optionId);
+            if(details != null) {
 
-                            menuOptionDetailService.updateOptionDetail(detailDto, optiondetailId.get(i), id, optionDetailNames, additionalFees);
-                            i++;
-                        }
+                menuOptionDetailService.updateOptionDetail(details.get(0), optionId, id);
 
-                    }
-                    data = new MenuOptionResponseDto(updateOption);
+
+//                    data = new MenuOptionResponseDto(savedOption);
                 } else {
                     return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
                 }
-            }
-
-
-
-        } catch (Exception e) {
+            } catch (Exception e) {
+            e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
+
 
     @Override
     public ResponseDto<Void> deleteMenuOption(Long optionId, Long id) {
