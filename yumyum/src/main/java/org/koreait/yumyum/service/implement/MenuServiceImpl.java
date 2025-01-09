@@ -36,6 +36,10 @@ public class MenuServiceImpl implements MenuService {
 
     @Autowired
     private final StoreRepository storeRepository;
+    @Autowired
+    private MenuOptionRepository menuOptionRepository;
+    @Autowired
+    private MenuOptionGroupRepository menuOptionGroupRepository;
 
     public ResponseDto<MenuResponseDto> addMenu(MenuRequestDto dto, Long id) {
         MenuResponseDto data = null;
@@ -189,11 +193,28 @@ public class MenuServiceImpl implements MenuService {
             menu.setIsAvailable(dto.getIsAvailable());
             Menu savedMenu = menuRepository.save(menu);
 
+            int i = 0;
             List<MenuOptionRequestDto> options = dto.getMenuOptions();
             if (options != null) {
                 for(MenuOptionRequestDto optionDto : options) {
                     optionDto.setMenuId(savedMenu.getId());
-                    menuOptionService.updateMenuOption(optionDto, savedMenu.getId(), id);
+                    Optional<List<Long>> menuOptionId = menuOptionGroupRepository.findMenuOptionIdByMenuId(optionDto.getMenuId());
+                    List<Long> menuOptionIds = menuOptionId.get();
+//                    System.out.println(menuOptionIds);  // [19, 20, 21, 22, 23, 24, 25, 41]
+//                    System.out.println(optionDto.getMenuId());    // 12
+//                    System.out.println(optionDto.getOptionName());    // 8, 7, 6, 5, 4, 3, 2, 1
+
+                    Optional<MenuOption> menuOptionOptional = menuOptionRepository.findById(menuOptionIds.get(i));
+                    if(menuOptionOptional.isPresent()) {
+                        MenuOption menuOption = menuOptionOptional.get();
+                        MenuOption updatedMenuOption = menuOption.toBuilder()
+                                .optionName(optionDto.getOptionName())
+                                .build();
+                        MenuOption savedOption = menuOptionRepository.save(updatedMenuOption);
+//                        System.out.println(savedOption.getOptionName());
+                        menuOptionService.updateMenuOption(optionDto, updatedMenuOption.getId(), id);
+                        i++;
+                    }
                 }
 
             }
