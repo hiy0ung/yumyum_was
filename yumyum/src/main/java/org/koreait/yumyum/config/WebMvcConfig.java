@@ -23,7 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         String rootPath = projectPath + ("/upload/");
         String menuImagePath = projectPath + rootPath + ("/menu/");
 
-        registry.addResourceHandler("/image/**")
+        registry.addResourceHandler("/image/notice/**")
                 .addResourceLocations("file:///" + rootPath)
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver() {
