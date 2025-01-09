@@ -1,6 +1,7 @@
 package org.koreait.yumyum.repository;
 
 
+import jakarta.validation.constraints.NotNull;
 import org.koreait.yumyum.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -19,8 +20,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUserId(String userId);
 
-    // 단순 이메일 찾기 ( 있다 없다 )
-    Optional<User> findByUserEmail(String userEmail);
+    boolean existsByUserIdAndUserNameAndUserEmail(String userId,String userName,String userEmail);
 
-    boolean existsByUserIdAndUserName(String userId, String userName);
+    boolean existsByUserNameAndUserEmail(String userName, String userEmail);
+
+    String findByUserNameAndUserEmail(String userName, String userEmail);
+
+    List<User> userName(String userName);
 }
