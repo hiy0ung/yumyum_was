@@ -17,27 +17,24 @@ public class FileUploadService {
     private String projectPath;
 
     public String uploadFile(MultipartFile file) {
-        if (file == null || file.isEmpty() || file.getOriginalFilename() == null) {
-            return null;
-        }
+        if(file == null) { return null; }
 
         String newFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-        String rootPath = projectPath + "/upload/";
+        String filePath =  "notice/" + newFileName;
+        String rootPath = projectPath + ("/upload/");
 
-        File f = new File(rootPath);
-        if (!f.exists() && !f.mkdirs()) {
-            throw new IllegalStateException("Failed to create upload directory: " + rootPath);
-        }
+        File f = new File(rootPath, "notice");
 
-        Path uploadPath = Paths.get(rootPath, newFileName);
+        if(!f.exists()) { f.mkdirs(); }
+
+        Path uploadPath = Paths.get(rootPath + filePath);
 
         try {
             Files.write(uploadPath, file.getBytes());
-        } catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
-
-        return newFileName;
+        return filePath;
     }
+
 }
