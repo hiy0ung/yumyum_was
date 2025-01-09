@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Value("${user.dir}")
+    @Value("${file.user.dir}")
     private String projectPath;
 
     @Override
@@ -23,7 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         String rootPath = projectPath + ("/upload/");
         String menuImagePath = projectPath + rootPath + ("menu/");
 
-        registry.addResourceHandler("/image/**")
+        registry.addResourceHandler("/image/notice/**")
                 .addResourceLocations("file:///" + rootPath)
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver() {
