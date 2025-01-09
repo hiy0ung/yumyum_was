@@ -6,13 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class SendMailRequestDto {
-    @NotNull
-    private String userId;
+@AllArgsConstructor
+public class IdSendMailRequestDto {
     @NotNull
     private String userName;
     @NotNull
     private String userEmail;
+
 }

@@ -42,7 +42,7 @@ public class User {
     private boolean marketingAgreed;
 
     public void setEncodedPassword(String encodedPassword) {
-        this.userPw = encodedPassword; // 암호화된 비밀번호만 설정 가능
+        this.userPw = encodedPassword;
     }
 
 }

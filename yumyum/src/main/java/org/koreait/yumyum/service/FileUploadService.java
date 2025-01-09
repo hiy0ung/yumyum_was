@@ -13,28 +13,31 @@ import java.util.UUID;
 @Service
 public class FileUploadService {
 
-    @Value("${user.dir}")
+    @Value("${file.user.dir}")
     private String projectPath;
 
     public String uploadFile(MultipartFile file) {
-        if(file == null) { return null; }
+        if (file == null || file.isEmpty() || file.getOriginalFilename() == null) {
+            return null;
+        }
 
         String newFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-        String filePath = "profile/" + newFileName;
-        String rootPath = projectPath + ("/upload/");
+        String rootPath = projectPath + "/upload/";
 
-        File f = new File(rootPath, "profile");
+        File f = new File(rootPath);
+        if (!f.exists() && !f.mkdirs()) {
+            throw new IllegalStateException("Failed to create upload directory: " + rootPath);
+        }
 
-        if(!f.exists()) { f.mkdirs(); }
-
-        Path uploadPath = Paths.get(rootPath + filePath);
+        Path uploadPath = Paths.get(rootPath, newFileName);
 
         try {
             Files.write(uploadPath, file.getBytes());
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return filePath;
-    }
 
+        return newFileName;
+    }
 }

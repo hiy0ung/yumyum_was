@@ -12,7 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(ApiMappingPattern.REVIEW_NOTICE)
+@RequestMapping(ApiMappingPattern.REVIEW_NOTICE) //"/api/v1/reviews/notice"
 @RequiredArgsConstructor
 public class ReviewNoticeController {
 
@@ -23,7 +23,7 @@ public class ReviewNoticeController {
     private static final String DELETE_NOTICE = "/delete/{noticeId}";
 
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<ResponseDto<ReviewNoticeResponseDto>> getNotice(@AuthenticationPrincipal Long id) {
         ResponseDto<ReviewNoticeResponseDto> response = reviewNoticeService.getNotice(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
