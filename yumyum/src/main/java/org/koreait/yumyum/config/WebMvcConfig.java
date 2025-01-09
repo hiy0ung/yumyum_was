@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Value("${user.dir}")
+    @Value("${file.user.dir}")
     private String projectPath;
 
     @Override
