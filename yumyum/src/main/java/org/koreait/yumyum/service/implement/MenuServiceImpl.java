@@ -16,6 +16,7 @@ import org.koreait.yumyum.repository.*;
 import org.koreait.yumyum.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,9 +38,11 @@ public class MenuServiceImpl implements MenuService {
     @Autowired
     private final StoreRepository storeRepository;
     @Autowired
-    private MenuOptionRepository menuOptionRepository;
+    private final MenuOptionRepository menuOptionRepository;
     @Autowired
-    private MenuOptionGroupRepository menuOptionGroupRepository;
+    private final MenuOptionGroupRepository menuOptionGroupRepository;
+    @Autowired
+    private final MenuImageServiceImpl menuImageService;
 
     public ResponseDto<MenuResponseDto> addMenu(MenuRequestDto dto, Long id) {
         MenuResponseDto data = null;
@@ -51,10 +54,15 @@ public class MenuServiceImpl implements MenuService {
             }
             Store store = storeRepository.findById(id).orElseThrow(() -> new RuntimeException("오류"));
 
+            String menuImgPath = null;
+            if (dto.getImageUrl() != null && !dto.getImageUrl().isEmpty()) {
+                menuImgPath = menuImageService.uploadFile(dto.getImageUrl());
+            }
+
             MenuCategory category = OptionalCategory.get();
             Menu menu = Menu.builder()
                     .menuName(dto.getMenuName())
-                    .imageUrl(dto.getImageUrl())
+                    .imageUrl(menuImgPath)
                     .menuDescription(dto.getMenuDescription())
                     .menuPrice(dto.getMenuPrice())
                     .isAvailable(dto.getIsAvailable())
@@ -183,16 +191,19 @@ public class MenuServiceImpl implements MenuService {
             if (OptionalMenu.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
             }
+            String menuImgPath = null;
+            if (dto.getImageUrl() != null && !dto.getImageUrl().isEmpty()) {
+                menuImgPath = menuImageService.uploadFile(dto.getImageUrl());
+            }
             Menu menu = OptionalMenu.get();
             menu.setStore(store);
             menu.setMenuName(dto.getMenuName());
             menu.setMenuDescription(dto.getMenuDescription());
             menu.setMenuPrice(dto.getMenuPrice());
             menu.setMenuCategory(category);
-            menu.setImageUrl(dto.getImageUrl());
+            menu.setImageUrl(menuImgPath);
             menu.setIsAvailable(dto.getIsAvailable());
             Menu savedMenu = menuRepository.save(menu);
-
             int i = 0;
             List<MenuOptionRequestDto> options = dto.getMenuOptions();
             if (options != null) {
