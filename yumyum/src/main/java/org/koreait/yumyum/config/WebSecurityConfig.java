@@ -74,10 +74,6 @@ public class WebSecurityConfig {
                                 new AntPathRequestMatcher("/api/v1/reviews/"),
                                 new AntPathRequestMatcher("/api/v1/**"),
                                 new AntPathRequestMatcher("/image/**")
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
                         )
                         .permitAll()
                         .anyRequest().authenticated())
