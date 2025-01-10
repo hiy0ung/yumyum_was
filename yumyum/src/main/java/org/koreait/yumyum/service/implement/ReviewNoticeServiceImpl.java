@@ -9,7 +9,6 @@ import org.koreait.yumyum.entity.ReviewEventNotice;
 import org.koreait.yumyum.entity.Store;
 import org.koreait.yumyum.repository.ReviewNoticeRepository;
 import org.koreait.yumyum.repository.StoreRepository;
-import org.koreait.yumyum.service.FileUploadService;
 import org.koreait.yumyum.service.ReviewNoticeService;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,6 @@ public class ReviewNoticeServiceImpl implements ReviewNoticeService {
 
     private final ReviewNoticeRepository reviewNoticeRepository;
     private final StoreRepository storeRepository;
-    private final FileUploadService fileUploadService;
 
 
     @Override
@@ -71,12 +69,11 @@ public class ReviewNoticeServiceImpl implements ReviewNoticeService {
             }
 
             Store store = optionalStore.get();
-            String file = fileUploadService.uploadFile(dto.getNoticePhotoUrl());
 
             ReviewEventNotice reviewEventNotice = ReviewEventNotice.builder()
                     .store(store)
                     .noticeDate(dto.getNoticeDate())
-                    .noticePhotoUrl(file)
+                    .noticePhotoUrl(dto.getNoticePhotoUrl())
                     .noticeText(dto.getNoticeText())
                     .build();
             reviewNoticeRepository.save(reviewEventNotice);
@@ -101,12 +98,10 @@ public class ReviewNoticeServiceImpl implements ReviewNoticeService {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_REVIEW_NOTICE);
             }
 
-            String file = fileUploadService.uploadFile(dto.getNoticePhotoUrl());
-
             ReviewEventNotice reviewEventNotice = optionalReviewEventNotice.get();
             ReviewEventNotice updateReviewEventNotice = reviewEventNotice.toBuilder()
                     .noticeDate(dto.getNoticeDate())
-                    .noticePhotoUrl(file)
+                    .noticePhotoUrl(dto.getNoticePhotoUrl())
                     .noticeText(dto.getNoticeText())
                     .build();
             reviewNoticeRepository.save(updateReviewEventNotice);

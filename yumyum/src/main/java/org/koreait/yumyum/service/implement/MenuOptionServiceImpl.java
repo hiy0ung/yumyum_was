@@ -81,13 +81,11 @@ public class MenuOptionServiceImpl implements MenuOptionService {
 
         try {
             List<MenuOptionDetailRequestDto> details = dto.getOptionDetails();
-//            System.out.println("여기가 옵션 Id" + optionId);
             if(details != null) {
 
                 menuOptionDetailService.updateOptionDetail(details.get(0), optionId, id);
 
 
-//                    data = new MenuOptionResponseDto(savedOption);
                 } else {
                     return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
                 }
