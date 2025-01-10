@@ -14,7 +14,7 @@ public class ReviewNoticeRequestDto {
     @NotNull
     private LocalDateTime noticeDate;
 
-    private MultipartFile noticePhotoUrl;
+    private String noticePhotoUrl;
 
     private String noticeText;
 }
