@@ -9,7 +9,7 @@ public interface ReviewNoticeService {
 
     ResponseDto<ReviewNoticeResponseDto> createNotice(Long id, ReviewNoticeRequestDto dto);
 
-    ResponseDto<ReviewNoticeResponseDto> updateNotice(Long id, Long reviewEventNoticeId, ReviewNoticeRequestDto dto);
+    ResponseDto<ReviewNoticeResponseDto> updateNotice(Long id, Long noticeId, ReviewNoticeRequestDto dto);
 
     ResponseDto<String> deleteNotice(Long id, Long noticeId);
 }

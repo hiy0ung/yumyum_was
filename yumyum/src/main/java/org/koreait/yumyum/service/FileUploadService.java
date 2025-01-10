@@ -37,4 +37,12 @@ public class FileUploadService {
         return filePath;
     }
 
+    public void removeFile(String filePath) {
+        String srcFileName = null;
+        File file = new File(filePath, filePath);
+
+        if (file.exists()) {
+            boolean deleted = file.delete();
+        }
+    }
 }

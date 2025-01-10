@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class ReviewNoticeResponseDto {
-
+    private Long id;
     private LocalDateTime noticeDate;
 
     private String noticePhotoUrl;
@@ -17,6 +17,7 @@ public class ReviewNoticeResponseDto {
     private String noticeText;
 
     public ReviewNoticeResponseDto(ReviewEventNotice reviewEventNotice) {
+        this.id = reviewEventNotice.getId();
         this.noticeDate = reviewEventNotice.getNoticeDate();
         this.noticePhotoUrl = reviewEventNotice.getNoticePhotoUrl();
         this.noticeText = reviewEventNotice.getNoticeText();

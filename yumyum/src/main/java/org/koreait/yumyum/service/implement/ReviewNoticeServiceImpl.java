@@ -91,11 +91,11 @@ public class ReviewNoticeServiceImpl implements ReviewNoticeService {
     }
 
     @Override
-    public ResponseDto<ReviewNoticeResponseDto> updateNotice(Long id,Long reviewEventNoticeId, ReviewNoticeRequestDto dto) {
+    public ResponseDto<ReviewNoticeResponseDto> updateNotice(Long id,Long noticeId, ReviewNoticeRequestDto dto) {
         ReviewNoticeResponseDto data = null;
 
         try {
-            Optional<ReviewEventNotice> optionalReviewEventNotice = reviewNoticeRepository.findById(reviewEventNoticeId);
+            Optional<ReviewEventNotice> optionalReviewEventNotice = reviewNoticeRepository.findById(noticeId);
 
             if(optionalReviewEventNotice.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_REVIEW_NOTICE);
