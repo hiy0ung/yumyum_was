@@ -109,20 +109,22 @@ public class MailServiceImpl implements MailService {
             );
 
             String token = jwtProvider.generateEmailValidToken(dto.getUserEmail());
-            MimeMessage message = idCreateMail(dto.getUserEmail(), String.valueOf(userIdFind));
-
-            try {
-                javaMailSender.send(message);
-                return ResponseDto.setSuccess("성공", token);
-            } catch (MailException e) {
-                e.printStackTrace();
-                return ResponseDto.setFailed(ResponseMessage.MESSAGE_SEND_FAIL);
+            if (userIdFind.isPresent()) {
+                MimeMessage message = idCreateMail(dto.getUserEmail(), String.valueOf(userIdFind.get().getUserId()));
+                try {
+                    javaMailSender.send(message);
+                    return ResponseDto.setSuccess("성공", token);
+                } catch (MailException e) {
+                    e.printStackTrace();
+                    return ResponseDto.setFailed(ResponseMessage.MESSAGE_SEND_FAIL);
+                }
             }
         }catch (MailException e) {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
-    }
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, "성공");
+    };
 
     @Override
     public ResponseDto<String> verifyEmail(String token) {
