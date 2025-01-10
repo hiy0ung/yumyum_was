@@ -20,11 +20,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        String rootPath = projectPath + ("/upload/");
-        String menuImagePath = projectPath + rootPath + ("/menu/");
-
-        registry.addResourceHandler("/image/notice/**")
-                .addResourceLocations("file:///" + rootPath)
+        registry.addResourceHandler("/image/**")
+                .addResourceLocations("file:///" + projectPath + "/")
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver() {
                     @Override
@@ -34,15 +31,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
                     }
                 });
 
-        registry.addResourceHandler("/image/menu/**")
-                .addResourceLocations("file:///" + menuImagePath)
-                .resourceChain(true)
-                .addResolver(new PathResourceResolver() {
-                    @Override
-                    protected Resource getResource(String resourcePath, Resource location) throws IOException {
-                        resourcePath = URLDecoder.decode(resourcePath, StandardCharsets.UTF_8);
-                        return super.getResource(resourcePath, location);
-                    }
-                });
     }
 }

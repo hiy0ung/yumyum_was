@@ -25,16 +25,16 @@ public class MenuImageServiceImpl {
         String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
         String newFileName = UUID.randomUUID().toString() + fileExtension;
 
-        String rootPath = projectPath + "/upload/menu/profile";
+        String rootPath = projectPath + "/upload/menu/profile/";
         String filePath = rootPath + newFileName;
 
-        File fileDir = new File(rootPath + filePath);
+        File fileDir = new File(rootPath);
 
         if (!fileDir.exists()) {
             fileDir.mkdirs();
         }
 
-        Path uploadPath = Paths.get(rootPath + newFileName);
+        Path uploadPath = Paths.get(filePath);
 
         try {
             Files.write(uploadPath, file.getBytes());

@@ -20,7 +20,8 @@ public class FileUploadService {
         if(file == null) { return null; }
 
         String newFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-        String filePath = "notice/" + newFileName;
+        String filePath =  "notice/" + newFileName;
+
         String rootPath = projectPath + ("/upload/");
 
         File f = new File(rootPath, "notice");
