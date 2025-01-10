@@ -73,13 +73,6 @@ public class MenuOptionDetailServiceImpl implements MenuOptionDetailService {
 
                 }
 
-//                menuOptionDetailRepository.update(dto.getOptionDetailName(), dto.getAdditionalFee(), optionDetail.getId(), optionDetailId);
-
-
-
-
-
-
 //
 //            for(int i=0; i < menuOptionDetailOptional.size(); i++) {
 //                MenuOptionDetail menuOptionDetail = menuOptionDetailOptional.get(i);
