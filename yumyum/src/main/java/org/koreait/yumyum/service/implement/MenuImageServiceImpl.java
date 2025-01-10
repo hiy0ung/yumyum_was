@@ -25,7 +25,7 @@ public class MenuImageServiceImpl {
         String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
         String newFileName = UUID.randomUUID().toString() + fileExtension;
 
-        String rootPath = projectPath + "/upload/menu/profile/";
+        String rootPath = projectPath + "/upload/menu/profile";
         String filePath = rootPath + newFileName;
 
         File fileDir = new File(rootPath);

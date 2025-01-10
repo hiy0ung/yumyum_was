@@ -1,5 +1,6 @@
 package org.koreait.yumyum.service.implement;
 
+import jakarta.persistence.Index;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -57,6 +58,8 @@ public class MenuServiceImpl implements MenuService {
             String menuImgPath = null;
             if (dto.getImageUrl() != null && !dto.getImageUrl().isEmpty()) {
                 menuImgPath = menuImageService.uploadFile(dto.getImageUrl());
+                int index = menuImgPath.indexOf("/upload");
+                menuImgPath = menuImgPath.substring(index);
             }
 
             MenuCategory category = OptionalCategory.get();
@@ -211,9 +214,6 @@ public class MenuServiceImpl implements MenuService {
                     optionDto.setMenuId(savedMenu.getId());
                     Optional<List<Long>> menuOptionId = menuOptionGroupRepository.findMenuOptionIdByMenuId(optionDto.getMenuId());
                     List<Long> menuOptionIds = menuOptionId.get();
-//                    System.out.println(menuOptionIds);  // [19, 20, 21, 22, 23, 24, 25, 41]
-//                    System.out.println(optionDto.getMenuId());    // 12
-//                    System.out.println(optionDto.getOptionName());    // 8, 7, 6, 5, 4, 3, 2, 1
 
                     Optional<MenuOption> menuOptionOptional = menuOptionRepository.findById(menuOptionIds.get(i));
                     if(menuOptionOptional.isPresent()) {
@@ -222,7 +222,6 @@ public class MenuServiceImpl implements MenuService {
                                 .optionName(optionDto.getOptionName())
                                 .build();
                         MenuOption savedOption = menuOptionRepository.save(updatedMenuOption);
-//                        System.out.println(savedOption.getOptionName());
                         menuOptionService.updateMenuOption(optionDto, updatedMenuOption.getId(), id);
                         i++;
                     }
