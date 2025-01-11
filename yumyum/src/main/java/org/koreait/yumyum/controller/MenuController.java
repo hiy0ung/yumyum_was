@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ApiMappingPattern;
 import org.koreait.yumyum.dto.ResponseDto;
 import org.koreait.yumyum.dto.menu.request.MenuOptionRequestDto;
+import org.koreait.yumyum.dto.menu.request.MenuUpdateRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuGetResponseDto;
 import org.koreait.yumyum.dto.menu.request.MenuRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuResponseDto;
@@ -59,10 +60,10 @@ public class MenuController {
     }
 
     // 메뉴 수정
-    @PutMapping(MENU_PUT_UPDATE)
+    @PostMapping(MENU_PUT_UPDATE)
     public ResponseEntity<ResponseDto<MenuResponseDto>> updateMenu(
             @Valid @PathVariable Long menuId,
-            @RequestBody MenuRequestDto dto,
+            @RequestBody MenuUpdateRequestDto dto,
             @AuthenticationPrincipal Long id
     ) {
         ResponseDto<MenuResponseDto> response = menuService.updateMenu(menuId, dto, id);
