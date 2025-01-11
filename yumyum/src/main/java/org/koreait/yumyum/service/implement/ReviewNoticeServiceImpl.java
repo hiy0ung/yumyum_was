@@ -62,6 +62,8 @@ public class ReviewNoticeServiceImpl implements ReviewNoticeService {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
             }
 
+            String file = fileUploadService.uploadFile(dto.getNoticePhotoUrl());
+
             Long storeId = optionalStore.get().getId();
 
             Optional<ReviewEventNotice> optionalReviewEventNotice = reviewNoticeRepository.getReviewEventNoticeByStoreId(storeId);
@@ -71,7 +73,6 @@ public class ReviewNoticeServiceImpl implements ReviewNoticeService {
             }
 
             Store store = optionalStore.get();
-            String file = fileUploadService.uploadFile(dto.getNoticePhotoUrl());
 
             ReviewEventNotice reviewEventNotice = ReviewEventNotice.builder()
                     .store(store)
@@ -91,11 +92,11 @@ public class ReviewNoticeServiceImpl implements ReviewNoticeService {
     }
 
     @Override
-    public ResponseDto<ReviewNoticeResponseDto> updateNotice(Long id,Long reviewEventNoticeId, ReviewNoticeRequestDto dto) {
+    public ResponseDto<ReviewNoticeResponseDto> updateNotice(Long id,Long noticeId, ReviewNoticeRequestDto dto) {
         ReviewNoticeResponseDto data = null;
 
         try {
-            Optional<ReviewEventNotice> optionalReviewEventNotice = reviewNoticeRepository.findById(reviewEventNoticeId);
+            Optional<ReviewEventNotice> optionalReviewEventNotice = reviewNoticeRepository.findById(noticeId);
 
             if(optionalReviewEventNotice.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_REVIEW_NOTICE);
