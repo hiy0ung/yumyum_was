@@ -14,6 +14,7 @@ public class MenuUpdateRequestDto {
     private Long categoryId;
     private String menuName;
     private String menuDescription;
+    private MultipartFile imageUrl;
     private int menuPrice;
     private Boolean isAvailable;
     private List<MenuOptionUpdateRequestDto> menuOptions;

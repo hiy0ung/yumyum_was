@@ -54,11 +54,10 @@ public class MenuOptionDetailServiceImpl implements MenuOptionDetailService {
 
 
     @Override
-    public ResponseDto<MenuOptionDetailResponseDto> updateOptionDetail(MenuOptionDetailUpdateRequestDto dto, Long optionDetailId, Long id) {
+    public ResponseDto<MenuOptionDetailResponseDto> updateOptionDetail(MenuOptionDetailUpdateRequestDto dto, Long optionDetailId,Long pkId, Long id) {
         MenuOptionDetailResponseDto data = null;
 
-        List<MenuOptionDetail> menuOptionDetails = menuOptionDetailRepository.findIdByMenuOptionId(dto.getMenuOptionId());
-
+        List<MenuOptionDetail> menuOptionDetails = menuOptionDetailRepository.findByMenuOptionIdAndId(optionDetailId, pkId);
         try {
             for (int i = 0; i < dto.getDetailName().size(); i++){
                 menuOptionDetails.get(i).setOptionDetailName(dto.getDetailName().get(i).getOptionDetailName());
@@ -72,10 +71,6 @@ public class MenuOptionDetailServiceImpl implements MenuOptionDetailService {
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
-    }
-
-    public ResponseDto<MenuOptionDetailResponseDto> updateOptionDetailName(MenuOptionDetailNameRequestDto dto, Long optionDetailId,  Long id) {
-        return null;
     }
 
     @Override

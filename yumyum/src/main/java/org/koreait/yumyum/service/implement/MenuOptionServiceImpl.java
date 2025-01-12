@@ -83,12 +83,15 @@ public class MenuOptionServiceImpl implements MenuOptionService {
 
         try {
             List<MenuOptionDetailUpdateRequestDto> details = dto.getOptionDetails();
+            List<Long> menuOptionIds = menuOptionDetailRepository.findIdByMenuOptionId(optionId);
             if(details != null) {
-
+                int i = 0;
                 for (MenuOptionDetailUpdateRequestDto detailDto : details) {
 //                    System.out.println("이건 나오나: " + );
 //                    System.out.println("이건 안나올꺼고: " + detailDto.getDetailName());
-                    menuOptionDetailService.updateOptionDetail(detailDto, optionId, id);
+                    Long pkId = menuOptionIds.get(i);
+                    menuOptionDetailService.updateOptionDetail(detailDto, optionId, pkId, id);
+                    i++;
                 }
 
 

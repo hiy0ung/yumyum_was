@@ -63,7 +63,7 @@ public class MenuController {
     @PostMapping(MENU_PUT_UPDATE)
     public ResponseEntity<ResponseDto<MenuResponseDto>> updateMenu(
             @Valid @PathVariable Long menuId,
-            @RequestBody MenuUpdateRequestDto dto,
+            @ModelAttribute MenuUpdateRequestDto dto,
             @AuthenticationPrincipal Long id
     ) {
         ResponseDto<MenuResponseDto> response = menuService.updateMenu(menuId, dto, id);

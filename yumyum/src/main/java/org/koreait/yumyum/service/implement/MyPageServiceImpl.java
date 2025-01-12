@@ -42,14 +42,22 @@ public class MyPageServiceImpl implements MyPageService {
         try {
             User user = mypageRepository.findById(id)
                     .orElseThrow(() -> new Error(ResponseMessage.NOT_EXIST_USER));
-
             String encodePassword = bCryptpasswordEncoder.encode(dto.getUserPw());
-            user = user.toBuilder()
-                    .userPw(encodePassword)
-                    .userPhone(dto.getUserPhone())
-                    .userEmail(dto.getUserEmail())
-                    .marketingAgreed(dto.getMarketingAgreed())
-                    .build();
+
+            if(user.getUserPw().equals("") || dto.getUserPw().equals(user.getUserPw())) {
+                user = user.toBuilder()
+                        .userPhone(dto.getUserPhone())
+                        .userEmail(dto.getUserEmail())
+                        .marketingAgreed(dto.getMarketingAgreed())
+                        .build();
+            } else {
+                user = user.toBuilder()
+                        .userPw(encodePassword)
+                        .userPhone(dto.getUserPhone())
+                        .userEmail(dto.getUserEmail())
+                        .marketingAgreed(dto.getMarketingAgreed())
+                        .build();
+            }
             mypageRepository.save(user);
             data = new UserResponseDto(user);
         } catch (Exception e) {
