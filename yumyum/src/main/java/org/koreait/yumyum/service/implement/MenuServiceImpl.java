@@ -198,10 +198,17 @@ public class MenuServiceImpl implements MenuService {
             if (OptionalMenu.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
             }
+            String menuImgPath = null;
+            if (dto.getImageUrl() != null && !dto.getImageUrl().isEmpty()) {
+                menuImgPath = menuImageService.uploadFile(dto.getImageUrl());
+                int index = menuImgPath.indexOf("/upload");
+                menuImgPath = menuImgPath.substring(index);
+            }
             Menu menu = OptionalMenu.get();
             menu.setStore(store);
             menu.setMenuName(dto.getMenuName());
             menu.setMenuDescription(dto.getMenuDescription());
+            menu.setImageUrl(menuImgPath);
             menu.setMenuPrice(dto.getMenuPrice());
             menu.setMenuCategory(category);
             menu.setIsAvailable(dto.getIsAvailable());
