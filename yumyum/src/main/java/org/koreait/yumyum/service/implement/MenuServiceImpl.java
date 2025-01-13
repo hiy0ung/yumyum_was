@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
 import org.koreait.yumyum.dto.menu.request.MenuOptionRequestDto;
+import org.koreait.yumyum.dto.menu.request.MenuOptionUpdateRequestDto;
 import org.koreait.yumyum.dto.menu.request.MenuRequestDto;
+import org.koreait.yumyum.dto.menu.request.MenuUpdateRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuGetResponseDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionDetailGetResponseDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionGetResponseDto;
@@ -181,10 +183,12 @@ public class MenuServiceImpl implements MenuService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    public ResponseDto<MenuResponseDto> updateMenu(@Valid Long menuId, MenuRequestDto dto, Long id) {
+    public ResponseDto<MenuResponseDto> updateMenu(@Valid Long menuId, MenuUpdateRequestDto dto, Long id) {
         MenuResponseDto data = null;
         try {
             Store store = storeRepository.findById(id).orElseThrow(() -> new RuntimeException("가게 없음"));
+            System.out.println(dto.getCategoryId());
+            System.out.println(dto.getMenuName());
             Optional<MenuCategory> OptionalCategory = menuCategoryRepository.findById(dto.getCategoryId());
             if (OptionalCategory.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
@@ -197,20 +201,22 @@ public class MenuServiceImpl implements MenuService {
             String menuImgPath = null;
             if (dto.getImageUrl() != null && !dto.getImageUrl().isEmpty()) {
                 menuImgPath = menuImageService.uploadFile(dto.getImageUrl());
+                int index = menuImgPath.indexOf("/upload");
+                menuImgPath = menuImgPath.substring(index);
             }
             Menu menu = OptionalMenu.get();
             menu.setStore(store);
             menu.setMenuName(dto.getMenuName());
             menu.setMenuDescription(dto.getMenuDescription());
+            menu.setImageUrl(menuImgPath);
             menu.setMenuPrice(dto.getMenuPrice());
             menu.setMenuCategory(category);
-            menu.setImageUrl(menuImgPath);
             menu.setIsAvailable(dto.getIsAvailable());
             Menu savedMenu = menuRepository.save(menu);
             int i = 0;
-            List<MenuOptionRequestDto> options = dto.getMenuOptions();
+            List<MenuOptionUpdateRequestDto> options = dto.getMenuOptions();
             if (options != null) {
-                for(MenuOptionRequestDto optionDto : options) {
+                for(MenuOptionUpdateRequestDto optionDto : options) {
                     optionDto.setMenuId(savedMenu.getId());
                     Optional<List<Long>> menuOptionId = menuOptionGroupRepository.findMenuOptionIdByMenuId(optionDto.getMenuId());
                     List<Long> menuOptionIds = menuOptionId.get();

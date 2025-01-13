@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ApiMappingPattern;
 import org.koreait.yumyum.dto.ResponseDto;
 import org.koreait.yumyum.dto.menu.request.MenuOptionRequestDto;
+import org.koreait.yumyum.dto.menu.request.MenuOptionUpdateRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionResponseDto;
 import org.koreait.yumyum.service.MenuOptionService;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class MenuOptionController {
     // 수정
     @PutMapping(OPTION_PUT_ID)
     public ResponseEntity<ResponseDto<MenuOptionResponseDto>> updateMenuOption(
-            @RequestBody MenuOptionRequestDto dto,
+            @RequestBody MenuOptionUpdateRequestDto dto,
             @PathVariable Long optionId,
             @AuthenticationPrincipal Long id
     ) {

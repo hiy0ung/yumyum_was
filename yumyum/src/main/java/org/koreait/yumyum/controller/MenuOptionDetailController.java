@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ApiMappingPattern;
 import org.koreait.yumyum.dto.ResponseDto;
 import org.koreait.yumyum.dto.menu.request.MenuOptionDetailRequestDto;
+import org.koreait.yumyum.dto.menu.request.MenuOptionDetailUpdateRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionDetailResponseDto;
 import org.koreait.yumyum.service.MenuOptionDetailService;
 import org.springframework.http.HttpStatus;
@@ -36,11 +37,12 @@ public class MenuOptionDetailController {
 
     @PutMapping(OPTION_DETAIL_PUT_ID)
     public ResponseEntity<ResponseDto<MenuOptionDetailResponseDto>> updateOptionDetail(
-            @RequestBody MenuOptionDetailRequestDto dto,
-            @PathVariable Long optionDetailId,
+            @RequestBody MenuOptionDetailUpdateRequestDto dto,
+            @PathVariable Long optionId,
+            @RequestBody Long pkId,
             @AuthenticationPrincipal Long id
             ) {
-        ResponseDto<MenuOptionDetailResponseDto> response = menuOptionDetailService.updateOptionDetail(dto, optionDetailId, id);
+        ResponseDto<MenuOptionDetailResponseDto> response = menuOptionDetailService.updateOptionDetail(dto, optionId, pkId, id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
