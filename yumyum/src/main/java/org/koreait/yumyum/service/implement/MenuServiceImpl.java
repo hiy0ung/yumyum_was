@@ -36,7 +36,7 @@ public class MenuServiceImpl implements MenuService {
     private final MenuCategoryRepository menuCategoryRepository;
 
     @Autowired
-    MenuOptionServiceImpl menuOptionService;
+    private final MenuOptionServiceImpl menuOptionService;
 
     @Autowired
     private final StoreRepository storeRepository;
@@ -55,7 +55,7 @@ public class MenuServiceImpl implements MenuService {
             if (OptionalCategory.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
             }
-            Store store = storeRepository.findById(id).orElseThrow(() -> new RuntimeException("오류"));
+            Store store = storeRepository.getStoreByUserId(id).orElseThrow(() -> new RuntimeException("오류"));
 
             String menuImgPath = null;
             if (dto.getImageUrl() != null && !dto.getImageUrl().isEmpty()) {
@@ -186,9 +186,9 @@ public class MenuServiceImpl implements MenuService {
     public ResponseDto<MenuResponseDto> updateMenu(@Valid Long menuId, MenuUpdateRequestDto dto, Long id) {
         MenuResponseDto data = null;
         try {
-            Store store = storeRepository.findById(id).orElseThrow(() -> new RuntimeException("가게 없음"));
-            System.out.println(dto.getCategoryId());
-            System.out.println(dto.getMenuName());
+            System.out.println("메뉴쪽" + id);
+            System.out.println("여기쪽에서 오류나는건가?");
+            Store store = storeRepository.getStoreByUserId(id).orElseThrow(() -> new RuntimeException("가게 없음"));
             Optional<MenuCategory> OptionalCategory = menuCategoryRepository.findById(dto.getCategoryId());
             if (OptionalCategory.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
