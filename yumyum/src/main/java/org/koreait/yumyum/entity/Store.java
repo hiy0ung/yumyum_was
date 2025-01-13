@@ -26,7 +26,7 @@ public class Store {
     @Column(nullable = false)
     private String storeName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String logoUrl;
 
     @Enumerated(EnumType.STRING)
@@ -39,19 +39,19 @@ public class Store {
     @Column(name = "closing_time", nullable = false)
     private LocalTime closingTime;
 
-    @Column(name = "break_start_time", length = 200)
+    @Column(name = "break_start_time")
     private LocalTime breakStartTime;
 
-    @Column(name = "break_end_time", length = 200)
+    @Column(name = "break_end_time")
     private LocalTime breakEndTime;
 
-    @Column(name = "zone_code", length = 500)
+    @Column(name = "zone_code")
     private String zoneCode;
 
-    @Column(name = "address", length = 500)
+    @Column(name = "address")
     private String address;
 
-    @Column(name = "detail_address", length = 500)
+    @Column(name = "detail_address")
     private String detailAddress;
 
     @Column(name = "description", columnDefinition = "TEXT")
