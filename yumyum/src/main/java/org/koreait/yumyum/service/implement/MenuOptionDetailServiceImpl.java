@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.apache.bcel.generic.ClassGen;
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
+import org.koreait.yumyum.dto.menu.request.MenuOptionDetailNameRequestDto;
 import org.koreait.yumyum.dto.menu.request.MenuOptionDetailRequestDto;
+import org.koreait.yumyum.dto.menu.request.MenuOptionDetailUpdateRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionDetailResponseDto;
+import org.koreait.yumyum.entity.Menu;
 import org.koreait.yumyum.entity.MenuOption;
 import org.koreait.yumyum.entity.MenuOptionDetail;
 import org.koreait.yumyum.repository.MenuOptionDetailRepository;
@@ -51,43 +54,18 @@ public class MenuOptionDetailServiceImpl implements MenuOptionDetailService {
 
 
     @Override
-    public ResponseDto<MenuOptionDetailResponseDto> updateOptionDetail(MenuOptionDetailRequestDto dto, Long optionDetailId, Long id) {
+    public ResponseDto<MenuOptionDetailResponseDto> updateOptionDetail(MenuOptionDetailUpdateRequestDto dto, Long optionDetailId,Long pkId, Long id) {
         MenuOptionDetailResponseDto data = null;
 
+        List<MenuOptionDetail> menuOptionDetails = menuOptionDetailRepository.findByMenuOptionIdAndId(optionDetailId, pkId);
         try {
-            List<MenuOptionDetail> menuOptionDetailOptional = menuOptionDetailRepository.findIdByMenuOptionId(optionDetailId);
+            for (int i = 0; i < dto.getDetailName().size(); i++){
+                menuOptionDetails.get(i).setOptionDetailName(dto.getDetailName().get(i).getOptionDetailName());
+                menuOptionDetails.get(i).setAdditionalFee(dto.getDetailName().get(i).getAdditionalFee());
+                MenuOptionDetail saveOptionDetail = menuOptionDetailRepository.save(menuOptionDetails.get(i));
+                data = new MenuOptionDetailResponseDto(saveOptionDetail);
 
-//            System.out.println("변경할 메뉴 디테일 ID: " + menuOptionDetail.getId());
-//            List<Long> optionDetailIdList = new ArrayList<>();
-//            for (MenuOptionDetail menuOptionDetail : menuOptionDetailOptional) {
-//                optionDetailIdList.add(menuOptionDetail.getId());
-//            }
-//            System.out.println(optionDetailIdList);
-
-
-                System.out.println("옵션 디테일 이름: " + dto.getOptionDetailName());
-                System.out.println("옵션 디테일 추가금: " + dto.getAdditionalFee());
-                System.out.println("옵션 아이디: " + optionDetailId);
-                for(MenuOptionDetail menuOptionDetail : menuOptionDetailOptional) {
-                    System.out.println("옵션 디테일 아이디: " + menuOptionDetail.getId());
-
-                }
-
-//
-//            for(int i=0; i < menuOptionDetailOptional.size(); i++) {
-//                MenuOptionDetail menuOptionDetail = menuOptionDetailOptional.get(i);
-//                System.out.println("메뉴 옵션 디테일 찾아온거의 이름" + menuOptionDetail.getOptionDetailName());
-//                System.out.println(optionDetailNames.get(i));
-//                menuOptionDetail.setOptionDetailName(optionDetailNames.get(i));
-//                System.out.print("저장할 옵션 디테일 가격");
-//                System.out.println("여기 1");
-//                System.out.println(additionalFees.get(i));
-//                menuOptionDetail.setAdditionalFee(additionalFees.get(i));
-//                System.out.println("여기 2");
-//                MenuOptionDetail saveOptionDetail = menuOptionDetailRepository.save(menuOptionDetail);
-//                data = new MenuOptionDetailResponseDto(saveOptionDetail);
-//            }
-
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);

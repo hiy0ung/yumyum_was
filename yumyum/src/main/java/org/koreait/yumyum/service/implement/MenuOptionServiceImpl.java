@@ -6,7 +6,9 @@ import org.aspectj.apache.bcel.generic.ClassGen;
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
 import org.koreait.yumyum.dto.menu.request.MenuOptionDetailRequestDto;
+import org.koreait.yumyum.dto.menu.request.MenuOptionDetailUpdateRequestDto;
 import org.koreait.yumyum.dto.menu.request.MenuOptionRequestDto;
+import org.koreait.yumyum.dto.menu.request.MenuOptionUpdateRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionResponseDto;
 import org.koreait.yumyum.entity.Menu;
 import org.koreait.yumyum.entity.MenuOption;
@@ -76,14 +78,21 @@ public class MenuOptionServiceImpl implements MenuOptionService {
     }
 
     @Override
-    public ResponseDto<MenuOptionResponseDto> updateMenuOption(MenuOptionRequestDto dto, Long optionId, Long id) {
+    public ResponseDto<MenuOptionResponseDto> updateMenuOption(MenuOptionUpdateRequestDto dto, Long optionId, Long id) {
         MenuOptionResponseDto data = null;
 
         try {
-            List<MenuOptionDetailRequestDto> details = dto.getOptionDetails();
+            List<MenuOptionDetailUpdateRequestDto> details = dto.getOptionDetails();
+            List<Long> menuOptionIds = menuOptionDetailRepository.findIdByMenuOptionId(optionId);
             if(details != null) {
-
-                menuOptionDetailService.updateOptionDetail(details.get(0), optionId, id);
+                int i = 0;
+                for (MenuOptionDetailUpdateRequestDto detailDto : details) {
+//                    System.out.println("이건 나오나: " + );
+//                    System.out.println("이건 안나올꺼고: " + detailDto.getDetailName());
+                    Long pkId = menuOptionIds.get(i);
+                    menuOptionDetailService.updateOptionDetail(detailDto, optionId, pkId, id);
+                    i++;
+                }
 
 
                 } else {

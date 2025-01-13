@@ -14,23 +14,30 @@ import java.util.Set;
 
 @Repository
 public interface MenuOptionDetailRepository extends JpaRepository<MenuOptionDetail, Long> {
-    List<MenuOptionDetail> findIdByMenuOptionId(Long menuOptionId);
+    List<MenuOptionDetail> findByMenuOptionId(Long menuOptionId);
 
-    @Transactional
-    @Modifying
     @Query(value = """
-    update 
+    SELECT
+        id
+    FROM
         menu_option_details
-    set
-        option_detail_name = :optionDetailName,
-        additional_fee = :additionalFee
     where
-        id = :id and
         menu_option_id = :menuOptionId
 """, nativeQuery = true)
-    void update(@Param("optionDetailName") String optionDetailName,
-                @Param("additionalFee") int additionalFee,
-                @Param("id") Long id,
-                @Param("menuOptionId") Long menuOptionId);
+    List<Long> findIdByMenuOptionId(@Param("menuOptionId") Long menuOptionId);
+
+    @Query(value = """
+    SELECT
+        id,
+        menu_option_id,
+        option_detail_name,
+        additional_fee
+    FROM
+        menu_option_details
+    where
+        menu_option_id = :menuOptionId and
+        id = :pkId
+""", nativeQuery = true)
+    List<MenuOptionDetail> findByMenuOptionIdAndId(@Param("menuOptionId") Long menuOptionId, @Param("pkId") Long pkId);
 
 }
