@@ -26,11 +26,12 @@ public class CategoryServiceImpl implements CategoryService {
     private final StoreRepository storeRepository;
 
     @Override
-    public ResponseDto<List<CategoryResponseDto>> getCategories(Long userId, @PathVariable Long id) {
+    public ResponseDto<List<CategoryResponseDto>> getCategories(Long id) {
         List<CategoryResponseDto> data = null;
 
         try {
-            Optional<Store> optionalStore = storeRepository.getStoreByUserId(userId);
+            System.out.println("카테고리쪽" + id);
+            Optional<Store> optionalStore = storeRepository.getStoreByUserId(id);
 
             if(optionalStore.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
@@ -80,7 +81,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ResponseDto<CategoryResponseDto> updateCategory(UpdateCategoryRequestDto dto) {
+    public ResponseDto<CategoryResponseDto> updateCategory(UpdateCategoryRequestDto dto, Long id) {
         CategoryResponseDto data = null;
         Long CategoryId = dto.getId();
 

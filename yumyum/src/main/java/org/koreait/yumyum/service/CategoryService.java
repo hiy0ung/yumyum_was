@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 public interface CategoryService {
-    ResponseDto<List<CategoryResponseDto>> getCategories(Long userId, @PathVariable Long id);
+    ResponseDto<List<CategoryResponseDto>> getCategories(Long id);
 
     ResponseDto<CategoryResponseDto> createCategory(Long userId, @Valid CreateCategoryRequestDto dto);
 
-    ResponseDto<CategoryResponseDto> updateCategory(@Valid UpdateCategoryRequestDto dto);
+    ResponseDto<CategoryResponseDto> updateCategory(@Valid UpdateCategoryRequestDto dto, Long id);
 
     ResponseDto<Void> deleteCategory(Long id);
 }
