@@ -13,6 +13,7 @@ public class OrderDetailResponseDto {
     private Long orderDetailId;
     private String deliveryAddress;
     private LocalDateTime orderDate;
+    private String orderState;
     private String menuName;
     private Integer menuPrice;
     private Integer quantity;
