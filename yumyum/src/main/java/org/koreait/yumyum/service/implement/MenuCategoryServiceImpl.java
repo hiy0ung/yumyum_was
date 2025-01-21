@@ -34,9 +34,8 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
         List<MenuCategoryResponseDto> data = null;
         System.out.println(id);
         try {
-            Store store = storeRepository.findById(id)
+            Store store = storeRepository.getStoreByUserId(id)
                     .orElseThrow(() -> new RuntimeException("가게 없음"));
-            System.out.println(store.getId());
             List<MenuCategory> categories = menuCategoryRepository.findAllCategoryByStoreId(store.getId());
             data = new ArrayList<>();
 
