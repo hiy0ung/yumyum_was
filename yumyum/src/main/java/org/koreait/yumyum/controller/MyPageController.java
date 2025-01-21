@@ -12,16 +12,15 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(ApiMappingPattern.MYPAGE)
+@RequestMapping(ApiMappingPattern.MYPAGE) // "/api/v1/mypage"
 @RequiredArgsConstructor
 public class MyPageController {
     private final MyPageService myPageService;
 
-    public static final String MYPAGE_GET = "/";
     public static final String MYPAGE_UPDATE = "/update";
     public static final String MYPAGE_DELETE = "/delete";
 
-    @GetMapping(MYPAGE_GET)
+    @GetMapping
     public ResponseEntity<ResponseDto<UserResponseDto>> getAllInfo(@AuthenticationPrincipal Long id) {
         ResponseDto<UserResponseDto> response = myPageService.getAllInfo(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;

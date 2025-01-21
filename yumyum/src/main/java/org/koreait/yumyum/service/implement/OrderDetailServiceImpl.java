@@ -18,9 +18,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     private final OrderDetailRepository orderDetailRepository;
 
     @Override
-    public ResponseDto<List<OrderDetailResponseDto>> getOrderDetail(Long id) {
+    public ResponseDto<List<OrderDetailResponseDto>> getOrderDetail(Long orderId) {
         List<OrderDetailResponseDto> data = null;
-        Long orderId = id;
 
         try {
             data = orderDetailRepository.findOrderDetailsWithOptions(orderId).stream()
@@ -30,11 +29,12 @@ public class OrderDetailServiceImpl implements OrderDetailService {
                             (String) dto[2],
                             ((Timestamp) dto[3]).toLocalDateTime(),
                             (String) dto[4],
-                            dto[5] != null ? ((Number) dto[5]).intValue() : 0,
-                            ((Number) dto[6]).intValue(),
-                            (String) dto[7],
+                            (String) dto[5],
+                            dto[6] != null ? ((Number) dto[6]).intValue() : 0,
+                            ((Number) dto[7]).intValue(),
                             (String) dto[8],
-                            dto[9] != null ? ((Number) dto[9]).intValue() : 0
+                            (String) dto[9],
+                            dto[10] != null ? ((Number) dto[10]).intValue() : 0
                     )).collect(Collectors.toList());
 
         } catch (Exception e) {

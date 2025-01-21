@@ -73,7 +73,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             g.guest_nickname,
             o.order_state
         order by
-            o.id;
+            o.id desc;
 """, nativeQuery = true)
     List<Object[]> findAllOrderWithTotalPrice(@Param("storeId") Long id);
 

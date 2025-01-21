@@ -31,10 +31,4 @@ public class MailController {
         return ResponseEntity.status(status).body(response);
     }
 
-    @GetMapping("/verify")
-    public ResponseEntity<ResponseDto<String>> verifyEmail(@RequestParam String token) {
-        ResponseDto<String> response = mailService.verifyEmail(token);
-        HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-        return ResponseEntity.status(status).body(response);
-    }
 }
