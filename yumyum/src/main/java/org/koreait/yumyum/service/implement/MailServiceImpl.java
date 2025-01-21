@@ -126,8 +126,4 @@ public class MailServiceImpl implements MailService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, "성공");
     };
 
-    @Override
-    public ResponseDto<String> verifyEmail(String token) {
-        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, token);
-    }
 }
