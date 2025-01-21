@@ -131,7 +131,7 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
     public ResponseDto<Void> deleteCategory(Long categoryId) {
         try {
             MenuCategory category = menuCategoryRepository.findById(categoryId)
-                            .orElseThrow(() -> new Error(ResponseMessage.NOT_EXIST_CATEGORY));
+                    .orElseThrow(() -> new Error(ResponseMessage.NOT_EXIST_CATEGORY));
             menuCategoryRepository.deleteById(categoryId);
         } catch (Exception e) {
             e.printStackTrace();
