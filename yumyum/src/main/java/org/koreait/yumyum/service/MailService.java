@@ -14,6 +14,4 @@ public interface MailService {
     MimeMessage idCreateMail(String mail, String userName) throws MessagingException;
     ResponseDto<String> idSendMessage(IdSendMailRequestDto dto) throws MessagingException;
 
-    ResponseDto<String> verifyEmail(String token);
-
 }

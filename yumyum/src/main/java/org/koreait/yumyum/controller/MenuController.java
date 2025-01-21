@@ -30,7 +30,6 @@ public class MenuController {
     private final MenuImageServiceImpl menuImageService;
 
     public static final String MENU_POST_ADD = "/add";
-    public static final String MENU_GET_LIST = "/";
     public static final String MENU_GET_ID = "/{menuId}";
     public static final String MENU_PUT_UPDATE = "/update/{menuId}";
     public static final String MENU_DELETE = "/delete/{menuId}";
@@ -45,7 +44,7 @@ public class MenuController {
     }
 
     // 메뉴 조회
-    @GetMapping(MENU_GET_LIST)
+    @GetMapping
     public ResponseEntity<ResponseDto<List<MenuGetResponseDto>>> getAllMenus(@AuthenticationPrincipal Long id) {
         ResponseDto<List<MenuGetResponseDto>> result = menuService.getAllMenus(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);

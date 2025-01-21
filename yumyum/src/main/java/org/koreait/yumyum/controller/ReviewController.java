@@ -3,7 +3,6 @@ package org.koreait.yumyum.controller;
 import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ApiMappingPattern;
 import org.koreait.yumyum.dto.ResponseDto;
-import org.koreait.yumyum.dto.order.response.OrderResponseDto;
 import org.koreait.yumyum.dto.review.response.ReviewResponseDto;
 import org.koreait.yumyum.dto.reviewComment.request.ReviewCommentRequestDto;
 import org.koreait.yumyum.dto.reviewComment.response.ReviewCommentResponseDto;
@@ -22,13 +21,12 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    private static final String GET_REVIEWS = "/";
     private static final String GET_UNANSWERED_REVIEWS = "/unanswered";
     private static final String CREATE_REVIEWS_COMMENT = "/comment/create/{reviewId}";
     private static final String DELETE_REVIEWS_COMMENT = "/comment/delete/{reviewId}";
 
 
-    @GetMapping(GET_REVIEWS)
+    @GetMapping
     public ResponseEntity<ResponseDto<List<ReviewResponseDto>>> getAllReviews(
             @AuthenticationPrincipal Long id
     ) {
