@@ -20,10 +20,9 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    private static final String GET_ORDER_LIST = "/";
     private static final String UPDATE_ORDER_STATE = "/update/state/{orderId}";
 
-    @GetMapping(GET_ORDER_LIST)
+    @GetMapping
     public ResponseEntity<ResponseDto<List<OrderResponseDto>>> getAllOrders(@AuthenticationPrincipal Long id) {
         ResponseDto<List<OrderResponseDto>> response = orderService.getAllOrders(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
