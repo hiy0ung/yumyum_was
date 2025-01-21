@@ -18,9 +18,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     private final OrderDetailRepository orderDetailRepository;
 
     @Override
-    public ResponseDto<List<OrderDetailResponseDto>> getOrderDetail(Long id) {
+    public ResponseDto<List<OrderDetailResponseDto>> getOrderDetail(Long orderId) {
         List<OrderDetailResponseDto> data = null;
-        Long orderId = id;
 
         try {
             data = orderDetailRepository.findOrderDetailsWithOptions(orderId).stream()

@@ -21,11 +21,11 @@ public class OrderDetailController {
 
     private final OrderDetailService orderDetailService;
 
-    private static final String GET_ORDER_DETAIL_BY_ID = "/detail/{id}";
+    private static final String GET_ORDER_DETAIL_BY_ID = "/detail/{orderId}";
 
     @GetMapping(GET_ORDER_DETAIL_BY_ID)
-    public ResponseEntity<ResponseDto<List<OrderDetailResponseDto>>> getOrderDetail(@PathVariable Long id) {
-        ResponseDto<List<OrderDetailResponseDto>> response = orderDetailService.getOrderDetail(id);
+    public ResponseEntity<ResponseDto<List<OrderDetailResponseDto>>> getOrderDetail(@PathVariable Long orderId) {
+        ResponseDto<List<OrderDetailResponseDto>> response = orderDetailService.getOrderDetail(orderId);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
