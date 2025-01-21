@@ -186,8 +186,6 @@ public class MenuServiceImpl implements MenuService {
     public ResponseDto<MenuResponseDto> updateMenu(@Valid Long menuId, MenuUpdateRequestDto dto, Long id) {
         MenuResponseDto data = null;
         try {
-            System.out.println("메뉴쪽" + id);
-            System.out.println("여기쪽에서 오류나는건가?");
             Store store = storeRepository.getStoreByUserId(id).orElseThrow(() -> new RuntimeException("가게 없음"));
             Optional<MenuCategory> OptionalCategory = menuCategoryRepository.findById(dto.getCategoryId());
             if (OptionalCategory.isEmpty()) {
