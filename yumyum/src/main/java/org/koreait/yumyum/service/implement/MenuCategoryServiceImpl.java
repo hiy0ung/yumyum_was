@@ -108,7 +108,7 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
     public ResponseDto<MenuCategoryResponseDto> createCategory(Long id, MenuCategoryRequestDto dto) {
         MenuCategoryResponseDto data = null;
         try {
-            Store store = storeRepository.findById(id)
+            Store store = storeRepository.getStoreByUserId(id)
                     .orElseThrow(() -> new Exception("에러"));
             MenuCategory menuCategory = MenuCategory.builder()
                     .menuCategory(dto.getMenuCategory())
