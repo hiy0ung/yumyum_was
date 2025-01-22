@@ -83,7 +83,7 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated())
 
                 .oauth2Login(oauth2 -> oauth2
-                        .redirectionEndpoint(endPoint -> endPoint.baseUri("/oauth2.callback/*"))
+                        .redirectionEndpoint(endPoint -> endPoint.baseUri("/oauth2/callback/*"))
                         .authorizationEndpoint(endPoint -> endPoint.baseUri("/api/v1/auth/sns-sign-in"))
                         .userInfoEndpoint(endPoint -> endPoint.userService(oAuth2Service))
                         .successHandler(oAuth2SuccessHandler)
