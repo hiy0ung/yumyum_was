@@ -43,8 +43,9 @@ public class OAuth2UserServiceImplement extends DefaultOAuth2UserService {
 
             customOAuth2User = new CustomOAuth2User(snsId, attributes, false);
         } else {
+            Long id = user.getId();
             String userId = user.getUserId();
-            String token = jwtProvider.generateJwtToken(userId);
+            String token = jwtProvider.generateJwtToken(id);
 
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("accessToken", token);

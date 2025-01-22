@@ -37,9 +37,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // 회원가입 O
         if (existed) {
             Optional<User> optionalUser = userRepository.findByUserId(customOAuth2User.getName());
-            User user = optionalUser.get();
-
-            String accessToken = jwtProvider.generateJwtToken(customOAuth2User.getName());
+            User user = null;
+            String accessToken = null;
+            if(optionalUser.isPresent()) {
+                user = optionalUser.get();
+            }
+            if (user != null) {
+                accessToken = jwtProvider.generateJwtToken(user.getId());
+            }
             int expirTime = jwtProvider.getExpiration();
             response.sendRedirect("http://localhost:3000/sns-success?accessToken=" + accessToken + "&expiration= + " + expirTime);
         }
