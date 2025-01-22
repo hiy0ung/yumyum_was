@@ -12,7 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(ApiMappingPattern.MYPAGE) // "/api/v1/mypage"
+@RequestMapping(ApiMappingPattern.MYPAGE)
 @RequiredArgsConstructor
 public class MyPageController {
     private final MyPageService myPageService;

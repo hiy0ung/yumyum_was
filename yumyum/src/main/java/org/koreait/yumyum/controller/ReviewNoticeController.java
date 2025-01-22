@@ -12,40 +12,39 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(ApiMappingPattern.REVIEW_NOTICE) //"/api/v1/reviews/notice"
+@RequestMapping(ApiMappingPattern.REVIEW_NOTICE) // => /api/v1/reviews/notice
 @RequiredArgsConstructor
 public class ReviewNoticeController {
 
     private final ReviewNoticeService reviewNoticeService;
 
     private static final String CREATE_NOTICE = "/create";
-    private static final String UPDATE_NOTICE = "/update";
     private static final String DELETE_NOTICE = "/delete/{noticeId}";
 
 
     @GetMapping
-    public ResponseEntity<ResponseDto<ReviewNoticeResponseDto>> getNotice(@AuthenticationPrincipal Long id) {
+    public ResponseEntity<ResponseDto<ReviewNoticeResponseDto>> getNotice(
+            @AuthenticationPrincipal Long id) {
         ResponseDto<ReviewNoticeResponseDto> response = reviewNoticeService.getNotice(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return ResponseEntity.status(status).body(response);
     }
 
     @PostMapping(CREATE_NOTICE)
-    public ResponseEntity<ResponseDto<ReviewNoticeResponseDto>> createNotice(@AuthenticationPrincipal Long id, @ModelAttribute ReviewNoticeRequestDto dto) {
+    public ResponseEntity<ResponseDto<ReviewNoticeResponseDto>> createNotice(
+            @AuthenticationPrincipal Long id,
+            @ModelAttribute ReviewNoticeRequestDto dto
+    ) {
         ResponseDto<ReviewNoticeResponseDto> response = reviewNoticeService.createNotice(id, dto);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
 
-    @PutMapping(UPDATE_NOTICE)
-    public ResponseEntity<ResponseDto<ReviewNoticeResponseDto>> updateNotice(@AuthenticationPrincipal Long id,@PathVariable Long noticeId, @ModelAttribute ReviewNoticeRequestDto dto) {
-        ResponseDto<ReviewNoticeResponseDto> response = reviewNoticeService.updateNotice(id, noticeId, dto);
-        HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-        return ResponseEntity.status(status).body(response);
-    }
-
     @DeleteMapping(DELETE_NOTICE)
-    public ResponseEntity<ResponseDto<String>> deleteNotice(@AuthenticationPrincipal Long id, @PathVariable Long noticeId) {
+    public ResponseEntity<ResponseDto<String>> deleteNotice(
+            @AuthenticationPrincipal Long id,
+            @PathVariable Long noticeId
+    ) {
         ResponseDto<String> response = reviewNoticeService.deleteNotice(id, noticeId);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);

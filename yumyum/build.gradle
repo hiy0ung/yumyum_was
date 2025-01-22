@@ -49,6 +49,9 @@ dependencies {
 
     // 추가된 classmate 의존성
     implementation('com.fasterxml:classmate:1.5.1')
+
+    // 스프링 OAuth2
+    implementation('org.springframework.boot:spring-boot-starter-oauth2-client')
 }
 
 test {
