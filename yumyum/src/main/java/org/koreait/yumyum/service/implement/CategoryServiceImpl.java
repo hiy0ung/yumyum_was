@@ -9,6 +9,7 @@ import org.koreait.yumyum.dto.category.response.CategoryResponseDto;
 import org.koreait.yumyum.entity.MenuCategory;
 import org.koreait.yumyum.entity.Store;
 import org.koreait.yumyum.repository.CategoryRepository;
+import org.koreait.yumyum.repository.MenuCategoryRepository;
 import org.koreait.yumyum.repository.StoreRepository;
 import org.koreait.yumyum.service.CategoryService;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,6 @@ public class CategoryServiceImpl implements CategoryService {
         List<CategoryResponseDto> data = null;
 
         try {
-            System.out.println("카테고리쪽" + id);
             Optional<Store> optionalStore = storeRepository.getStoreByUserId(id);
 
             if(optionalStore.isEmpty()) {
@@ -58,6 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         try {
             Optional<Store> optionalStore = storeRepository.getStoreByUserId(userId);
+
 
             if(optionalStore.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
