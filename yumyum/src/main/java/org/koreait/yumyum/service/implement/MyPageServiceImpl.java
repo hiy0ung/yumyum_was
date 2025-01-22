@@ -1,6 +1,5 @@
 package org.koreait.yumyum.service.implement;
 
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
