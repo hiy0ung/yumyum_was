@@ -26,7 +26,9 @@ public class RatingController {
     private final RatingService ratingService;
 
     @GetMapping(getRating)
-    public ResponseEntity<ResponseDto<List<RatingStatisticsResponseDto>>> getReviewCountByRating(@AuthenticationPrincipal Long id) {
+    public ResponseEntity<ResponseDto<List<RatingStatisticsResponseDto>>> getReviewCountByRating(
+            @AuthenticationPrincipal Long id
+    ) {
         ResponseDto<List<RatingStatisticsResponseDto>> response = ratingService.getReviewCountByRating(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         System.out.println(response);
@@ -34,7 +36,10 @@ public class RatingController {
     }
 
     @GetMapping(getAvgRating)
-    public ResponseEntity<ResponseDto<List<RatingMonthResponseDto>>> getAvgRatingByMonth(@AuthenticationPrincipal Long id, @RequestParam String date) {
+    public ResponseEntity<ResponseDto<List<RatingMonthResponseDto>>> getAvgRatingByMonth(
+            @AuthenticationPrincipal Long id,
+            @RequestParam String date
+    ) {
         ResponseDto<List<RatingMonthResponseDto>> response = ratingService.getAvgRatingByMonth(id, date);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return ResponseEntity.status(status).body(response);

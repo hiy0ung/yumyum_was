@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(ApiMappingPattern.STATS) // /api/v1/stats;
+@RequestMapping(ApiMappingPattern.STATS) // => /api/v1/stats;
 public class StatsMenuController {
 
     private final StatsMenuService statsMenuService;
@@ -28,7 +28,9 @@ public class StatsMenuController {
     public static final String GET_STATS_MONTH = "/menus/month/{orderDate}";
 
     @GetMapping(GET_STATS_TODAY)
-    public ResponseEntity<ResponseDto<List<StatsMenuResponseDto>>> getTodaySalesByOrderDate(@AuthenticationPrincipal Long id) {
+    public ResponseEntity<ResponseDto<List<StatsMenuResponseDto>>> getTodaySalesByOrderDate(
+            @AuthenticationPrincipal Long id
+    ) {
         ResponseDto<List<StatsMenuResponseDto>> response = statsMenuService.getTodaySalesByOrderDate(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
