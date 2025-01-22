@@ -86,10 +86,6 @@ public class AuthServiceImpl implements AuthService {
             return ResponseDto.setFailed(ResponseMessage.VALIDATION_FAIL);
         }
 
-        if(snsId.isEmpty()) {
-            return ResponseDto.setFailed(ResponseMessage.VALIDATION_FAIL);
-        }
-
         try {
             String encodePassword = bCryptpasswordEncoder.encode(userPw);
             User user = User.builder()
