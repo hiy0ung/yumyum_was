@@ -44,6 +44,7 @@ public class JwtProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
+
     public String generateEmailValidToken(String userId) {
         return Jwts.builder()
                 .claim("userId", userId)

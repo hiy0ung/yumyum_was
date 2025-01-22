@@ -2,6 +2,8 @@ package org.koreait.yumyum.config;
 
 import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.filter.JwtAuthenticationFilter;
+import org.koreait.yumyum.handler.OAuth2SuccessHandler;
+import org.koreait.yumyum.service.implement.OAuth2UserServiceImplement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,11 +30,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-
 public class WebSecurityConfig {
     @Lazy
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final OAuth2UserServiceImplement oAuth2Service;
 
     @Bean
     public CorsFilter corsFilter() {
@@ -79,6 +82,12 @@ public class WebSecurityConfig {
                         .permitAll()
                         .anyRequest().authenticated())
 
+                .oauth2Login(oauth2 -> oauth2
+                        .redirectionEndpoint(endPoint -> endPoint.baseUri("/oauth2/callback/*"))
+                        .authorizationEndpoint(endPoint -> endPoint.baseUri("/api/v1/auth/sns-sign-in"))
+                        .userInfoEndpoint(endPoint -> endPoint.userService(oAuth2Service))
+                        .successHandler(oAuth2SuccessHandler)
+                )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
