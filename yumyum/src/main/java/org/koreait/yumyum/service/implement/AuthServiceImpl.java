@@ -33,6 +33,8 @@ public class AuthServiceImpl implements AuthService {
         String userBusinessNumber = dto.getUserBusinessNumber();
         boolean privacyPolicyAgreed = dto.isPrivacyPolicyAgreed();
         boolean marketingAgreed = dto.isMarketingAgreed();
+//        String joinPath = dto.getJoinPath();
+//        String snsId = dto.getSnsId();
 
         SignUpResponseDto data = null;
 
@@ -80,6 +82,14 @@ public class AuthServiceImpl implements AuthService {
             return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER);
         }
 
+//        if(joinPath == null || joinPath.isEmpty()) {
+//            return ResponseDto.setFailed(ResponseMessage.VALIDATION_FAIL);
+//        }
+//
+//        if(snsId.isEmpty()) {
+//            return ResponseDto.setFailed(ResponseMessage.VALIDATION_FAIL);
+//        }
+
         try {
             String encodePassword = bCryptpasswordEncoder.encode(userPw);
             User user = User.builder()
@@ -91,6 +101,8 @@ public class AuthServiceImpl implements AuthService {
                     .userBusinessNumber(userBusinessNumber)
                     .privacyPolicyAgreed(privacyPolicyAgreed)
                     .marketingAgreed(marketingAgreed)
+//                    .joinPath(joinPath)
+//                    .snsId(snsId)
                     .build();
 
             userRepository.save(user);
