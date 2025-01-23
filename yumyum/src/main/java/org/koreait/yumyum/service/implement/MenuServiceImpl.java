@@ -43,7 +43,8 @@ public class MenuServiceImpl implements MenuService {
             if (OptionalCategory.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
             }
-            Store store = storeRepository.getStoreByUserId(id).orElseThrow(() -> new RuntimeException("오류"));
+            Store store = storeRepository.getStoreByUserId(id)
+                    .orElseThrow(() -> new RuntimeException(ResponseMessage.NOT_EXIST_STORE));
 
             String menuImgPath = null;
             if (dto.getImageUrl() != null && !dto.getImageUrl().isEmpty()) {
@@ -121,7 +122,6 @@ public class MenuServiceImpl implements MenuService {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
-
         }
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
@@ -174,7 +174,7 @@ public class MenuServiceImpl implements MenuService {
     public ResponseDto<MenuResponseDto> updateMenu(@Valid Long menuId, MenuUpdateRequestDto dto, Long id) {
         MenuResponseDto data = null;
         try {
-            Store store = storeRepository.getStoreByUserId(id).orElseThrow(() -> new RuntimeException("가게 없음"));
+            Store store = storeRepository.getStoreByUserId(id).orElseThrow(() -> new RuntimeException(ResponseMessage.NOT_EXIST_STORE));
             Optional<MenuCategory> OptionalCategory = menuCategoryRepository.findById(dto.getCategoryId());
             if (OptionalCategory.isEmpty()) {
                 return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
