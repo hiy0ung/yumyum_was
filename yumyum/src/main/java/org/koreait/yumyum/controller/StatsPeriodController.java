@@ -1,6 +1,5 @@
 package org.koreait.yumyum.controller;
 
-
 import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ApiMappingPattern;
 import org.koreait.yumyum.dto.ResponseDto;
