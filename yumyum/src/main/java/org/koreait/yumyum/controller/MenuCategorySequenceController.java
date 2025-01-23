@@ -50,5 +50,4 @@ public class MenuCategorySequenceController {
         HttpStatus status = responseDto.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(responseDto);
     }
-
 }

@@ -5,20 +5,15 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ApiMappingPattern;
 import org.koreait.yumyum.dto.ResponseDto;
-import org.koreait.yumyum.dto.menu.request.MenuOptionRequestDto;
 import org.koreait.yumyum.dto.menu.request.MenuUpdateRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuGetResponseDto;
 import org.koreait.yumyum.dto.menu.request.MenuRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuResponseDto;
-import org.koreait.yumyum.entity.MenuOption;
 import org.koreait.yumyum.service.MenuService;
-import org.koreait.yumyum.service.implement.MenuImageServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
