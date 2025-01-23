@@ -5,7 +5,7 @@ import org.koreait.yumyum.common.constant.ApiMappingPattern;
 import org.koreait.yumyum.dto.ResponseDto;
 import org.koreait.yumyum.dto.menu.request.MenuCategoryRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuCategoryResponseDto;
-import org.koreait.yumyum.service.MenuCategoryService;
+import org.koreait.yumyum.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,8 +16,8 @@ import java.util.List;
 @RestController
 @RequestMapping(ApiMappingPattern.CATEGORY)
 @RequiredArgsConstructor
-public class MenuCategorySequenceController {
-    private final MenuCategoryService menuCategoryService;
+public class CategoryController {
+    private final CategoryService menuCategoryService;
     private static final String MENU_CATEGORY_POST = "/post";
     private static final String MENU_CATEGORY_GET = "/get";
     private static final String MENU_CATEGORY_SEQUENCE = "/sequence";
