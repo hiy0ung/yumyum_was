@@ -1,6 +1,5 @@
 package org.koreait.yumyum.service.implement;
 
-import jakarta.persistence.Index;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -17,9 +16,7 @@ import org.koreait.yumyum.dto.menu.response.MenuResponseDto;
 import org.koreait.yumyum.entity.*;
 import org.koreait.yumyum.repository.*;
 import org.koreait.yumyum.service.MenuService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,22 +26,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MenuServiceImpl implements MenuService {
 
-    @Autowired
     private final MenuRepository menuRepository;
-
-    @Autowired
-    private final MenuCategoryRepository menuCategoryRepository;
-
-    @Autowired
-    private final MenuOptionServiceImpl menuOptionService;
-
-    @Autowired
-    private final StoreRepository storeRepository;
-    @Autowired
     private final MenuOptionRepository menuOptionRepository;
-    @Autowired
+    private final MenuCategoryRepository menuCategoryRepository;
+    private final StoreRepository storeRepository;
     private final MenuOptionGroupRepository menuOptionGroupRepository;
-    @Autowired
+
+    private final MenuOptionServiceImpl menuOptionService;
     private final MenuImageServiceImpl menuImageService;
 
     public ResponseDto<MenuResponseDto> addMenu(MenuRequestDto dto, Long id) {
@@ -230,7 +218,6 @@ public class MenuServiceImpl implements MenuService {
                         i++;
                     }
                 }
-
             }
 
             MenuResponseDto responseDto = new MenuResponseDto(savedMenu);

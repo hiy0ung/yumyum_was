@@ -1,8 +1,6 @@
 package org.koreait.yumyum.service.implement;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.bcel.Const;
-import org.aspectj.apache.bcel.generic.ClassGen;
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
 import org.koreait.yumyum.dto.menu.request.MenuOptionDetailRequestDto;
@@ -12,7 +10,6 @@ import org.koreait.yumyum.dto.menu.request.MenuOptionUpdateRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionResponseDto;
 import org.koreait.yumyum.entity.Menu;
 import org.koreait.yumyum.entity.MenuOption;
-import org.koreait.yumyum.entity.MenuOptionDetail;
 import org.koreait.yumyum.entity.MenuOptionGroup;
 import org.koreait.yumyum.repository.MenuOptionDetailRepository;
 import org.koreait.yumyum.repository.MenuOptionGroupRepository;
@@ -20,11 +17,8 @@ import org.koreait.yumyum.repository.MenuOptionRepository;
 import org.koreait.yumyum.repository.MenuRepository;
 import org.koreait.yumyum.service.MenuOptionDetailService;
 import org.koreait.yumyum.service.MenuOptionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,15 +27,11 @@ import java.util.Optional;
 public class MenuOptionServiceImpl implements MenuOptionService {
 
     private final MenuOptionRepository menuOptionRepository;
-
     private final MenuRepository menuRepository;
-
     private final MenuOptionGroupRepository menuOptionGroupRepository;
+    private final MenuOptionDetailRepository menuOptionDetailRepository;
 
-    @Autowired
     private final MenuOptionDetailService menuOptionDetailService;
-    @Autowired
-    private MenuOptionDetailRepository menuOptionDetailRepository;
 
     @Override
     public ResponseDto<MenuOptionResponseDto> addMenuOption(MenuOptionRequestDto dto, Long id) {
@@ -78,7 +68,11 @@ public class MenuOptionServiceImpl implements MenuOptionService {
     }
 
     @Override
-    public ResponseDto<MenuOptionResponseDto> updateMenuOption(MenuOptionUpdateRequestDto dto, Long optionId, Long id) {
+    public ResponseDto<MenuOptionResponseDto> updateMenuOption(
+            MenuOptionUpdateRequestDto dto,
+            Long optionId,
+            Long id)
+    {
         MenuOptionResponseDto data = null;
 
         try {
@@ -91,8 +85,6 @@ public class MenuOptionServiceImpl implements MenuOptionService {
                     menuOptionDetailService.updateOptionDetail(detailDto, optionId, pkId, id);
                     i++;
                 }
-
-
                 } else {
                     return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
                 }
@@ -102,7 +94,6 @@ public class MenuOptionServiceImpl implements MenuOptionService {
         }
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
-
 
     @Override
     public ResponseDto<Void> deleteMenuOption(Long optionId, Long id) {

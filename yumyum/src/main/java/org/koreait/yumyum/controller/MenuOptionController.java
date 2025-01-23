@@ -23,7 +23,6 @@ public class MenuOptionController {
     public static final String OPTION_PUT_ID = "/update/{optionId}";
     public static final String OPTION_DELETE_ID = "/delete/{optionId}";
 
-    // 추가
     @PostMapping(OPTION_POST_ADD)
     public ResponseEntity<ResponseDto<MenuOptionResponseDto>> addMenuOption(
             @RequestBody MenuOptionRequestDto dto,
@@ -34,7 +33,6 @@ public class MenuOptionController {
         return ResponseEntity.status(status).body(response);
     }
 
-    // 수정
     @PutMapping(OPTION_PUT_ID)
     public ResponseEntity<ResponseDto<MenuOptionResponseDto>> updateMenuOption(
             @RequestBody MenuOptionUpdateRequestDto dto,
@@ -46,7 +44,6 @@ public class MenuOptionController {
         return ResponseEntity.status(status).body(response);
     }
 
-    // 삭제
     @DeleteMapping(OPTION_DELETE_ID)
     public ResponseEntity<ResponseDto<Void>> deleteMenuOption(
             @PathVariable Long optionId,

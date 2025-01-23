@@ -9,7 +9,6 @@ import java.util.List;
 public interface MenuCategoryService {
     ResponseDto<List<MenuCategoryResponseDto>> getAllMenuCategory(Long id);
     ResponseDto<List<MenuCategoryResponseDto>> updateSequenceCategory(MenuCategoryRequestDto dto);
-
     ResponseDto<MenuCategoryResponseDto> createCategory(Long id, MenuCategoryRequestDto dto);
     ResponseDto<Void> deleteCategory(Long categoryId);
 }
