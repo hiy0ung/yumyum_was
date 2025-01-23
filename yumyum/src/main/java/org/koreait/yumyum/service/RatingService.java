@@ -8,6 +8,5 @@ import java.util.List;
 
 public interface RatingService {
     ResponseDto<List<RatingStatisticsResponseDto>> getReviewCountByRating(Long id);
-
     ResponseDto<List<RatingMonthResponseDto>> getAvgRatingByMonth(Long id, String date);
 }

@@ -27,15 +27,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MenuController {
     private final MenuService menuService;
-    private final MenuImageServiceImpl menuImageService;
 
     public static final String MENU_POST_ADD = "/add";
     public static final String MENU_GET_ID = "/{menuId}";
     public static final String MENU_PUT_UPDATE = "/update/{menuId}";
     public static final String MENU_DELETE = "/delete/{menuId}";
 
-
-    // 메뉴 추가
     @PostMapping(MENU_POST_ADD)
     public ResponseEntity<ResponseDto<MenuResponseDto>> addMenu(@Valid @ModelAttribute MenuRequestDto dto, @AuthenticationPrincipal Long id) {
         ResponseDto<MenuResponseDto> response = menuService.addMenu(dto, id);
@@ -43,14 +40,12 @@ public class MenuController {
         return ResponseEntity.status(status).body(response);
     }
 
-    // 메뉴 조회
     @GetMapping
     public ResponseEntity<ResponseDto<List<MenuGetResponseDto>>> getAllMenus(@AuthenticationPrincipal Long id) {
         ResponseDto<List<MenuGetResponseDto>> result = menuService.getAllMenus(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    // 특정 ID 메뉴 조회
     @GetMapping(MENU_GET_ID)
     public ResponseEntity<ResponseDto<MenuGetResponseDto>> getMenusById(@PathVariable Long menuId, @AuthenticationPrincipal Long id) {
         ResponseDto<MenuGetResponseDto> response = menuService.getMenusById(menuId, id);
@@ -58,7 +53,6 @@ public class MenuController {
         return ResponseEntity.status(status).body(response);
     }
 
-    // 메뉴 수정
     @PostMapping(MENU_PUT_UPDATE)
     public ResponseEntity<ResponseDto<MenuResponseDto>> updateMenu(
             @Valid @PathVariable Long menuId,
@@ -70,7 +64,6 @@ public class MenuController {
         return ResponseEntity.status(status).body(response);
     }
 
-    // 메뉴 삭제
     @DeleteMapping(MENU_DELETE)
     public ResponseEntity<ResponseDto<Void>> deleteMenu(
             @PathVariable Long menuId,

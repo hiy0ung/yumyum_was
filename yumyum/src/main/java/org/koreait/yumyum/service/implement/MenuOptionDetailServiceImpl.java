@@ -1,14 +1,11 @@
 package org.koreait.yumyum.service.implement;
 
 import lombok.RequiredArgsConstructor;
-import org.aspectj.apache.bcel.generic.ClassGen;
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
-import org.koreait.yumyum.dto.menu.request.MenuOptionDetailNameRequestDto;
 import org.koreait.yumyum.dto.menu.request.MenuOptionDetailRequestDto;
 import org.koreait.yumyum.dto.menu.request.MenuOptionDetailUpdateRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuOptionDetailResponseDto;
-import org.koreait.yumyum.entity.Menu;
 import org.koreait.yumyum.entity.MenuOption;
 import org.koreait.yumyum.entity.MenuOptionDetail;
 import org.koreait.yumyum.repository.MenuOptionDetailRepository;
@@ -16,7 +13,6 @@ import org.koreait.yumyum.repository.MenuOptionRepository;
 import org.koreait.yumyum.service.MenuOptionDetailService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +21,6 @@ import java.util.Optional;
 public class MenuOptionDetailServiceImpl implements MenuOptionDetailService {
 
     private final MenuOptionDetailRepository menuOptionDetailRepository;
-
     private final MenuOptionRepository menuOptionRepository;
 
     @Override
@@ -52,9 +47,13 @@ public class MenuOptionDetailServiceImpl implements MenuOptionDetailService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-
     @Override
-    public ResponseDto<MenuOptionDetailResponseDto> updateOptionDetail(MenuOptionDetailUpdateRequestDto dto, Long optionDetailId,Long pkId, Long id) {
+    public ResponseDto<MenuOptionDetailResponseDto> updateOptionDetail(
+            MenuOptionDetailUpdateRequestDto dto,
+            Long optionDetailId,
+            Long pkId,
+            Long id)
+    {
         MenuOptionDetailResponseDto data = null;
 
         List<MenuOptionDetail> menuOptionDetails = menuOptionDetailRepository.findByMenuOptionIdAndId(optionDetailId, pkId);

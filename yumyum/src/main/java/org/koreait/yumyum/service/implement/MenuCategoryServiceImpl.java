@@ -1,8 +1,6 @@
 package org.koreait.yumyum.service.implement;
 
-
 import org.koreait.yumyum.entity.Store;
-import org.koreait.yumyum.repository.CategoryRepository;
 import org.koreait.yumyum.repository.StoreRepository;
 import org.koreait.yumyum.service.MenuCategoryService;
 
@@ -13,7 +11,6 @@ import org.koreait.yumyum.dto.menu.request.MenuCategoryRequestDto;
 import org.koreait.yumyum.dto.menu.response.MenuCategoryResponseDto;
 import org.koreait.yumyum.entity.MenuCategory;
 import org.koreait.yumyum.repository.MenuCategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,19 +20,15 @@ import java.util.List;
 @Service
 public class MenuCategoryServiceImpl implements MenuCategoryService {
 
-    @Autowired
     private final MenuCategoryRepository menuCategoryRepository;
-    @Autowired
-    private StoreRepository storeRepository;
-
+    private final StoreRepository storeRepository;
 
     @Override
     public ResponseDto<List<MenuCategoryResponseDto>> getAllMenuCategory(Long id) {
         List<MenuCategoryResponseDto> data = null;
-        System.out.println(id);
         try {
             Store store = storeRepository.getStoreByUserId(id)
-                    .orElseThrow(() -> new RuntimeException("가게 없음"));
+                    .orElseThrow(() -> new RuntimeException(ResponseMessage.NOT_EXIST_STORE));
             List<MenuCategory> categories = menuCategoryRepository.findAllCategoryByStoreId(store.getId());
             data = new ArrayList<>();
 
@@ -66,8 +59,6 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
             if(oldSequence != newSequence) {
                 menuCategory.setMenuCategorySequence(Integer.MAX_VALUE);
                 menuCategoryRepository.save(menuCategory);
-
-
                 if (oldSequence < newSequence) {
                     List<MenuCategory> categories = menuCategoryRepository.findByMenuCategorySequenceBetween(oldSequence + 1, newSequence);
                     for (MenuCategory category : categories) {
@@ -96,7 +87,6 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
                 responseDto.setMenuCategorySequence(category.getMenuCategorySequence());
                 data.add(responseDto);
             }
-
             return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
         } catch (Exception e){
             e.printStackTrace();
@@ -109,7 +99,7 @@ public class MenuCategoryServiceImpl implements MenuCategoryService {
         MenuCategoryResponseDto data = null;
         try {
             Store store = storeRepository.getStoreByUserId(id)
-                    .orElseThrow(() -> new Exception("에러"));
+                    .orElseThrow(() -> new Exception(ResponseMessage.NOT_EXIST_DATA));
             MenuCategory menuCategory = MenuCategory.builder()
                     .menuCategory(dto.getMenuCategory())
                     .menuCategorySequence(dto.getMenuCategorySequence())
