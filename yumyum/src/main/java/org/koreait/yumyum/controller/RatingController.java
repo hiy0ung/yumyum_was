@@ -31,7 +31,6 @@ public class RatingController {
     ) {
         ResponseDto<List<RatingStatisticsResponseDto>> response = ratingService.getReviewCountByRating(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
-        System.out.println(response);
         return ResponseEntity.status(status).body(response);
     }
 
@@ -44,5 +43,6 @@ public class RatingController {
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return ResponseEntity.status(status).body(response);
     }
+
 }
 
