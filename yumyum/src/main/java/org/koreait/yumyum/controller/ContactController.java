@@ -5,7 +5,6 @@ import org.koreait.yumyum.dto.contact.request.ContactRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,7 +19,6 @@ public class ContactController {
 
     @PostMapping("/contact")
     public ResponseEntity<Map<String, Object>> sendContactMail(
-            @AuthenticationPrincipal Long userId,
             @RequestBody ContactRequestDto contactRequest
     ) {
 
