@@ -85,5 +85,6 @@ public class RatingServiceImpl implements RatingService {
         }
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
+
 }
 
