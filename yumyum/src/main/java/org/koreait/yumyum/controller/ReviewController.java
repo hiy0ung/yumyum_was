@@ -27,7 +27,7 @@ public class ReviewController {
     private static final String DELETE_REVIEWS_COMMENT = "/comment/delete/{reviewId}";
 
 
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<ResponseDto<List<ReviewResponseDto>>> getAllReviews(
             @AuthenticationPrincipal Long id
     ) {
