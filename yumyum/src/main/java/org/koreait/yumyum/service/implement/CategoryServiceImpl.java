@@ -2,7 +2,7 @@ package org.koreait.yumyum.service.implement;
 
 import org.koreait.yumyum.entity.Store;
 import org.koreait.yumyum.repository.StoreRepository;
-import org.koreait.yumyum.service.MenuCategoryService;
+import org.koreait.yumyum.service.CategoryService;
 
 import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ResponseMessage;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class MenuCategoryServiceImpl implements MenuCategoryService {
+public class CategoryServiceImpl implements CategoryService {
 
     private final MenuCategoryRepository menuCategoryRepository;
     private final StoreRepository storeRepository;
