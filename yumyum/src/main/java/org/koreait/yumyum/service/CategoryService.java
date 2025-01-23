@@ -1,21 +1,14 @@
 package org.koreait.yumyum.service;
 
-
-import jakarta.validation.Valid;
 import org.koreait.yumyum.dto.ResponseDto;
-import org.koreait.yumyum.dto.category.request.CreateCategoryRequestDto;
-import org.koreait.yumyum.dto.category.request.UpdateCategoryRequestDto;
-import org.koreait.yumyum.dto.category.response.CategoryResponseDto;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.koreait.yumyum.dto.menu.request.MenuCategoryRequestDto;
+import org.koreait.yumyum.dto.menu.response.MenuCategoryResponseDto;
 
 import java.util.List;
 
 public interface CategoryService {
-    ResponseDto<List<CategoryResponseDto>> getCategories(Long id);
-
-    ResponseDto<CategoryResponseDto> createCategory(Long userId, @Valid CreateCategoryRequestDto dto);
-
-    ResponseDto<CategoryResponseDto> updateCategory(@Valid UpdateCategoryRequestDto dto, Long id);
-
-    ResponseDto<Void> deleteCategory(Long id);
+    ResponseDto<List<MenuCategoryResponseDto>> getAllMenuCategory(Long id);
+    ResponseDto<List<MenuCategoryResponseDto>> updateSequenceCategory(MenuCategoryRequestDto dto);
+    ResponseDto<MenuCategoryResponseDto> createCategory(Long id, MenuCategoryRequestDto dto);
+    ResponseDto<Void> deleteCategory(Long categoryId);
 }

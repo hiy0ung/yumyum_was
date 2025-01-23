@@ -10,11 +10,7 @@ import java.util.List;
 
 public interface ReviewService {
     ResponseDto<List<ReviewResponseDto>> getAllReviews(Long id);
-
     ResponseDto<List<ReviewResponseDto>> getUnansweredReviews(Long id);
-
     ResponseDto<ReviewCommentResponseDto> createReviewComment(Long id, Long reviewId, ReviewCommentRequestDto dto);
-
     ResponseDto<String> deleteReviewComment(Long id, Long reviewId);
-
 }

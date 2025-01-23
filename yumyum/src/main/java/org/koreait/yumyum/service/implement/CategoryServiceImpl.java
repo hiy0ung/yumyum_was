@@ -1,51 +1,45 @@
 package org.koreait.yumyum.service.implement;
 
+import org.koreait.yumyum.entity.Store;
+import org.koreait.yumyum.repository.StoreRepository;
+import org.koreait.yumyum.service.CategoryService;
+
 import lombok.RequiredArgsConstructor;
 import org.koreait.yumyum.common.constant.ResponseMessage;
 import org.koreait.yumyum.dto.ResponseDto;
-import org.koreait.yumyum.dto.category.request.CreateCategoryRequestDto;
-import org.koreait.yumyum.dto.category.request.UpdateCategoryRequestDto;
-import org.koreait.yumyum.dto.category.response.CategoryResponseDto;
+import org.koreait.yumyum.dto.menu.request.MenuCategoryRequestDto;
+import org.koreait.yumyum.dto.menu.response.MenuCategoryResponseDto;
 import org.koreait.yumyum.entity.MenuCategory;
-import org.koreait.yumyum.entity.Store;
-import org.koreait.yumyum.repository.CategoryRepository;
 import org.koreait.yumyum.repository.MenuCategoryRepository;
-import org.koreait.yumyum.repository.StoreRepository;
-import org.koreait.yumyum.service.CategoryService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class CategoryServiceImpl implements CategoryService {
 
-    private final CategoryRepository categoryRepository;
+    private final MenuCategoryRepository menuCategoryRepository;
     private final StoreRepository storeRepository;
 
     @Override
-    public ResponseDto<List<CategoryResponseDto>> getCategories(Long id) {
-        List<CategoryResponseDto> data = null;
-
+    public ResponseDto<List<MenuCategoryResponseDto>> getAllMenuCategory(Long id) {
+        List<MenuCategoryResponseDto> data = null;
         try {
-            Optional<Store> optionalStore = storeRepository.getStoreByUserId(id);
+            Store store = storeRepository.getStoreByUserId(id)
+                    .orElseThrow(() -> new RuntimeException(ResponseMessage.NOT_EXIST_STORE));
+            List<MenuCategory> categories = menuCategoryRepository.findAllCategoryByStoreId(store.getId());
+            data = new ArrayList<>();
 
-            if(optionalStore.isEmpty()) {
-                return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
+            for(MenuCategory category : categories) {
+                MenuCategoryResponseDto dto = new MenuCategoryResponseDto();
+                dto.setId(category.getId());
+                dto.setMenuCategory(category.getMenuCategory());
+                dto.setMenuCategorySequence(category.getMenuCategorySequence());
+                data.add(dto);
             }
-
-            Store store = optionalStore.get();
-
-            List<MenuCategory> menuCategoryList = categoryRepository.getMenuCategoryById(id);
-
-            data = menuCategoryList.stream()
-                    .map(CategoryResponseDto::new)
-                    .collect(Collectors.toList());
-
-        }catch(Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
@@ -53,28 +47,70 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ResponseDto<CategoryResponseDto> createCategory(Long userId, CreateCategoryRequestDto dto) {
-        CategoryResponseDto data = null;
-
+    public ResponseDto<List<MenuCategoryResponseDto>> updateSequenceCategory(MenuCategoryRequestDto dto) {
+        List<MenuCategoryResponseDto> data = null;
         try {
-            Optional<Store> optionalStore = storeRepository.getStoreByUserId(userId);
+            MenuCategory menuCategory = menuCategoryRepository.findById(dto.getId())
+                    .orElseThrow(() -> new Exception(ResponseMessage.DATABASE_ERROR));
 
+            int oldSequence = menuCategory.getMenuCategorySequence();
+            int newSequence = dto.getMenuCategorySequence();
 
-            if(optionalStore.isEmpty()) {
-                return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_STORE);
+            if(oldSequence != newSequence) {
+                menuCategory.setMenuCategorySequence(Integer.MAX_VALUE);
+                menuCategoryRepository.save(menuCategory);
+                if (oldSequence < newSequence) {
+                    List<MenuCategory> categories = menuCategoryRepository.findByMenuCategorySequenceBetween(oldSequence + 1, newSequence);
+                    for (MenuCategory category : categories) {
+                        category.setMenuCategorySequence(category.getMenuCategorySequence() - 1);
+                        menuCategoryRepository.save(menuCategory);
+                    }
+                } else {
+                    List<MenuCategory> categories = menuCategoryRepository.findByMenuCategorySequenceBetween(newSequence, oldSequence - 1);
+                    for (MenuCategory category : categories) {
+                        category.setMenuCategorySequence(category.getMenuCategorySequence() + 1);
+                        menuCategoryRepository.save(menuCategory);
+                    }
+                }
+
+                menuCategory.setMenuCategorySequence(newSequence);
+                menuCategoryRepository.save(menuCategory);
             }
 
-            Store store = optionalStore.get();
+            List<MenuCategory> categories = menuCategoryRepository.findAllByOrderByMenuCategorySequenceAsc();
+            data = new ArrayList<>();
 
+            for (MenuCategory category : categories) {
+                MenuCategoryResponseDto responseDto = new MenuCategoryResponseDto();
+                responseDto.setId(category.getId());
+                responseDto.setMenuCategory(category.getMenuCategory());
+                responseDto.setMenuCategorySequence(category.getMenuCategorySequence());
+                data.add(responseDto);
+            }
+            return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+        } catch (Exception e){
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseDto<MenuCategoryResponseDto> createCategory(Long id, MenuCategoryRequestDto dto) {
+        MenuCategoryResponseDto data = null;
+        try {
+            Store store = storeRepository.getStoreByUserId(id)
+                    .orElseThrow(() -> new Exception(ResponseMessage.NOT_EXIST_DATA));
             MenuCategory menuCategory = MenuCategory.builder()
-                    .menuCategory(dto.getCategoryName())
+                    .menuCategory(dto.getMenuCategory())
+                    .menuCategorySequence(dto.getMenuCategorySequence())
+                    .store(store)
                     .build();
+            MenuCategory savedCategory = menuCategoryRepository.save(menuCategory);
 
-            categoryRepository.save(menuCategory);
+            MenuCategoryResponseDto responseDto = new MenuCategoryResponseDto(savedCategory);
+            data = responseDto;
 
-            data = new CategoryResponseDto(menuCategory);
-
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
@@ -82,51 +118,15 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ResponseDto<CategoryResponseDto> updateCategory(UpdateCategoryRequestDto dto, Long id) {
-        CategoryResponseDto data = null;
-        Long CategoryId = dto.getId();
-
+    public ResponseDto<Void> deleteCategory(Long categoryId) {
         try {
-
-            Optional<MenuCategory> optionalMenuCategory = categoryRepository.findById(CategoryId);
-
-            if(optionalMenuCategory.isEmpty()) {
-                return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_CATEGORY);
-            }
-
-            MenuCategory menuCategory = optionalMenuCategory.get();
-            MenuCategory updateMenuCategory = menuCategory.toBuilder()
-                    .menuCategory(dto.getCategoryName())
-                    .build();
-            categoryRepository.save(updateMenuCategory);
-
-            data = new CategoryResponseDto(updateMenuCategory);
-
-        }catch(Exception e) {
+            MenuCategory category = menuCategoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new Error(ResponseMessage.NOT_EXIST_CATEGORY));
+            menuCategoryRepository.deleteById(categoryId);
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
-        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
-    }
-
-    @Override
-    public ResponseDto<Void> deleteCategory(Long id) {
-        try {
-            Optional<MenuCategory> optionalMenuCategory = categoryRepository.findById(id);
-
-            if(optionalMenuCategory.isEmpty()) {
-                return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_CATEGORY);
-            }
-
-            MenuCategory menuCategory = optionalMenuCategory.get();
-            categoryRepository.delete(menuCategory);
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
-        }
-
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, null);
     }
 }
-

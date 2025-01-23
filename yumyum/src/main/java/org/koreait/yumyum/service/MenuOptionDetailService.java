@@ -9,9 +9,6 @@ import java.util.List;
 
 public interface MenuOptionDetailService {
     ResponseDto<MenuOptionDetailResponseDto> addOptionDetail(MenuOptionDetailRequestDto dto, Long id);
-
     ResponseDto<MenuOptionDetailResponseDto> updateOptionDetail(MenuOptionDetailUpdateRequestDto dto, Long optionDetailId,Long pkId, Long id);
-
-
     ResponseDto<Void> deleteOptionDetail(Long optionDetailId, Long id);
 }
