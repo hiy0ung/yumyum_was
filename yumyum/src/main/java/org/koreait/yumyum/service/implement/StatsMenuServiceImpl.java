@@ -25,8 +25,10 @@ public class StatsMenuServiceImpl implements StatsMenuService {
         List<StatsMenuResponseDto> data = null;
 
         List<Object[]> convertDto;
+
         try {
             convertDto = statsMenuRepository.findTodayTotalPriceAndQuantityByOrderDate(id);
+
             data = convertDto.stream()
                     .map(dto -> new StatsMenuResponseDto(
                             ((java.sql.Date) dto[0]).toLocalDate(),
