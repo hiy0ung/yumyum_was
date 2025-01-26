@@ -19,25 +19,20 @@ public class StoreController {
 
     private final StoreService storeService;
 
-    private static final String GET_STORE = "/get";
-    private static final String CREATE_STORE = "/create";
-    private static final String UPDATE_STORE = "/update";
-    private static final String DELETE_STORE = "/delete";
-
     @GetMapping()
     public Boolean findByStore(@AuthenticationPrincipal Long id) {
         boolean response = storeService.findByStore(id);
         return response;
     }
 
-    @GetMapping(GET_STORE)
+    @GetMapping("/")
     public ResponseEntity<ResponseDto<StoreResponseDto>> getStore(@AuthenticationPrincipal Long id) {
         ResponseDto<StoreResponseDto> response = storeService.getStore(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
 
-    @PostMapping(CREATE_STORE)
+    @PostMapping()
     public ResponseEntity<ResponseDto<StoreResponseDto>> createStore(@AuthenticationPrincipal Long id, @Valid @ModelAttribute StoreRequestDto dto) {
         System.out.println(id);
         ResponseDto<StoreResponseDto> response = storeService.createStore(id, dto);
@@ -45,14 +40,14 @@ public class StoreController {
         return ResponseEntity.status(status).body(response);
     }
 
-    @PutMapping(UPDATE_STORE)
+    @PutMapping()
     public ResponseEntity<ResponseDto<StoreResponseDto>> updateStore(@AuthenticationPrincipal Long id, @Valid @ModelAttribute StoreRequestDto dto) {
         ResponseDto<StoreResponseDto> response = storeService.updateStore(id, dto);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
 
-    @DeleteMapping(DELETE_STORE)
+    @DeleteMapping()
     public ResponseEntity<ResponseDto<String>> deleteStore(@AuthenticationPrincipal Long id) {
         ResponseDto<String> response = storeService.deleteStore(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
