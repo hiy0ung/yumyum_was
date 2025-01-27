@@ -21,11 +21,10 @@ public class MenuOptionDetailController {
 
     private final MenuOptionDetailService menuOptionDetailService;
 
-    public static final String OPTION_DETAIL_POST_ADD = "/add";
-    public static final String OPTION_DETAIL_PUT_ID = "/update/{optionDetailId}";
-    public static final String OPTION_DETAIL_DELETE_ID = "/delete/{optionDetailId}";
+    public static final String OPTION_DETAIL_PUT_ID = "/{optionDetailId}";
+    public static final String OPTION_DETAIL_DELETE_ID = "/{optionDetailId}";
 
-    @PostMapping(OPTION_DETAIL_POST_ADD)
+    @PostMapping
     public ResponseEntity<ResponseDto<MenuOptionDetailResponseDto>> addOptionDetail(
             @RequestBody MenuOptionDetailRequestDto dto,
             @AuthenticationPrincipal Long id

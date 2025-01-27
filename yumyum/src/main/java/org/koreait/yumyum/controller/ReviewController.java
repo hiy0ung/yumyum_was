@@ -21,13 +21,12 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-
     private static final String GET_UNANSWERED_REVIEWS = "/unanswered";
-    private static final String CREATE_REVIEWS_COMMENT = "/comment/create/{reviewId}";
-    private static final String DELETE_REVIEWS_COMMENT = "/comment/delete/{reviewId}";
+    private static final String CREATE_REVIEWS_COMMENT = "/comment/{reviewId}";
+    private static final String DELETE_REVIEWS_COMMENT = "/comment/{reviewId}";
 
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<ResponseDto<List<ReviewResponseDto>>> getAllReviews(
             @AuthenticationPrincipal Long id
     ) {

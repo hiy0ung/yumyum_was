@@ -20,7 +20,7 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    private static final String UPDATE_ORDER_STATE = "/update/state/{orderId}";
+    private static final String UPDATE_ORDER_STATE = "/state/{orderId}";
 
     @GetMapping
     public ResponseEntity<ResponseDto<List<OrderResponseDto>>> getAllOrders(@AuthenticationPrincipal Long id) {

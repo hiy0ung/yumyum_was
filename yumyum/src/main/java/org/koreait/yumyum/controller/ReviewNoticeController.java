@@ -18,8 +18,7 @@ public class ReviewNoticeController {
 
     private final ReviewNoticeService reviewNoticeService;
 
-    private static final String CREATE_NOTICE = "/create";
-    private static final String DELETE_NOTICE = "/delete/{noticeId}";
+    private static final String DELETE_NOTICE = "/{noticeId}";
 
 
     @GetMapping
@@ -30,7 +29,7 @@ public class ReviewNoticeController {
         return ResponseEntity.status(status).body(response);
     }
 
-    @PostMapping(CREATE_NOTICE)
+    @PostMapping
     public ResponseEntity<ResponseDto<ReviewNoticeResponseDto>> createNotice(
             @AuthenticationPrincipal Long id,
             @ModelAttribute ReviewNoticeRequestDto dto
