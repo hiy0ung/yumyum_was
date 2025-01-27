@@ -21,11 +21,11 @@ public class AuthController {
 
     private final AuthService authService;
 
-    public static final String SIGN_UP_PATH = "/signUp";
-    public static final String SIGN_UP_USER_ID_DUPLICATION_CHECK_PATH = "/signUp/search/userId";
-    public static final String SIGN_UP_USER_EMAIL_DUPLICATION_CHECK_PATH = "/signUp/search/userEmail";
-    public static final String SIGN_UP_USER_BUSINESS_NUMBER_DUPLICATION_CHECK_PATH = "/signUp/search/userBusinessNumber";
-    public static final String LOGIN_PATH = "/login";
+    public static final String SIGN_UP_PATH = "/sign-up";
+    public static final String SIGN_UP_USER_ID_DUPLICATION_CHECK_PATH = "/sign-up/search/user-id";
+    public static final String SIGN_UP_USER_EMAIL_DUPLICATION_CHECK_PATH = "/sign-up/search/user-email";
+    public static final String SIGN_UP_USER_BUSINESS_NUMBER_DUPLICATION_CHECK_PATH = "/sign-up/search/user-business-number";
+    public static final String LOGIN_PATH = "/log-in";
 
     @PostMapping(SIGN_UP_PATH)
     public ResponseEntity<ResponseDto<SignUpResponseDto>> signUp(@Valid @RequestBody SignUpRequestDto dto) {

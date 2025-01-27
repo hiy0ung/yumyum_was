@@ -23,13 +23,12 @@ import java.util.List;
 public class MenuController {
     private final MenuService menuService;
 
-    public static final String MENU_POST_ADD = "/add";
     public static final String MENU_GET_ID = "/{menuId}";
-    public static final String MENU_PUT_UPDATE = "/update/{menuId}";
-    public static final String MENU_DELETE = "/delete/{menuId}";
-    public static final String MENU_STATE_UPDATE = "/update/state/{menuId}";
+    public static final String MENU_PUT_UPDATE = "/{menuId}";
+    public static final String MENU_DELETE = "/{menuId}";
+    public static final String MENU_STATE_UPDATE = "/state/{menuId}";
 
-    @PostMapping(MENU_POST_ADD)
+    @PostMapping
     public ResponseEntity<ResponseDto<MenuResponseDto>> addMenu(@Valid @ModelAttribute MenuRequestDto dto, @AuthenticationPrincipal Long id) {
         ResponseDto<MenuResponseDto> response = menuService.addMenu(dto, id);
         HttpStatus status = response.isResult() ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;

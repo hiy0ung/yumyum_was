@@ -19,11 +19,10 @@ public class MenuOptionController {
 
     private final MenuOptionService menuOptionService;
 
-    public static final String OPTION_POST_ADD = "/add";
-    public static final String OPTION_PUT_ID = "/update/{optionId}";
-    public static final String OPTION_DELETE_ID = "/delete/{optionId}";
+    public static final String OPTION_PUT_ID = "/{optionId}";
+    public static final String OPTION_DELETE_ID = "/{optionId}";
 
-    @PostMapping(OPTION_POST_ADD)
+    @PostMapping
     public ResponseEntity<ResponseDto<MenuOptionResponseDto>> addMenuOption(
             @RequestBody MenuOptionRequestDto dto,
             @AuthenticationPrincipal Long id
