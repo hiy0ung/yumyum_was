@@ -29,4 +29,5 @@ public interface RatingRepository extends JpaRepository<Review, Long> {
             "AND r.reviewDate between :startDate AND :endDate " +
             "GROUP BY CONCAT(YEAR(r.reviewDate), '-', MONTH(r.reviewDate))")
     List<Object[]> findRatingAvgByMonth(@Param("storeId") Long storeId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+
 }

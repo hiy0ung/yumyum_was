@@ -31,6 +31,7 @@ public class StatsMenuController {
     public ResponseEntity<ResponseDto<List<StatsMenuResponseDto>>> getTodaySalesByOrderDate(
             @AuthenticationPrincipal Long id
     ) {
+
         ResponseDto<List<StatsMenuResponseDto>> response = statsMenuService.getTodaySalesByOrderDate(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
