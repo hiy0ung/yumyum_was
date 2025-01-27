@@ -242,4 +242,19 @@ public class MenuServiceImpl implements MenuService {
         }
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, null);
     }
+
+    @Override
+    public ResponseDto<MenuResponseDto> updateMenuState(Long menuId, boolean isAvailable) {
+        try {
+
+        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException(ResponseMessage.NOT_EXIST_DATA));
+        menu.setIsAvailable(isAvailable);
+        menuRepository.save(menu);
+        MenuResponseDto responseDto = new MenuResponseDto(menu);
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, responseDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+    }
 }

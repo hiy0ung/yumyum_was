@@ -16,4 +16,5 @@ public interface MenuService {
     ResponseDto<MenuGetResponseDto> getMenusById(Long menuId, Long id);
     ResponseDto<MenuResponseDto> updateMenu(Long menuId, MenuUpdateRequestDto dto, @AuthenticationPrincipal Long id);
     ResponseDto<Void> deleteMenu(Long menuId, Long id);
+    ResponseDto<MenuResponseDto> updateMenuState(Long menuId, boolean isAvailable);
 }
