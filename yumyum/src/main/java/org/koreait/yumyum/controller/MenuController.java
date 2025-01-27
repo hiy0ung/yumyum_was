@@ -27,6 +27,7 @@ public class MenuController {
     public static final String MENU_GET_ID = "/{menuId}";
     public static final String MENU_PUT_UPDATE = "/update/{menuId}";
     public static final String MENU_DELETE = "/delete/{menuId}";
+    public static final String MENU_STATE_UPDATE = "/update/state/{menuId}";
 
     @PostMapping(MENU_POST_ADD)
     public ResponseEntity<ResponseDto<MenuResponseDto>> addMenu(@Valid @ModelAttribute MenuRequestDto dto, @AuthenticationPrincipal Long id) {
@@ -67,5 +68,15 @@ public class MenuController {
         ResponseDto<Void> response = menuService.deleteMenu(menuId, id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
+    }
+
+    @PutMapping(MENU_STATE_UPDATE)
+    public ResponseEntity<ResponseDto<MenuResponseDto>> updateState(
+            @PathVariable Long menuId,
+            @RequestParam boolean isAvailable
+    ) {
+        ResponseDto<MenuResponseDto> responseDto = menuService.updateMenuState(menuId, isAvailable);
+        HttpStatus status = responseDto.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status).body(responseDto);
     }
 }
