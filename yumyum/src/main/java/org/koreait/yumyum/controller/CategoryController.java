@@ -18,19 +18,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
     private final CategoryService menuCategoryService;
-    private static final String MENU_CATEGORY_POST = "/post";
-    private static final String MENU_CATEGORY_GET = "/get";
-    private static final String MENU_CATEGORY_SEQUENCE = "/sequence";
-    private static final String MENU_CATEGORY_DELETE = "/delete/{categoryId}";
 
-    @PostMapping(MENU_CATEGORY_POST)
+    private static final String MENU_CATEGORY_SEQUENCE = "/sequence";
+    private static final String MENU_CATEGORY_DELETE = "/{categoryId}";
+
+    @PostMapping
     public ResponseEntity<ResponseDto> createMenuCategory(@AuthenticationPrincipal Long id, @RequestBody MenuCategoryRequestDto dto) {
         ResponseDto<MenuCategoryResponseDto> response = menuCategoryService.createCategory(id, dto);
         HttpStatus status = response.isResult() ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
 
-    @GetMapping(MENU_CATEGORY_GET)
+    @GetMapping
     public ResponseEntity<ResponseDto<List<MenuCategoryResponseDto>>> getMenuCategory(@AuthenticationPrincipal Long id) {
         ResponseDto<List<MenuCategoryResponseDto>> response = menuCategoryService.getAllMenuCategory(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
