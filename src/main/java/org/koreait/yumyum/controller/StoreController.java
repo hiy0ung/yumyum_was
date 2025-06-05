@@ -19,20 +19,20 @@ public class StoreController {
 
     private final StoreService storeService;
 
-    @GetMapping()
+    @GetMapping
     public Boolean findByStore(@AuthenticationPrincipal Long id) {
         boolean response = storeService.findByStore(id);
         return response;
     }
 
-    @GetMapping("/")
+    @GetMapping("/info")
     public ResponseEntity<ResponseDto<StoreResponseDto>> getStore(@AuthenticationPrincipal Long id) {
         ResponseDto<StoreResponseDto> response = storeService.getStore(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<ResponseDto<StoreResponseDto>> createStore(@AuthenticationPrincipal Long id, @Valid @ModelAttribute StoreRequestDto dto) {
         System.out.println(id);
         ResponseDto<StoreResponseDto> response = storeService.createStore(id, dto);
@@ -40,14 +40,14 @@ public class StoreController {
         return ResponseEntity.status(status).body(response);
     }
 
-    @PutMapping()
+    @PutMapping
     public ResponseEntity<ResponseDto<StoreResponseDto>> updateStore(@AuthenticationPrincipal Long id, @Valid @ModelAttribute StoreRequestDto dto) {
         ResponseDto<StoreResponseDto> response = storeService.updateStore(id, dto);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
 
-    @DeleteMapping()
+    @DeleteMapping
     public ResponseEntity<ResponseDto<String>> deleteStore(@AuthenticationPrincipal Long id) {
         ResponseDto<String> response = storeService.deleteStore(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
