@@ -17,9 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class MyPageController {
     private final MyPageService myPageService;
 
-    public static final String MYPAGE_UPDATE = "/update";
-    public static final String MYPAGE_DELETE = "/delete";
-
     @GetMapping
     public ResponseEntity<ResponseDto<UserResponseDto>> getAllInfo(@AuthenticationPrincipal Long id) {
         ResponseDto<UserResponseDto> response = myPageService.getAllInfo(id);
@@ -27,14 +24,14 @@ public class MyPageController {
         return ResponseEntity.status(status).body(response);
     }
 
-    @PutMapping(MYPAGE_UPDATE)
+    @PutMapping
     public ResponseEntity<ResponseDto<UserResponseDto>> updateUserInfo(@AuthenticationPrincipal Long id, @RequestBody UserRequestDto dto) {
         ResponseDto<UserResponseDto> response = myPageService.updateUserInfo(id, dto);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity.status(status).body(response);
     }
 
-    @DeleteMapping(MYPAGE_DELETE)
+    @DeleteMapping
     public ResponseEntity<ResponseDto<Void>> deleteUserInfo(@AuthenticationPrincipal Long id) {
         ResponseDto<Void> response = myPageService.deleteUserInfo(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
