@@ -1,4 +1,4 @@
-# PlanItKorea 🏨
+# YumYumTrack 🧑‍🍳
 
 **[산대특] IoT 기반 웹솔루션 개발자 과정 - 코리아아이티아카데미 부산**
 
