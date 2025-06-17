@@ -42,6 +42,7 @@ public class StatsTimeServiceImpl implements StatsTimeService {
                     .collect(Collectors.toList());
 
         } catch (Exception e) {
+            System.out.println("날짜 변환 오류: " + orderDate);
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
@@ -69,9 +70,15 @@ public class StatsTimeServiceImpl implements StatsTimeService {
                             (Long) dto[2]
                     )).collect(Collectors.toList());
         } catch (Exception e) {
+            System.out.println("날짜 변환 오류: " + orderDate);
             e.printStackTrace();
             return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
         }
+        if (data == null || data.isEmpty()) {
+            System.out.println("데이터가 없습니다: " + orderDate);
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 }
