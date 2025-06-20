@@ -1,6 +1,7 @@
 package org.koreait.yumyum.dto.auth.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,10 +30,10 @@ public class SignUpRequestDto {
     @NotBlank
     private String userBusinessNumber;
 
-    @NotBlank
+    @NotNull
     private Boolean privacyPolicyAgreed;
 
-    @NotBlank
+    @NotNull
     private Boolean marketingAgreed;
 
     @NotBlank
