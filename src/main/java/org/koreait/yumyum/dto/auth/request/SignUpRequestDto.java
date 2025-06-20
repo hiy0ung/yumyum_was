@@ -30,10 +30,10 @@ public class SignUpRequestDto {
     private String userBusinessNumber;
 
     @NotBlank
-    private boolean privacyPolicyAgreed;
+    private Boolean privacyPolicyAgreed;
 
     @NotBlank
-    private boolean marketingAgreed;
+    private Boolean marketingAgreed;
 
     @NotBlank
     @Pattern(regexp = "^(home|kakao|naver)$")
