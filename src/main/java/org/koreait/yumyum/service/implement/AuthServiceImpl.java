@@ -31,8 +31,8 @@ public class AuthServiceImpl implements AuthService {
         String userEmail = dto.getUserEmail();
         String userPhone = dto.getUserPhone();
         String userBusinessNumber = dto.getUserBusinessNumber();
-        boolean privacyPolicyAgreed = dto.isPrivacyPolicyAgreed();
-        boolean marketingAgreed = dto.isMarketingAgreed();
+        boolean privacyPolicyAgreed = dto.getPrivacyPolicyAgreed();
+        boolean marketingAgreed = dto.getMarketingAgreed();
         String joinPath = dto.getJoinPath();
         String snsId = dto.getSnsId();
 
