@@ -46,7 +46,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 accessToken = jwtProvider.generateJwtToken(user.getId());
             }
             int expirTime = jwtProvider.getExpiration();
-            response.sendRedirect("http://localhost:3000/sns-success?accessToken=" + accessToken + "&expiration= + " + expirTime);
+            response.sendRedirect("http://43.201.248.166:3000/sns-success?accessToken=" + accessToken + "&expiration= + " + expirTime);
         }
         // 회원가입 X
         else {
@@ -54,7 +54,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             String joinPath = (String) attributes.get("joinPath");
             System.out.println("snsId: " + snsId);
             System.out.println("joinPath: " + joinPath);
-            response.sendRedirect("http://localhost:3000/auth?snsId=" + snsId + "&joinPath=" + joinPath);
+            response.sendRedirect("http://43.201.248.166:3000/auth?snsId=" + snsId + "&joinPath=" + joinPath);
         }
 
     }
