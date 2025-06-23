@@ -8,6 +8,7 @@ import org.koreait.yumyum.common.object.CustomOAuth2User;
 import org.koreait.yumyum.entity.User;
 import org.koreait.yumyum.provider.JwtProvider;
 import org.koreait.yumyum.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
+    @Value("${OAuth.redirect.URI}")
+    private String OAuthRedirectUri;
 
     @Override
     public void onAuthenticationSuccess(
@@ -46,7 +49,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 accessToken = jwtProvider.generateJwtToken(user.getId());
             }
             int expirTime = jwtProvider.getExpiration();
-            response.sendRedirect("http://43.201.248.166:3000/sns-success?accessToken=" + accessToken + "&expiration= + " + expirTime);
+            response.sendRedirect("/sns-success?accessToken=" + accessToken + "&expiration= + " + expirTime);
         }
         // 회원가입 X
         else {
@@ -54,7 +57,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             String joinPath = (String) attributes.get("joinPath");
             System.out.println("snsId: " + snsId);
             System.out.println("joinPath: " + joinPath);
-            response.sendRedirect("http://43.201.248.166:3000/auth?snsId=" + snsId + "&joinPath=" + joinPath);
+            response.sendRedirect(OAuthRedirectUri + "/auth?snsId=" + snsId + "&joinPath=" + joinPath);
         }
 
     }
